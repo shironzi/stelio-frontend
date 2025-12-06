@@ -8,7 +8,7 @@ const PropertyReview = () => {
   const { id } = useParams();
 
   const { data, setData } = useProperty();
-  const [message, setMessage] = useState<string>();
+  // const [message, setMessage] = useState<string>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const handleBack = () => {
@@ -21,14 +21,14 @@ const PropertyReview = () => {
       const res = await createProperty(data);
 
       if (res.success) {
-        setMessage(res?.message || "Successfully created a property.");
+        // setMessage(res?.message || "Successfully created a property.");
         setData(propertyData);
         navigate("/property/manage");
       }
-    } catch (e: any) {
-      setMessage(
-        e?.response?.data?.message || e.message || "Something went wrong"
-      );
+    } catch (e) {
+      // setMessage(
+      //   e?.response?.data?.message || e.message || "Something went wrong"
+      // );
 
       console.error(e);
     } finally {

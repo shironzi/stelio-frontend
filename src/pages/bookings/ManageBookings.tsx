@@ -5,7 +5,7 @@ import PropertyCard from "../../components/property/PropertyCard";
 
 const ManageBookings = () => {
   const [properties, setProperties] = useState<PropertyTypesView[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -13,7 +13,7 @@ const ManageBookings = () => {
 
       if (res.success) {
         setProperties(res?.properties ?? []);
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
