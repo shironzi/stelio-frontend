@@ -1,0 +1,86 @@
+li {
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 100px;
+    background-color: #fff;
+    align-items: center;
+}
+
+.link {
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+}
+
+.logo {
+    font-size: 24px;
+}
+
+.nav-mid{
+    width: 40%;
+    justify-content: space-around;
+    display: flex;
+}
+
+.nav-account {
+    width: 20%;
+    display: flex;
+    justify-content: space-around;
+    align-self: flex-end;
+}
+
+.dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  width: 150px;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  text-decoration: none;
+  text-decoration-line: none;
+}
+
+.dropdown-menu li:hover {
+  background: #f5f5f5;
+}
+
+.logout-btn {
+  color: red;
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link,
+.link:visited,
+.link:hover,
+.link:active {
+  text-decoration: none;
+}
+
+li .link {
+  text-decoration: none !important;
+  color: #000;
+  cursor: pointer;
+}

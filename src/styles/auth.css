@@ -1,0 +1,103 @@
+h4 {
+    color: #fff
+}
+
+.auth-form {
+    max-width: 25%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.name_container {
+    display: flex;
+    column-gap: 10px;
+}
+
+.input {
+    border: 1px solid #E0E0E0;
+    background-color: transparent;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    color: #E0E0E0;
+    font-size: 16px;
+}
+
+.password_container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #E0E0E0;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.password_input {
+    background-color: transparent;
+    width: 80%;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    color: #E0E0E0;
+}
+
+.password_visibility {
+    background: "none";
+    border: "none";
+    color: "#666";
+    cursor: "pointer";
+    width: 20%;
+    background-color: transparent;
+    border: none;
+    margin: auto;
+}
+
+.authentication {
+    border: #FF5A5F 1px solid;
+    padding: 10px 25px
+}
+
+.nav-account {
+    align-items: center;
+}
+
+.auth-redirect {
+    color: #fff;
+    text-decoration: none;
+    font-style: italic;
+}
+
+.auth-button {
+  background-color: #B08D57;
+  border: none;
+  border-radius: 2.5px;
+  max-width: 300px;
+  width: 100%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.error {
+    text-align: center;
+    border: #e65100 2.5px solid;
+    border-radius: 10px;
+    background-color: #ff9800;
+    max-width: 25%;
+    margin: 0 auto;
+    padding: 20px 0;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.success {
+    background-color: #4caf50;
+    border: 2.5px solid #1b5e20;
+    border-radius: 10px;
+    max-width: 25%;
+    margin: 0 auto;
+    padding: 20px 0;
+    font-weight: 300;
+    font-size: 14px;
+    text-align: center;
+}

@@ -1,0 +1,45 @@
+.bookingReviews {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.bookingReviews-summary-star {
+    display: flex;
+    column-gap: 10px;    
+}
+
+.bookingReviews-summary-star div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Review Filter */
+
+.booking-reviews-filter {
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+}
+
+.booking-reviews-filter button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    justify-content: center;
+    column-gap: 5px;
+}
+
+.booking-reviews-filter button.active {
+    background: #ececec;
+    color: #222;
+    border-color: #fff;
+    font-weight: 600;
+}
+/* Review Card */
+
+.review-card-stars {
+    display: flex;
+    columns: 2.5px;
+}

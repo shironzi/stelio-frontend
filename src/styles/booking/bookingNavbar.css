@@ -1,0 +1,38 @@
+.booking-navbar-container {
+  display: flex;
+  flex-wrap: wrap;       
+  justify-content: center;   
+  gap: 12px;             
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Navbar buttons */
+.booking-navbar-container button {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booking-navbar-container button:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+.booking-navbar-container button.active {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}

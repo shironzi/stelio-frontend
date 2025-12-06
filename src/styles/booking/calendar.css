@@ -1,0 +1,94 @@
+/* Container */
+.booking-calendar {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 35px;
+  width: 70%;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  display: grid;
+}
+
+/* Override default calendar tiles */
+.booking-calendar .react-calendar__tile {
+  border-radius: 12px;
+  padding: 15px 0;
+  transition: 0.25s ease;
+  border: 1px solid #f1f1f1;
+}
+
+/* Hover effect */
+.booking-calendar .react-calendar__tile:hover {
+  background: #f6f8fc;
+  border-color: #d0d7e0;
+  transform: translateY(-2px);
+}
+
+/* Active (clicked) tile */
+.booking-calendar .react-calendar__tile--active {
+  background: #3b82f6 !important;     /* Tailwind primary blue */
+  color: #ffffff !important;
+  border-color: #3b82f6;
+}
+
+/* Today highlight */
+.booking-calendar .react-calendar__tile--now {
+  background: #fee2e2;                 /* light red */
+  border-color: #fca5a5;
+}
+
+/* Navigation Buttons */
+.booking-calendar .react-calendar__navigation button {
+  color: #374151;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.booking-calendar .react-calendar__navigation button:hover {
+  background: #f3f4f6;
+}
+
+/* Weekday labels */
+.booking-calendar .react-calendar__month-view__weekdays__weekday {
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  padding: 8px;
+}
+
+/* Navigation Container */
+.booking-calendar .react-calendar__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Navigation Buttons (arrows + month/year label) */
+.booking-calendar .react-calendar__navigation button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #374151;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+/* Hover effect */
+.booking-calendar .react-calendar__navigation button:hover {
+  background: #f3f4f6;
+}
+
+/* The main month label: “December 2025” */
+.booking-calendar .react-calendar__navigation__label {
+  flex-grow: 1;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937;
+  cursor: default !important;
+}

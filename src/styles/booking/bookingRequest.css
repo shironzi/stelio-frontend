@@ -1,0 +1,59 @@
+.booking-request-container {
+  background-color: #ffffff;
+  padding: 20px 25px;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+}
+
+.booking-request-container h5 {
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Button container */
+.booking-request-container > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.booking-request-container button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Approve button */
+.booking-request-container button:first-child {
+  background-color: #3b82f6;  /* blue */
+  color: #fff;
+}
+
+.booking-request-container button:first-child:hover {
+  background-color: #2563eb;
+}
+
+/* Decline button */
+.booking-request-container button:last-child {
+  background-color: #ef4444;  /* red */
+  color: #fff;
+}
+
+.booking-request-container button:last-child:hover {
+  background-color: #dc2626;
+}

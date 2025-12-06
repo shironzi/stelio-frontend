@@ -1,0 +1,123 @@
+.BookingList-navbar {
+    display: flex;
+    gap: 15px;
+    margin: 18px 0 26px;
+    padding: 8px;
+    border-radius: 14px;
+    width: fit-content;
+}
+
+.BookingList-navbar button.active {
+    background: #ececec;
+    color: #222;
+    border-color: #fff;
+    font-weight: 600;
+}
+
+.BookingList-navbar button.active span {
+    filter: brightness(1.6);
+}
+
+.bookingCard {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e6e6e6;
+    margin-bottom: 20px;
+    transition: 0.2s ease;
+    width: 50%;
+}
+
+.bookingCard:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+}
+
+/* --- CARD CONTENT LAYOUT --- */
+.bookingCard-info {
+    gap: 14px 20px;
+    margin-bottom: 18px;
+}
+
+.bookingCard-info div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 20px;
+}
+
+.bookingCard-info h5 {
+    margin: 2px 0;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Top title section (Property name) */
+.bookingCard-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    grid-column: span 4;
+    margin-bottom: 4px;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: inline-block;
+    width: fit-content;
+}
+
+.status-pending {
+    background: #fff4d6;
+    color: #c89c00;
+}
+
+.status-approved {
+    background: #d8f5d8;
+    color: #287d3c;
+}
+
+.status-declined {
+    background: #ffe0e0;
+    color: #c0392b;
+}
+
+/* Payment badge */
+.payment-pending {
+    background: #ffe9d6;
+    color: #d17a00;
+}
+
+/* Special request label */
+.special-request {
+    background: #f2f2ff;
+    color: #4b47c2;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+/* --- ACTION BUTTONS --- */
+.bookingCard-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .bookingCard-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .bookingCard-info {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,39 @@
+.property-image-container {
+    margin: 50px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 20px));
+  gap: 12px;
+}
+
+.image-card, .add-image-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  margin: auto;
+}
+
+.image-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.image-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.image-actions button, .image-actions label {
+    background-color: transparent;
+    width: 50%;
+}

@@ -1,0 +1,95 @@
+.property-view-container {
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.property-view-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: flex-start;
+  column-gap: 20px;
+}
+
+.property-slider-wrapper {
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.property-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  min-height: 400px;
+}
+
+.property-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.property-address {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.property-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #fff;
+}
+
+.view-amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 30px;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 20px 0;
+}
+
+.view-amenities li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.rent-btn {
+  background-color: #ff385c;
+  color: white;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.rent-btn:hover {
+  background-color: #e31c5f;
+  transform: translateY(-2px);
+}
+
+/* Loading State */
+.property-view-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  color: #555;
+  font-size: 1.2rem;
+}

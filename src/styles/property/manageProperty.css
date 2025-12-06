@@ -1,0 +1,90 @@
+.manage-property {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.manage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.manage-header h2 {
+  margin: 0;
+}
+
+.add-btn {
+  background: #007bff;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background: #0056b3;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.filters label select {
+    width: 125px;
+}
+
+.manage-property-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.property-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+
+.property-actions-buttons{
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-btn {
+    width: 50%;
+}
+
+.edit-btn:hover {
+  background: #e6f0ff;
+  color: #007bff;
+}
+
+.delete-btn {
+    width: 50%;
+}
+
+.delete-btn:hover {
+  background: #fdeaea;
+  color: #dc3545;
+}
