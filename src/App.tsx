@@ -8,7 +8,7 @@ import {
 import Login from "./pages/auth/Login";
 import Home from "./pages/Home/Home";
 import Register from "./pages/auth/Register";
-import Navbar from "./Navbar";
+import {Navbar} from "./Navbar";
 
 import "./styles/global.css";
 import PropertyForm from "./pages/property/PropertyForm";
