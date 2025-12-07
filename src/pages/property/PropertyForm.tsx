@@ -14,8 +14,10 @@ const PropertyForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleNavigation = () => {
+    console.log("The id is: " + id);
     if (id) {
       navigate(`/property/edit/image/${id}`);
+      console.log("The id is: " + id);
       return;
     }
     navigate("/property/image");
@@ -143,7 +145,10 @@ const PropertyForm = () => {
             className="property-short-input"
             value={data.maxGuest}
             onChange={(e) =>
-              setData((prev) => ({ ...prev, title: e.target.value }))
+              setData((prev) => ({
+                ...prev,
+                maxGuest: handleNumeric(e),
+              }))
             }
             required
           />

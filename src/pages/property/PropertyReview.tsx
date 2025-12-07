@@ -12,7 +12,7 @@ const PropertyReview = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const handleBack = () => {
-    navigate("/property/images");
+    navigate("/property/image");
   };
 
   const handleCreate = async () => {
@@ -69,7 +69,9 @@ const PropertyReview = () => {
         </h4>
       </div>
 
-      <p>{data.description}</p>
+      <textarea className="desc" value={data.description} readOnly />
+
+      <p className="property-review-description">{}</p>
 
       <div className="property-button-container">
         <button
@@ -80,7 +82,7 @@ const PropertyReview = () => {
           <h3>Prev</h3>
         </button>
         <button onClick={handleCreate} disabled={isFetching}>
-          {id ? (
+          {!id ? (
             <h3>{isFetching ? "Updating...." : "Update"}</h3>
           ) : (
             <h3>{isFetching ? "Creating...." : "Create"}</h3>
