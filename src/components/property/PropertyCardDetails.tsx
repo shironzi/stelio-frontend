@@ -21,16 +21,16 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
     <div key={property.id} className="property-card">
       <img src={property.image[0]} alt={property.title} />
 
+      {/* Property Details */}
       <div className="property-info">
         <h3>{property.title}</h3>
-        <h4>{property.address}</h4>
-        <h4>₱{property.price.toLocaleString()}</h4>
-        <p className={`status ${property.status.toLowerCase()}`}>
+        <h4 className={`status ${property.status.toLowerCase()}`}>
           {formatted} for {property.totalNights}{" "}
           {property.totalNights > 1 ? "nights" : "night"}
-        </p>
+        </h4>
       </div>
 
+      {/* Manage Property actions */}
       {settings.mode === "manage" && (
         <div className="property-actions">
           <button

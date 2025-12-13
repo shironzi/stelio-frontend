@@ -16,7 +16,7 @@ export type PropertyCardProps = {
 
 const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
   return (
-    <div className="property-card-container">
+    <div>
       {/* If manage mode → show editing details/actions */}
       {settings.mode === "manage" ? (
         <PropertyCardDetails
@@ -43,11 +43,7 @@ const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
             }}
             className="favorite"
           >
-            {property.isFavorite ? (
-              <FaHeart size={25} />
-            ) : (
-              <FaRegHeart size={25} />
-            )}
+            {property.isFavorite ? <FaHeart color="#ff0000" /> : <FaRegHeart />}
           </button>
 
           <PropertyCardDetails
