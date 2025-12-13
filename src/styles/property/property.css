@@ -47,7 +47,7 @@ p {
 }
 
 .property-card {
-  background: #fff;
+  background: var(--background);
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;

@@ -1,37 +1,52 @@
 li {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 100px;
-    background-color: #fff;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 100px;
+  background-color: var(--background);
+  align-items: center;
+  border-bottom: 1px solid #222831;
 }
 
 .link {
-    text-decoration: none;
-    color: #000;
-    cursor: pointer;
+  text-decoration: none;
+  color: #393E46;
+  cursor: pointer;
+  font-family: "Roboto";
+  transition: all 0.3s ease-in-out;
+  font-size: 18px;
+}
+
+.link:hover {
+  color: #00ADB5;
+  transform: scale(1.1);
 }
 
 .logo {
-    font-size: 24px;
+  font-size: 30px;
+  transition: text-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.logo:hover {
+  text-shadow: 0 4px 6px rgba(0, 173, 181, 0.7);
+  transform: translateY(-5px);
 }
 
 .nav-mid{
-    width: 40%;
-    justify-content: space-around;
-    display: flex;
+  width: 40%;
+  justify-content: space-around;
+  display: flex;
 }
 
 .nav-account {
-    width: 20%;
-    display: flex;
-    justify-content: space-around;
-    align-self: flex-end;
+  width: 20%;
+  display: flex;
+  justify-content: space-around;
+  align-self: flex-end;
 }
 
 .dropdown {
@@ -83,4 +98,8 @@ li .link {
   text-decoration: none !important;
   color: #000;
   cursor: pointer;
+}
+
+.logo {
+  font-family: "Bristol";
 }

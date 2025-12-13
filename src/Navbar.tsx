@@ -8,7 +8,7 @@ import { useUserData } from "./context/UserContext";
 export function Navbar() {
   const navigate = useNavigate();
 
-  const {userData, setUserData} = useUserData();
+  const { userData, setUserData } = useUserData();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   // const [showModal, setShowModal] = useState<boolean>(false);
   // const [message, setMessage] = useState<string>();
@@ -20,7 +20,7 @@ export function Navbar() {
   const handleLogout = async () => {
     // try {
     await logout();
-    setUserData({name: "", email: "", role: "", isAuthenticated: false});
+    setUserData({ name: "", email: "", role: "", isAuthenticated: false });
 
     navigate("/");
     // } catch (err: any) {
@@ -49,8 +49,8 @@ export function Navbar() {
   }, [setUserData]);
 
   return (
-      <nav>
-        {/* <Modal
+    <nav>
+      {/* <Modal
         open={showModal}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
@@ -66,78 +66,78 @@ export function Navbar() {
         </Box>
       </Modal> */}
 
-        {/* Logo */}
-        <Link to={"/"} className="logo link">
-          Shironzi
+      {/* Logo */}
+      <Link to={"/"} className="logo link">
+        STELIO
+      </Link>
+      <div className="nav-mid">
+        <Link to={"/"} className="link">
+          Homes
         </Link>
-        <div className="nav-mid">
-          <Link to={"/"} className="link">
-            Homes
-          </Link>
-          <Link to={"/experience"} className="link">
-            Experience
-          </Link>
-          <Link to={"./services"} className="link">
-            Services
-          </Link>
-        </div>
+        <Link to={"/experience"} className="link">
+          Experience
+        </Link>
+        <Link to={"./services"} className="link">
+          Services
+        </Link>
+      </div>
 
-        <div className="nav-account">
-          {userData.isAuthenticated ? (
-              <div
-                  className="dropdown"
-                  onClick={() => setIsDropdownOpen((prev) => !prev)}
-              >
-                <BsPersonCircle size={30} className="dropdown-icon"/>
-                {isDropdownOpen && (
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link to="/profile" className="link">
-                          Profile
-                        </Link>
-                      </li>
+      <div className="nav-account">
+        {userData.isAuthenticated ? (
+          <div
+            className="dropdown"
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
+          >
+            <BsPersonCircle size={30} className="dropdown-icon" />
+            {isDropdownOpen && (
+              <ul className="dropdown-menu">
+                <li>
+                  <Link to="/profile" className="link">
+                    Profile
+                  </Link>
+                </li>
 
-                      {userData.role === "OWNER" && (
-                          <li>
-                            <Link to="/property/manage" className="link">
-                              Manage Property
-                            </Link>
-                          </li>
-                      )}
-
-                      {userData.role === "OWNER" && (
-                          <li>
-                            <Link to="/bookings" className="link">
-                              Property Bookings
-                            </Link>
-                          </li>
-                      )}
-
-                      {userData.role === "RENTER" && (
-                          <li>
-                            <Link to="/bookings" className="link">
-                              My Bookings
-                            </Link>
-                          </li>
-                      )}
-                      <li>
-                        <Link to="/settings" className="link">
-                          Settings
-                        </Link>
-                      </li>
-                      <li onClick={handleLogout} className="logout-btn">
-                        Logout
-                      </li>
-                    </ul>
+                {userData.role === "OWNER" && (
+                  <li>
+                    <Link to="/property/manage" className="link">
+                      Manage Property
+                    </Link>
+                  </li>
                 )}
-              </div>
-          ) : (
-              <Link to={"/login"} className="authentication link">
-                Login / Signup
-              </Link>
-          )}
-        </div>
-      </nav>
+
+                {userData.role === "OWNER" && (
+                  <li>
+                    <Link to="/bookings" className="link">
+                      Property Bookings
+                    </Link>
+                  </li>
+                )}
+
+                {userData.role === "RENTER" && (
+                  <li>
+                    <Link to="/bookings" className="link">
+                      My Bookings
+                    </Link>
+                  </li>
+                )}
+                <li>
+                  <Link to="/settings" className="link">
+                    Settings
+                  </Link>
+                </li>
+                <li onClick={handleLogout} className="logout-btn">
+                  Logout
+                </li>
+              </ul>
+            )}
+          </div>
+        ) : (
+          <Link to={"/login"} className="authentication link">
+            Login / Signup
+          </Link>
+        )}
+      </div>
+    </nav>
   );
 }
 
