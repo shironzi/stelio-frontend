@@ -54,8 +54,14 @@ h4 {
 }
 
 .authentication {
-    border: #FF5A5F 1px solid;
-    padding: 10px 25px
+    border: var(--primary) 1px solid;
+    padding: 10px 25px;
+    transition: all 0.3s ease-in-out;
+}
+
+.authentication:hover{
+    border: var(--accent) 1px solid;
+    
 }
 
 .nav-account {
