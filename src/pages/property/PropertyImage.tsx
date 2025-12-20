@@ -104,11 +104,11 @@ const PropertyImages = () => {
       </div>
 
       <div className="property-button-container">
-        <button onClick={handleBack} className="back-button">
-          <h3>Prev</h3>
+        <button onClick={handleBack} className="back-button btn-white-outline">
+          Prev
         </button>
-        <button onClick={handleNavigation}>
-          <h3>Next</h3>
+        <button onClick={handleNavigation} className="btn-white-outline">
+          Next
         </button>
       </div>
     </div>

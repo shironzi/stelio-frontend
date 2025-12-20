@@ -1,7 +1,7 @@
 import "@/styles/property/propertyForm.css";
 import { handleNumeric } from "./PropertyFunc";
 import { useNavigate, useParams } from "react-router-dom";
-import { useProperty } from "../../context/PropertyContext";
+import { useProperty, type PropertyTypes } from "../../context/PropertyContext";
 import { useEffect, useState } from "react";
 import { getPropertyById } from "../../utils/property";
 
@@ -11,16 +11,23 @@ const PropertyForm = () => {
   const { id } = useParams();
   const { data, setData } = useProperty();
 
+  const [property, setProperty] = useState<PropertyTypes>(data);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleNavigation = () => {
-    console.log("The id is: " + id);
     if (id) {
       navigate(`/property/edit/image/${id}`);
-      console.log("The id is: " + id);
       return;
     }
     navigate("/property/image");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setData(property);
+
+    handleNavigation();
   };
 
   useEffect(() => {
@@ -52,7 +59,7 @@ const PropertyForm = () => {
   }
 
   return (
-    <div className="property-form">
+    <form className="property-form" onSubmit={handleSubmit}>
       <div>
         <div className="title-price-container">
           <h2 className="property-input-long">Title</h2>
@@ -66,9 +73,9 @@ const PropertyForm = () => {
           <input
             className="property-input-long"
             type="text"
-            value={data.title}
+            value={property.title}
             onChange={(e) =>
-              setData((prev) => ({ ...prev, title: e.target.value }))
+              setProperty((prev) => ({ ...prev, title: e.target.value }))
             }
             required
           />
@@ -76,9 +83,9 @@ const PropertyForm = () => {
             className="property-price"
             type="text"
             inputMode="numeric"
-            value={data.price}
+            value={property.price}
             onChange={(e) =>
-              setData((prev) => ({ ...prev, price: handleNumeric(e) }))
+              setProperty((prev) => ({ ...prev, price: handleNumeric(e) }))
             }
             required
           />
@@ -93,18 +100,18 @@ const PropertyForm = () => {
           <input
             type="text"
             className="property-input-long"
-            value={data.address}
+            value={property.address}
             onChange={(e) =>
-              setData((prev) => ({ ...prev, address: e.target.value }))
+              setProperty((prev) => ({ ...prev, address: e.target.value }))
             }
             required
           />
           <input
             type="text"
             className="property-price"
-            value={data.city}
+            value={property.city}
             onChange={(e) =>
-              setData((prev) => ({ ...prev, city: e.target.value }))
+              setProperty((prev) => ({ ...prev, city: e.target.value }))
             }
             required
           />
@@ -120,10 +127,10 @@ const PropertyForm = () => {
           <select
             name="ropertyType"
             id=""
-            value={data.propertyType}
+            value={property.propertyType}
             className="property-short-input"
             onChange={(e) =>
-              setData((prev) => ({
+              setProperty((prev) => ({
                 ...prev,
                 propertyType: e.target.value as
                   | "APARTMENT"
@@ -143,9 +150,9 @@ const PropertyForm = () => {
             type="text"
             inputMode="numeric"
             className="property-short-input"
-            value={data.maxGuest}
+            value={property.maxGuest}
             onChange={(e) =>
-              setData((prev) => ({
+              setProperty((prev) => ({
                 ...prev,
                 maxGuest: handleNumeric(e),
               }))
@@ -156,9 +163,12 @@ const PropertyForm = () => {
             type="text"
             inputMode="numeric"
             className="property-short-input"
-            value={data.totalBedroom}
+            value={property.totalBedroom}
             onChange={(e) =>
-              setData((prev) => ({ ...prev, totalBedroom: handleNumeric(e) }))
+              setProperty((prev) => ({
+                ...prev,
+                totalBedroom: handleNumeric(e),
+              }))
             }
             required
           />
@@ -168,20 +178,20 @@ const PropertyForm = () => {
         <h2>Description</h2>
         <textarea
           className="desc"
-          value={data.description}
+          value={property.description}
           onChange={(e) =>
-            setData((prev) => ({ ...prev, description: e.target.value }))
+            setProperty((prev) => ({ ...prev, description: e.target.value }))
           }
           required
         />
       </div>
 
       <div className="property-button-container">
-        <button onClick={handleNavigation}>
-          <h3>Next</h3>
+        <button onClick={handleNavigation} className="btn-white-outline">
+          Next
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -39,7 +39,7 @@ const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              actions.onFavorite?.(property.id);
+              if (property.id) actions.onFavorite?.(property?.id);
             }}
             className="favorite"
           >

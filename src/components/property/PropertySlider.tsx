@@ -1,10 +1,16 @@
 import "@/styles/property/propertySlider.css";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { GoDot, GoDotFill } from "react-icons/go";
 
-const PropertySlider = ({ images }: { images: string[] }) => {
+const PropertySlider = ({ images }: { images: string[] | File[] }) => {
   const [currentImage, setCurrentImage] = useState(0);
+
+  const imageUrls = useMemo(() => {
+    return images.map((image) =>
+      image instanceof File ? URL.createObjectURL(image) : image
+    );
+  }, [images]);
 
   const onNext = () => {
     if (currentImage < images.length - 1) {
@@ -37,7 +43,10 @@ const PropertySlider = ({ images }: { images: string[] }) => {
       >
         <MdNavigateBefore width={24} height={24} />
       </button>
-      <img src={images[currentImage]} alt={`property-image-${currentImage}`} />
+      <img
+        src={imageUrls[currentImage]}
+        alt={`property-image-${currentImage}`}
+      />
       <button
         className={`property-slider-button property-slider-next ${
           currentImage === images.length - 1

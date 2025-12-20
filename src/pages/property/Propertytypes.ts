@@ -5,21 +5,21 @@ export type PropertyType =
     | "CABIN";
 
 export type PropertyTypesView = {
-    id: string;
+    id?: string;
     title: string;
     price: number;
     address: string;
     description: string;
-    status: string;
+    status?: string;
     maxGuest: number;
     totalBedroom: number;
     totalBed: number;
     totalBath: number;
-    totalNights: number;
+    totalNights?: number;
     city: string;
     propertyType: PropertyType;
-    image: string[];
-    isFavorite: boolean;
+    image: string[] | File[];
+    isFavorite?: boolean;
 };
 
 export const PropertyTypesViewDefaultData: PropertyTypesView = {

@@ -52,3 +52,8 @@ export const getPropertyById = async (id: string) => {
     const res = await api.get(`/property/${id}`)
     return await res.data;
 }
+
+export const deleteProperty = async (id: String) => {
+    const res = await api.delete(`/property/${id}`);
+    return await res.data;
+}
