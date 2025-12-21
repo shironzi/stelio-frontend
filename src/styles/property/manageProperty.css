@@ -72,19 +72,17 @@
 }
 
 .edit-btn {
-    width: 50%;
+  width: 50%;
 }
 
 .edit-btn:hover {
-  background: #e6f0ff;
   color: #007bff;
 }
 
 .delete-btn {
-    width: 50%;
+  width: 50%;
 }
 
 .delete-btn:hover {
-  background: #fdeaea;
   color: #dc3545;
 }

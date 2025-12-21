@@ -19,14 +19,25 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
 
   return (
     <div key={property.id} className="property-card">
-      <img src={property.image[0]} alt={property.title} />
+      <img
+        src={
+          Array.isArray(property.image) && typeof property.image[0] === "string"
+            ? property.image[0]
+            : ""
+        }
+        alt={property.title}
+      />
 
       {/* Property Details */}
       <div className="property-info">
         <h3>{property.title}</h3>
-        <h4 className={`status ${property.status.toLowerCase()}`}>
+        <h4
+          className={`status ${
+            property.status ? property.status.toLowerCase() : ""
+          }`}
+        >
           {formatted} for {property.totalNights}{" "}
-          {property.totalNights > 1 ? "nights" : "night"}
+          {property.totalNights ? "nights" : "night"}
         </h4>
       </div>
 
@@ -35,13 +46,17 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
         <div className="property-actions">
           <button
             className="property-actions-buttons edit-btn"
-            onClick={() => actions.onEdit && actions.onEdit(property.id)}
+            onClick={() =>
+              actions.onEdit && property.id && actions.onEdit(property.id)
+            }
           >
             <MdEdit />
           </button>
           <button
             className="property-actions-buttons delete-btn"
-            onClick={() => actions.onDelete && actions.onDelete(property.id)}
+            onClick={() =>
+              actions.onDelete && property.id && actions.onDelete(property.id)
+            }
           >
             <MdDelete />
           </button>
