@@ -109,6 +109,36 @@
     flex-wrap: wrap;
 }
 
+/* PENDING */
+.booking-status.PENDING {
+  color: #b45309;
+}
+
+/* APPROVED */
+.booking-status.APPROVED {
+  color: #047857;
+}
+
+/* COMPLETED */
+.booking-status.COMPLETED {
+  color: #166534;
+}
+
+/* CANCELLED */
+.booking-status.CANCELLED {
+  color: #6b7280;
+}
+
+/* REJECTED */
+.booking-status.REJECTED {
+  color: #b91c1c;
+}
+
+/* NO SHOW */
+.booking-status.NOSHOW {
+  color: #9f1239;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .bookingCard-info {

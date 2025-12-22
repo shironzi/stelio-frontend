@@ -13,7 +13,6 @@ const BookingNavbar = ({ tab, onChange }: Props) => {
     { label: "Bookings", icon: "📘" },
     { label: "Earnings", icon: "💰" },
     { label: "Reviews", icon: "⭐" },
-    { label: "Messages", icon: "💬" },
     { label: "Settings", icon: "⚙️" },
   ];
 

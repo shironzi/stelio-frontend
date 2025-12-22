@@ -1,36 +1,51 @@
 import { useEffect, useState } from "react";
 import BookingCard from "./BookingCard";
 import "@/styles/booking/bookingList.css";
-import type { BookingListCard, BookingStatus } from "../../types/booking";
+import {
+  statusMessageMap,
+  type BookingListCard,
+  type BookingListFilter,
+  type BookingStatus,
+} from "../../types/booking";
 import { useParams } from "react-router-dom";
 import {
   getBookingsByPropertyId,
   updateBookingStatus,
 } from "../../utils/bookProperty";
+import ConfirmationPopUp from "../common/ConfirmationPopUp";
+import BookingListNav from "./BookingListNav";
 
 const BookingList = () => {
   const { id } = useParams();
 
-  const [loading, setLoading] = useState<Boolean>(true);
-  const [bookings, setBookings] = useState<BookingListCard[]>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [bookings, setBookings] = useState<BookingListCard[]>([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
+    null
+  );
+  const [status, SetStatus] = useState<BookingStatus | null>(null);
+  const [filter, setFilter] = useState<BookingListFilter>("ALL");
 
-  const handleBookingStatus = async (
-    bookingId: string,
-    status: BookingStatus
-  ) => {
-    const res = await updateBookingStatus(bookingId, status);
+  const filteredBookings =
+    filter === "ALL" ? bookings : bookings.filter((b) => b.status === filter);
+
+  const handleBookingStatus = async () => {
+    if (!selectedBookingId || !status) return;
+
+    const res = await updateBookingStatus(selectedBookingId, status);
 
     if (res.success) {
-      setBookings((bookings) =>
-        bookings?.map((bookingInfo) =>
-          bookingInfo.id === bookingId
+      setBookings((prev) =>
+        prev.map((bookingInfo) =>
+          bookingInfo.id === selectedBookingId
             ? { ...bookingInfo, status }
             : bookingInfo
         )
       );
-
-      // add notification or pop up
     }
+
+    setIsPopupOpen(false);
   };
 
   useEffect(() => {
@@ -43,49 +58,44 @@ const BookingList = () => {
         setBookings(res.bookings);
       }
 
-      console.log(res.bookings);
-
       setLoading(false);
     };
 
     fetchBookings();
-  }, []);
+  }, [id]);
 
   return (
     <div>
       <h2>Bookings</h2>
 
-      <div className="BookingList-navbar">
-        <button className="btn-white-outline active">
-          <span>🟦</span> All
-        </button>
-        <button className="btn-white-outline completed">
-          <span>🟩</span> Completed
-        </button>
-        <button className="btn-white-outline">
-          <span>🟨</span> Pending
-        </button>
-        <button className="btn-white-outline">
-          <span>🟩</span> Approved
-        </button>
-        <button className="btn-white-outline">
-          <span>🟥</span> Declined
-        </button>
-        <button className="btn-white-outline">
-          <span>⚪</span> Cancelled
-        </button>
-      </div>
+      {/* Confirmation Modal */}
+      <ConfirmationPopUp
+        isOpen={isPopupOpen}
+        message={status ? statusMessageMap[status] : ""}
+        onConfirm={handleBookingStatus}
+        onCancel={() => setIsPopupOpen(!isPopupOpen)}
+      />
 
+      {/* Booking Filters */}
+      <BookingListNav update={setFilter} filter={filter} />
+
+      {/* List of Bookings with bookingCard */}
       {loading ? (
         <div>
           <h1>Loading....</h1>
         </div>
       ) : bookings?.length ? (
-        bookings.map((bookingInfo) => (
+        filteredBookings.map((bookingInfo) => (
           <BookingCard
             key={bookingInfo.id}
             bookingInfo={bookingInfo}
-            actions={{ update: handleBookingStatus }}
+            actions={{
+              update: (bookingId, status) => {
+                setIsPopupOpen(true);
+                setSelectedBookingId(bookingId);
+                SetStatus(status);
+              },
+            }}
           />
         ))
       ) : (

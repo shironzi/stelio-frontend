@@ -36,10 +36,6 @@ const BookingCard = ({ bookingInfo, actions }: BookingCardProps) => {
         </button>
       </>
     ),
-    APPROVED: <button className="btn-success">APPROVED</button>,
-    COMPLETED: <button className="btn-success">COMPLETED</button>,
-    REJECTED: <button className="btn-rejected">REJECTED</button>,
-    NOSHOW: <button className="btn-rejected">NOSHOW</button>,
   };
 
   return (
@@ -64,7 +60,12 @@ const BookingCard = ({ bookingInfo, actions }: BookingCardProps) => {
 
         <div>
           <h5>Payment: {bookingInfo.paymentStatus}</h5>
-          <h5>Status: {bookingInfo.status}</h5>
+          <h5>
+            Status:{" "}
+            <span className={`booking-status ${bookingInfo.status}`}>
+              {bookingInfo.status}
+            </span>
+          </h5>
         </div>
         <h5>Total: {formatPricePHP(bookingInfo.totalPrice)}</h5>
         <h5>⭐ Special Requests (1) </h5>
