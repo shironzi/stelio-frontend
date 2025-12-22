@@ -55,8 +55,6 @@ api.interceptors.request.use(
             }
         }
 
-        console.log(config)
-
         return config;
     },
     (error: AxiosError) => {

@@ -41,9 +41,10 @@ p {
 
 .home-properties {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  padding: 1rem;
+  padding: 50px 0;
+  grid-template-rows: auto;
 }
 
 .property-card {
@@ -52,14 +53,12 @@ p {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
+  display: grid;
   flex-direction: column;
-  min-width: 250px;
-  min-height: 300px;
-  max-height: 350px;
+  height: 45vh;
+  width: 20vw;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s ease;
   z-index: 1;
 }
 
@@ -118,4 +117,27 @@ p {
 
 .property-link button {
   cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .home-properties {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+}
+
+@media (max-width: 900px) {
+  .home-properties {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .home-properties {
+    grid-template-columns: 1fr;
+  }
+
+  .property-card {
+    max-width: 100%;
+  }
 }

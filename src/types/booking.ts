@@ -39,3 +39,27 @@ export const defaultPropertyStats: PropertyStats = {
     recentReviews: [],
     upcomingBookings: []
 }
+
+export const BookingStatus = {
+    APPROVED: "APPROVED",
+    COMPLETED: "COMPLETED",
+    CANCELLED: "CANCELLED",
+    REJECTED: "REJECTED",
+    PENDING: "PENDING",
+    NOSHOW: "NOSHOW",
+} as const;
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus];
+
+export interface BookingListCard {
+    id: string;
+    title: string;
+    renterName: string;
+    totalNights: number;
+    startDateTime: string;
+    endDateTime: string;
+    paymentStatus: "PAID" | "PENDING";
+    totalPrice: number;
+    totalGuest: number;
+    status: BookingStatus;
+}
