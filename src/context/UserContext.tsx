@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-type UserContextTypes = {
+export type UserContextTypes = {
   name: string;
   email: string;
   role: string;

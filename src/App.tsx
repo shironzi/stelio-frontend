@@ -8,7 +8,7 @@ import {
 import Login from "./pages/auth/Login";
 import Home from "./pages/Home/Home";
 import Register from "./pages/auth/Register";
-import { Navbar } from "./Navbar";
+import { Navbar } from "./components/common/Navbar";
 
 import "./styles/global.css";
 import PropertyForm from "./pages/property/PropertyForm";
@@ -19,6 +19,7 @@ import ManageProperty from "./pages/property/ManageProperty";
 import ManageBookings from "./pages/bookings/ManageBookings";
 import PageNotFound from "./PageNotFound";
 import Bookings from "./pages/bookings/Bookings";
+import Messages from "./pages/messages/Messages";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");
@@ -62,6 +63,10 @@ function App() {
             {/* Booking Routes */}
             <Route path="/bookings" element={<ManageBookings />} />
             <Route path="/booking/:id" element={<Bookings />} />
+
+            {/* Messages Routes */}
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/messages/:id" element={<Messages />} />
 
             {/* Page not found */}
             <Route path="*" element={<PageNotFound />} />

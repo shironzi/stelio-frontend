@@ -43,10 +43,15 @@ nav {
 }
 
 .nav-account {
-  width: 20%;
+  margin-right: 25px;
+  padding: 0 25px;
+  column-gap: 10px;
   display: flex;
-  justify-content: space-around;
   align-self: flex-end;
+}
+
+.nav-message {
+  cursor: pointer;
 }
 
 .dropdown {
