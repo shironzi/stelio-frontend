@@ -65,7 +65,9 @@ export function Navbar() {
         {userData.isAuthenticated ? (
           <>
             {/* Message Icon */}
-            <TbMessage size={30} className="nav-message" />
+            <Link to={"/messages/"} className="nav-message">
+              <TbMessage size={30} color="#000" />
+            </Link>
 
             {/* Profile Icon */}
             <div
