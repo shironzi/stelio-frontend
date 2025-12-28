@@ -48,11 +48,6 @@
     margin: 0;
 }
 
-.message-head_sender {
-    font-weight: 500;
-    color: #2d87f0;
-}
-
 .message-head_preview {
     color: #777;
     font-style: italic;
