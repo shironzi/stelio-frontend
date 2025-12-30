@@ -8,6 +8,7 @@
     background-color: var(--secondary);
     transition: box-shadow 0.3s ease;
     box-shadow: none;
+    border-radius: 12px;
 }
 
 .message-head:hover {

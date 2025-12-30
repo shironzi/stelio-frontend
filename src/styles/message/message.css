@@ -2,6 +2,7 @@
   display: flex;
   height: calc(100vh - 60px - 30px);
   padding: 10px 0;
+  column-gap: 12px;
 }
 
 .message_chat-heads {
@@ -21,7 +22,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 15px 0;
+  padding: 15px 10px;
 }
 
 .message-content {
@@ -38,3 +39,25 @@
   background-color: var(--primary);
   border-radius: 10px;
 }
+
+.message-chat-active {
+  border-radius: 12px;
+  background: transparent;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    outline 160ms ease;
+
+  outline: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 2px 16px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
+
+  margin: 10px 0;
+}
+
+.message-chat-heads-list Link{
+  text-decoration: none;
+}
+

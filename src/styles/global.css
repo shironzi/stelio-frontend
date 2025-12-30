@@ -160,3 +160,7 @@ input:focus {
 .btn-danger:hover {
     background: #c0392b;
 }
+a {
+  all: unset;
+  cursor: pointer;
+}
