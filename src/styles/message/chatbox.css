@@ -1,0 +1,6 @@
+.chat-box {
+    background-color: var(--secondary);
+    width: 75%;
+    padding: 25px;
+    border-radius: 12px;
+}
