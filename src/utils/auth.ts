@@ -18,8 +18,6 @@ export async function login(email: string, password: string) {
 		const data = res.data;
 		localStorage.setItem("token", data.token);
 
-		console.log(data)
-
 		return data;
 	} catch (err: any) {
 		if (
@@ -66,7 +64,7 @@ export async function register(
 export const logout = async () => {
 	try {
 		const res = await api.post("/auth/logout");
-		localStorage.removeItem("token");
+		localStorage.clear();
 
 		window.location.reload();
 

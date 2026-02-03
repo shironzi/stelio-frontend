@@ -10,8 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { setUserData } = useUserData();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
