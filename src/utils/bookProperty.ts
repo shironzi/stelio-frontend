@@ -3,13 +3,13 @@ import api from "./axios"
 
 
 export const bookProperty = async (propertyId: string, start: Date, end: Date) => {
-    const { data } = await api.post(`/book/${propertyId}`, { start, end });
+    const { data } = await api.post(`/bookings/${propertyId}`, { start, end });
 
     return data
 }
 
 export const getBookingsByPropertyId = async (propertyId: string) => {
-    const { data } = await api.get(`/book/owner/${propertyId}`)
+    const { data } = await api.get(`/bookings/${propertyId}`)
 
     return data;
 }
