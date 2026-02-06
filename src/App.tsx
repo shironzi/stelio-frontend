@@ -20,6 +20,7 @@ import ManageBookings from "./pages/bookings/ManageBookings";
 import PageNotFound from "./PageNotFound";
 import Bookings from "./pages/bookings/Bookings";
 import Messages from "./pages/messages/Messages";
+import MyBookings from "./pages/bookings/MyBookings";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");
@@ -61,6 +62,7 @@ function App() {
             <Route path="/property/:id" element={<PropertyView />} />
 
             {/* Booking Routes */}
+            <Route path="/my-bookings" element={<MyBookings />} />
             <Route path="/bookings" element={<ManageBookings />} />
             <Route path="/booking/:id" element={<Bookings />} />
 

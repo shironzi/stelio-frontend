@@ -11,6 +11,8 @@ const ManageBookings = () => {
     const fetchProperties = async () => {
       const res = await getMyProperties();
 
+      console.log(res);
+
       if (res.success) {
         setProperties(res?.properties ?? []);
         // setLoading(false);

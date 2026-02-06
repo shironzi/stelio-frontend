@@ -23,7 +23,7 @@ const PropertyView = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState<PropertyTypesView>(
-    PropertyTypesViewDefaultData
+    PropertyTypesViewDefaultData,
   );
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(generateEndDate);

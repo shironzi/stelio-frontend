@@ -35,7 +35,7 @@ export default function NavbarMenu({ userData, logout }: Props) {
 
       {userData.role === "RENTER" && (
         <li>
-          <Link to="/bookings" className="link">
+          <Link to="/my-bookings" className="link">
             My Bookings
           </Link>
         </li>

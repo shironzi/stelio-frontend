@@ -25,3 +25,9 @@ export const updateBookingStatus = async (
 
     return data;
 };
+
+export const getMyBookings = async () => {
+    const { data } = await api.get("/bookings/");
+
+    return data;
+}
