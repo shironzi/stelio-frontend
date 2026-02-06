@@ -22,7 +22,7 @@ export const createProperty = async (info: PropertyTypes) => {
             });
         }
 
-        const res = await api.post("/property", formData);
+        const res = await api.post("/properties", formData);
 
         return res.data;
     } catch (e: any) {
@@ -34,7 +34,7 @@ export const createProperty = async (info: PropertyTypes) => {
 
 export const getMyProperties = async () => {
     try {
-        const res = await api.get("/property/my-properties")
+        const res = await api.get("/properties/my-properties")
 
         return await res.data;
     } catch (e: any) {
@@ -43,17 +43,17 @@ export const getMyProperties = async () => {
 }
 
 export const getProperties = async () => {
-    const res = await api.get("/property/");
+    const res = await api.get("/properties/");
 
     return await res.data;
 }
 
 export const getPropertyById = async (id: string) => {
-    const res = await api.get(`/property/${id}`)
+    const res = await api.get(`/properties/${id}`)
     return await res.data;
 }
 
 export const deleteProperty = async (id: String) => {
-    const res = await api.delete(`/property/${id}`);
+    const res = await api.delete(`/properties/${id}`);
     return await res.data;
 }
