@@ -45,7 +45,10 @@ const PropertyView = () => {
       try {
         if (!id) throw new Error("Missing property ID");
         const res = await getPropertyById(id);
-        if (res.success) setProperty(res.property);
+        if (res.success) {
+          setProperty(res.property);
+          console.log(res.property);
+        }
       } catch (e) {
         console.error("Failed to fetch property:", e);
       } finally {

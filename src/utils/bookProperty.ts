@@ -9,7 +9,7 @@ export const bookProperty = async (propertyId: string, start: Date, end: Date) =
 }
 
 export const getBookingsByPropertyId = async (propertyId: string) => {
-    const { data } = await api.get(`/bookings/${propertyId}`)
+    const { data } = await api.get(`/properties/${propertyId}/bookings`)
 
     return data;
 }
@@ -19,7 +19,7 @@ export const updateBookingStatus = async (
     status: BookingStatus
 ) => {
     const { data } = await api.patch(
-        `/book/${bookingId}/status`,
+        `/bookings/${bookingId}`,
         { status }
     );
 
