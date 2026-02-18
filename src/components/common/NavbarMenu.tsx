@@ -25,13 +25,13 @@ export default function NavbarMenu({ userData, logout }: Props) {
         </li>
       )}
 
-      {userData.role === "OWNER" && (
+      {/* {userData.role === "OWNER" && (
         <li>
           <Link to="/bookings" className="link">
             Property Bookings
           </Link>
         </li>
-      )}
+      )} */}
 
       {userData.role === "RENTER" && (
         <li>

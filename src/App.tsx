@@ -16,7 +16,6 @@ import PropertyImage from "./pages/property/PropertyImage";
 import PropertyView from "./pages/property/PropertyView";
 import PropertyReview from "./pages/property/PropertyReview";
 import ManageProperty from "./pages/property/ManageProperty";
-import ManageBookings from "./pages/bookings/ManageBookings";
 import PageNotFound from "./PageNotFound";
 import Bookings from "./pages/bookings/Bookings";
 import Messages from "./pages/messages/Messages";
@@ -63,7 +62,6 @@ function App() {
 
             {/* Booking Routes */}
             <Route path="/my-bookings" element={<MyBookings />} />
-            <Route path="/bookings" element={<ManageBookings />} />
             <Route path="/booking/:id" element={<Bookings />} />
 
             {/* Messages Routes */}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type {
   PropertyCardActions,
   PropertyCardSettings,
@@ -18,28 +19,37 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
   });
 
   return (
-    <div key={property.id} className="property-card">
-      <img
-        src={
-          Array.isArray(property.image) && typeof property.image[0] === "string"
-            ? property.image[0]
-            : ""
+    <div className="property-card">
+      <Link
+        to={
+          settings.mode === "home"
+            ? `/property/${property.id}`
+            : `/booking/${property.id}`
         }
-        alt={property.title}
-      />
+      >
+        <img
+          src={
+            Array.isArray(property.image) &&
+            typeof property.image[0] === "string"
+              ? property.image[0]
+              : ""
+          }
+          alt={property.title}
+        />
 
-      {/* Property Details */}
-      <div className="property-info">
-        <h3>{property.title}</h3>
-        <h4
-          className={`status ${
-            property.status ? property.status.toLowerCase() : ""
-          }`}
-        >
-          {formatted} for {property.totalNights}{" "}
-          {property.totalNights ? "nights" : "night"}
-        </h4>
-      </div>
+        {/* Property Details */}
+        <div className="property-info">
+          <h3>{property.title}</h3>
+          <h4
+            className={`status ${
+              property.status ? property.status.toLowerCase() : ""
+            }`}
+          >
+            {formatted} for {property.totalNights}{" "}
+            {property.totalNights ? "nights" : "night"}
+          </h4>
+        </div>
+      </Link>
 
       {/* Manage Property actions */}
       {settings.mode === "manage" && (
@@ -62,8 +72,6 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
           </button>
         </div>
       )}
-
-      {settings.mode === "booking" && <div></div>}
     </div>
   );
 };

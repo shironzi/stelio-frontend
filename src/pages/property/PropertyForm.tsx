@@ -40,6 +40,7 @@ const PropertyForm = () => {
         const res = await getPropertyById(id);
         if (res.success) {
           setData(res.property);
+          setProperty(res.property);
         }
       } catch (e: any) {
       } finally {
