@@ -65,25 +65,73 @@
   font-weight: 500;
 }
 
-.rent-btn {
-  background-color: #ff385c;
-  color: white;
+.rent-btn,
+.reserve-btn {
   padding: 14px 28px;
   font-size: 1rem;
   font-weight: 600;
-  border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: 
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border 0.3s ease;
   align-self: flex-start;
   margin-top: 10px;
+  width: 50%;
+}
+
+/* Rent Button */
+.rent-btn {
+  background-color: #ff385c;
+  color: white;
+  border: none;
 }
 
 .rent-btn:hover {
-  background-color: #e31c5f;
-  transform: translateY(-2px);
+  background-color: transparent;
+  border: 2px solid #ff385c;
+  color: #ff385c;
+  transform: translateY(-4px) scale(1.03);
 }
 
+.rent-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 10px rgba(255, 56, 92, 0.2);
+}
+
+/* Reserve Button */
+.reserve-btn {
+  color: white;
+  background-color: transparent;
+  border: 1px solid #fff;
+}
+
+.reserve-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+
+.reserve-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Optional smooth glow effect */
+.rent-btn::after,
+.reserve-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.rent-btn:hover::after {
+  opacity: 1;
+}
 /* Loading State */
 .property-view-loading {
   display: flex;
@@ -92,4 +140,11 @@
   height: 70vh;
   color: #555;
   font-size: 1.2rem;
+}
+
+.schedule-action-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 10px;
 }

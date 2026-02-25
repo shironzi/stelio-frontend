@@ -3,7 +3,19 @@ import api from "./axios"
 
 
 export const bookProperty = async (propertyId: string, start: Date, end: Date) => {
-    const { data } = await api.post(`/bookings/${propertyId}`, { start, end });
+    // Checks Idempotent key
+    let idempotentKey = localStorage.getItem("reqBookingKey");
+
+    if (!idempotentKey) {
+        idempotentKey = crypto.randomUUID();
+        localStorage.setItem("bookingkey", idempotentKey);
+    }
+
+    const { data } = await api.post(`/bookings/${propertyId}`, { start, end }, {
+        headers: {
+            'Idempotency-Key': idempotentKey
+        }
+    });
 
     return data
 }

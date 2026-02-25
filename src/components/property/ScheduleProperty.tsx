@@ -88,9 +88,12 @@ const ScheduleProperty = ({
         </button>
       </div>
 
-      <button className="rent-btn" onClick={onBook}>
-        Rent this property
-      </button>
+      <div className="schedule-action-container">
+        <button className="rent-btn" onClick={onBook}>
+          Rent
+        </button>
+        <button className="reserve-btn">Reserve</button>
+      </div>
     </div>
   );
 };
