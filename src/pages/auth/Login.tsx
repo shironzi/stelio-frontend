@@ -24,10 +24,13 @@ const Login = () => {
 
     try {
       const res = await login(email, password);
+      const userDetails = res.userDetails;
+
       setUserData({
-        name: res?.name,
-        email: res?.email,
-        role: res?.role,
+        id: userDetails.id,
+        name: userDetails?.name,
+        email: userDetails?.email,
+        role: userDetails?.role,
         isAuthenticated: true,
       });
 

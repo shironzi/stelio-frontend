@@ -22,7 +22,7 @@ const BookingList = () => {
   const [bookings, setBookings] = useState<BookingListCard[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
+    null,
   );
   const [status, SetStatus] = useState<BookingStatus | null>(null);
   const [filter, setFilter] = useState<BookingListFilter>("ALL");
@@ -40,8 +40,8 @@ const BookingList = () => {
         prev.map((bookingInfo) =>
           bookingInfo.id === selectedBookingId
             ? { ...bookingInfo, status }
-            : bookingInfo
-        )
+            : bookingInfo,
+        ),
       );
     }
 

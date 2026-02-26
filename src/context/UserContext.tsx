@@ -8,6 +8,7 @@ import {
 } from "react";
 
 export type UserContextTypes = {
+  id: string;
   name: string;
   email: string;
   role: string;
@@ -15,6 +16,7 @@ export type UserContextTypes = {
 };
 
 const defaultData: UserContextTypes = {
+  id: "",
   name: "",
   email: "",
   role: "RENTER",

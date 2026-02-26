@@ -12,18 +12,29 @@ nav {
   border-bottom: 1px solid #222831;
 }
 
-.link {
+.link, .nav-renter {
   text-decoration: none;
   color: #393E46;
   cursor: pointer;
   font-family: "Roboto";
   transition: all 0.3s ease-in-out;
   font-size: 18px;
+  border: none;
+}
+
+.nav-renter {
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.nav-renter:hover:hover {
+  color: #00ADB5;
+  border: 1px solid #00ADB5;
 }
 
 .link:hover {
   color: #00ADB5;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .logo {
@@ -48,6 +59,7 @@ nav {
   column-gap: 10px;
   display: flex;
   align-self: flex-end;
+  align-items: center;
 }
 
 .nav-message {

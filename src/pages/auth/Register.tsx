@@ -44,7 +44,7 @@ const Register = () => {
         lastname,
         email,
         password,
-        confirmPassword
+        confirmPassword,
       );
 
       setIsError(false);

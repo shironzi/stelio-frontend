@@ -66,8 +66,8 @@ const PropertyReview = () => {
               ? "Updating...."
               : "Update"
             : isFetching
-            ? "Creating...."
-            : "Create"}
+              ? "Creating...."
+              : "Create"}
         </button>
       </div>
     </div>

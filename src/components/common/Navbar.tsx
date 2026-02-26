@@ -6,6 +6,8 @@ import { useUserData } from "../../context/UserContext";
 import { TbMessage } from "react-icons/tb";
 import NavbarMenu from "./NavbarMenu";
 
+import { becomeHost } from "../../utils/user";
+
 import "@/styles/Navbar.css";
 
 export function Navbar() {
@@ -16,9 +18,31 @@ export function Navbar() {
 
   const handleLogout = async () => {
     await logout();
-    setUserData({ name: "", email: "", role: "", isAuthenticated: false });
+    setUserData({
+      id: "",
+      name: "",
+      email: "",
+      role: "",
+      isAuthenticated: false,
+    });
 
     navigate("/");
+  };
+
+  const handleBecomeHost = async () => {
+    const res = await becomeHost(userData.id);
+
+    if (res.success) {
+      setUserData({
+        id: res.id,
+        name: res.name,
+        email: res.email,
+        role: res.role,
+        isAuthenticated: true,
+      });
+
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
@@ -28,6 +52,7 @@ export function Navbar() {
       const res = await verifyToken();
 
       setUserData({
+        id: res.id,
         name: res.name,
         email: res.email,
         role: res.role,
@@ -64,6 +89,11 @@ export function Navbar() {
       <div className="nav-account">
         {userData.isAuthenticated ? (
           <>
+            {userData.role.toLocaleLowerCase() === "renter" && (
+              <button className="nav-renter" onClick={handleBecomeHost}>
+                Want to become a host?
+              </button>
+            )}
             {/* Message Icon */}
             <Link to={"/messages/"} className="nav-message">
               <TbMessage size={30} color="#000" />

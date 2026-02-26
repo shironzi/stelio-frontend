@@ -19,7 +19,7 @@ const Home = () => {
     }
 
     const isFavorite = properties.find(
-      (property) => property.id === propertyId
+      (property) => property.id === propertyId,
     )?.isFavorite;
 
     const res = !isFavorite
@@ -31,8 +31,8 @@ const Home = () => {
         prev.map((property) =>
           property.id === propertyId
             ? { ...property, isFavorite: !property.isFavorite }
-            : property
-        )
+            : property,
+        ),
       );
     }
   };
