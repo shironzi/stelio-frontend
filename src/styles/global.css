@@ -160,6 +160,19 @@ input:focus {
 .btn-danger:hover {
     background: #c0392b;
 }
+
+.btn-disable {
+  background: transparent;
+  color: #aaa;
+  opacity: 0.6;
+  border: 1px solid #dcdcdc;
+  cursor: default;
+}
+
+.btn-disable:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
 a {
   all: unset;
   cursor: pointer;

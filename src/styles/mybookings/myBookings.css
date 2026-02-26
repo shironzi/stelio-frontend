@@ -6,22 +6,28 @@
   border: 1px solid #fff;
   border-radius: 20px;
   display: flex;
-  flex-direction: row;
-  padding: 20px;
+  flex-direction: column;
+  padding: 10px;
+  align-items: center;
   justify-content: space-between;
+  width: 100%;
+  max-width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .my-bookings-container > img {
-  max-width: 250px;
-  max-height: 200px;
-  border-radius: 20px;
-  margin-right: 20px;
+  max-width: 220px;
+  max-height: 160px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 15px;
 }
 
 .my-bookings-details {
-  width: 60%;
   display: flex;
   flex-direction: column;
+  text-align: left;
+  width: 100%;
 }
 
 .booking-title {
@@ -34,47 +40,103 @@
 }
 
 .my-bookings-status {
-  width: 10%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
+  justify-content: space-between;
+  width: 100%;
+  column-gap: 15px;
+  padding: 15px;
 }
 
-.status-text {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
+.my-bookings-status > button {
+  flex: 1;
   color: white;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  font-size: 14px;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .pending {
-  color: #ffcc00;
+  background-color: #ffcc00;
 }
 
 .confirmed {
-  color: #4caf50; 
-}
-
-.cancelled {
-  color: #f44336; 
+  background-color: #4caf50;
 }
 
 .cancel-button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 6px 12px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: transparent;
+  border: 1px solid #ff4d4d;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
 }
 
 .cancel-button:hover {
   background-color: #e60000;
+  transform: scale(1.05);
+  color: #fff;
+}
+
+.payment-button {
+  background-color: #4caf50;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.payment-button:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Status */
+.status-text {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.cancelled {
+  color: #FF4C4C; /* Light red */
+}
+
+.pending_payment {
+  color: #FFA500; /* Orange */
+}
+
+.pending_approval {
+  color: #F0E68C; /* Light yellow */
+}
+
+.confirmed {
+  color: #4CAF50; /* Green */
+}
+
+.rejected {
+  color: #FF6347; /* Tomato red */
+}
+
+.noshow {
+  color: #B22222; /* Firebrick red */
+}
+
+.completed {
+  color: #32CD32; /* Lime green */
+}
+
+.expired {
+  color: #808080; /* Gray */
 }
