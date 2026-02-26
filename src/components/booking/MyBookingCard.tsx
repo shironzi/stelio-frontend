@@ -6,9 +6,8 @@ const MyBookingCard = ({
   action,
 }: {
   booking: Booking;
-  action: { cancel: () => void; payment: () => void };
+  action: { cancel: () => void; paymentModal: () => void };
 }) => {
-  console.log(booking.images[0]);
   return (
     <div className="my-bookings-container">
       {/* Property Image */}
@@ -27,25 +26,27 @@ const MyBookingCard = ({
       </div>
 
       {/* Booking Action button */}
-      <div className="my-bookings-status">
-        <button
-          className="payment-button action-button"
-          onClick={action.payment}
-        >
-          Pay
-        </button>
-        <button
-          className={
-            booking.status.toLocaleLowerCase() === "cancelled"
-              ? "btn-disable"
-              : "cancel-button action-button"
-          }
-          onClick={action.cancel}
-          disabled={booking.status.toLocaleLowerCase() === "cancelled"}
-        >
-          Cancel
-        </button>
-      </div>
+      {booking.status.toLocaleLowerCase() !== "cancelled" && (
+        <div className="my-bookings-status">
+          <button
+            className="payment-button action-button"
+            onClick={action.paymentModal}
+          >
+            Pay Now
+          </button>
+          <button
+            className={
+              booking.status.toLocaleLowerCase() === "cancelled"
+                ? "btn-disable"
+                : "cancel-button action-button"
+            }
+            onClick={action.cancel}
+            disabled={booking.status.toLocaleLowerCase() === "cancelled"}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
     </div>
   );
 };

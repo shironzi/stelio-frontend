@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getMyBookings, cancelBooking } from "../../utils/bookProperty";
 import type { Booking } from "./BookingTypes";
 import MyBookingCard from "../../components/booking/MyBookingCard";
 import "../../styles/mybookings/myBookings.css";
+import PaymentModal from "../../components/modals/PaymentModal";
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>();
 
   const handleCancelBooking = async (bookingId: String) => {
     const res = await cancelBooking(bookingId);
@@ -27,6 +30,29 @@ const MyBookings = () => {
     }
   };
 
+  const handlePaymentModal = (booking: Booking) => {
+    if (showPaymentModal) {
+      setSelectedBooking(null);
+    } else {
+      setSelectedBooking(booking);
+    }
+
+    setShowPaymentModal(!showPaymentModal);
+  };
+
+  const handleCoupon = useCallback(
+    () => (coupon: string) => {
+      if (!selectedBooking) return;
+
+      setBookings((prev) =>
+        prev.map((booking) =>
+          booking.id === selectedBooking.id ? { ...booking, coupon } : booking,
+        ),
+      );
+    },
+    [],
+  );
+
   useEffect(() => {
     fetchBookings();
   }, []);
@@ -41,13 +67,25 @@ const MyBookings = () => {
               cancel: () => {
                 handleCancelBooking(book.id);
               },
-              payment: handlePaymentBooking,
+              paymentModal: () => {
+                handlePaymentModal(book);
+              },
             }}
             key={book.id}
           />
         ))
       ) : (
         <h1>No Bookings</h1>
+      )}
+
+      {showPaymentModal && selectedBooking && (
+        <PaymentModal
+          booking={selectedBooking}
+          action={{
+            payment: handlePaymentBooking,
+            coupon: handleCoupon(),
+          }}
+        />
       )}
     </div>
   );

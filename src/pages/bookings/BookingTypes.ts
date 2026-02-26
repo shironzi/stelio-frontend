@@ -16,32 +16,32 @@ export const defaultTab: Tab = {
 export type Booking = {
     id: string;
 
+    // Property Details
+    propertyId: string;
     title: string;
     description: string;
-
     address: string;
     city: string;
-
-    contactPhone: string | null;
-    guestNames: string[] | null;
-    specialRequest: string | null;
-
-    startDateTime: string;
-    endDateTime: string;
-
     price: number;
-    paymentStatus: "PENDING" | "PAID" | "FAILED";
-    status: "PENDING" | "CONFIRMED" | "CANCELLED";
-
     maxGuest: number;
-    totalGuests: number | null;
-
     totalBed: number;
     totalBath: number;
     totalBedroom: number;
-
-    propertyId: string;
+    paymentStatus: "PENDING" | "PAID" | "FAILED";
+    status: "PENDING" | "CONFIRMED" | "CANCELLED";
     propertyType: "APARTMENT" | "HOUSE" | "VILLA";
+    discount: number;
+
+    // Guest
+    contactPhone: string | null;
+    guestNames: string[] | null;
+    specialRequest: string | null;
+    totalGuests: number | null;
+    coupon: string;
+
+    // Schedule
+    startDateTime: string;
+    endDateTime: string;
 
     images: string[];
 };
