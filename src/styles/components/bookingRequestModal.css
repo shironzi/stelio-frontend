@@ -1,0 +1,222 @@
+/* Container */
+.booking-modal-container {
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: none;
+    background: linear-gradient(145deg, #ffffff, #f1f1f1);
+    padding: 30px;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    transition: transform 0.2s ease-in-out;
+}
+
+.booking-modal-container hr {
+    border: 1px solid #ddd;
+    margin: 10px -30px;
+}
+
+/* Typography */
+.booking-modal-container h3, .booking-modal-container h4 {
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.booking-modal-container span {
+    font-weight: 500;
+    color: #555;
+}
+
+/* Timer */
+.booking-timer {
+    font-size: 1.1rem;
+    color: #d9534f;
+    font-weight: 500;
+}
+
+/* Guest List */
+.booking-modal-guests {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.booking-modal-guests h4 {
+    width: 40%;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.booking-modal-guests > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+}
+
+.booking-modal-guests > div > input {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: var(--primary);
+}
+
+.booking-modal-guests > div > input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.booking-modal-guests > div > button {
+    background-color: transparent;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.booking-modal-guests > div > button:hover {
+    color: #0056b3;
+}
+
+.booking-modal-guests > div > button:active {
+    transform: scale(1.2);
+}
+
+/* Booking Pricing */
+.booking-request-pricing {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 15px;
+}
+
+.booking-request-pricing h4 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Payment Type */
+.booking-type-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.booking-type-container label {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.booking-type-container input {
+    margin-right: 8px;
+}
+
+.booking-type-container input:checked + span {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.booking-type-container label:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+/* Proceed Button */
+.booking-modal-proceed {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+    margin-top: 20px;
+}
+
+.booking-modal-proceed:hover {
+    background-color: #0056b3;
+    transform: scale(1.01);
+}
+
+.booking-modal-proceed:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.booking-payment-type {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    background-color: var(--primary);
+    transition: background-color 0.3s ease;
+    border-radius: 20px;
+    padding: 2px;
+}
+
+.booking-payment-type button {
+    padding: 10px 15px;
+    border-radius: 20px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+.booking-payment-type-disable {
+    padding: 15px;
+    color: #fff;
+    background-color: transparent;
+}
+
+.booking-payment-type-active {
+    padding: 15px;
+    background-color: #fff;
+    color: #000;
+}
+
+/* Keyframes for Sliding Effect */
+@keyframes slide-in {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(10px);
+    }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .booking-modal-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .booking-request-container button {
+        font-size: 16px;
+    }
+
+    .booking-modal-guests > div > input {
+        font-size: 14px;
+    }
+}

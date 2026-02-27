@@ -12,6 +12,8 @@ import PropertyDetails from "../../components/property/PropertyDetails";
 import ScheduleProperty from "../../components/property/ScheduleProperty";
 import ToastNotif from "../../components/ToastNotif";
 import { bookProperty } from "../../utils/bookProperty";
+import BookingRequestModal from "../../components/modals/BookingRequestModal";
+import { defaultPaymentType, type PaymentType } from "../bookings/BookingTypes";
 
 const PropertyView = () => {
   const generateEndDate = useMemo(() => {
@@ -29,6 +31,10 @@ const PropertyView = () => {
   const [endDate, setEndDate] = useState<Date>(generateEndDate);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
+  const [paymentType, setPaymentType] =
+    useState<PaymentType>(defaultPaymentType);
+  const [requestBookingModal, setRequestBookingModal] =
+    useState<boolean>(false);
 
   const onBook = async () => {
     if (!id) {
@@ -47,7 +53,6 @@ const PropertyView = () => {
         const res = await getPropertyById(id);
         if (res.success) {
           setProperty(res.property);
-          console.log(res.property);
         }
       } catch (e) {
         console.error("Failed to fetch property:", e);
@@ -81,7 +86,7 @@ const PropertyView = () => {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
-          onBook={onBook}
+          onBook={() => setRequestBookingModal(!requestBookingModal)}
           price={property.price}
         />
       </div>
@@ -90,6 +95,23 @@ const PropertyView = () => {
         <ToastNotif
           message={modalMessage}
           onClose={() => setShowModal(false)}
+        />
+      )}
+
+      {requestBookingModal && (
+        <BookingRequestModal
+          data={{
+            property: property,
+            duration: {
+              startDate: startDate,
+              endDate: endDate,
+            },
+            paymentType: paymentType,
+          }}
+          action={{
+            handleRequestBooking: () => onBook(),
+            handlePaymentType: setPaymentType,
+          }}
         />
       )}
     </div>

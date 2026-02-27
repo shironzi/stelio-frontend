@@ -13,6 +13,14 @@ export const defaultTab: Tab = {
     tab: "Dashboard"
 }
 
+export type PaymentType = {
+    paymentType: "NOW" | "LATER"
+}
+
+export const defaultPaymentType: PaymentType = {
+    paymentType: "NOW"
+}
+
 export type Booking = {
     id: string;
 
@@ -44,4 +52,30 @@ export type Booking = {
     endDateTime: string;
 
     images: string[];
+};
+
+export const defaultBooking: Booking = {
+    id: "",
+    propertyId: "",
+    title: "",
+    description: "",
+    address: "",
+    city: "",
+    price: 0,
+    maxGuest: 0,
+    totalBed: 0,
+    totalBath: 0,
+    totalBedroom: 0,
+    paymentStatus: "PENDING",
+    status: "PENDING",
+    propertyType: "APARTMENT",
+    discount: 0,
+    contactPhone: null,
+    guestNames: [""],
+    specialRequest: null,
+    totalGuests: null,
+    coupon: "",
+    startDateTime: "",
+    endDateTime: "",
+    images: [],
 };
