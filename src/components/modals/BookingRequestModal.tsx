@@ -25,22 +25,37 @@ const BookingRequestModal = ({
   const endDate = new Date(data.duration.endDate);
 
   const [booking, setBooking] = useState<Booking>(defaultBooking);
+  const [timeRemaining, setTimeRemaining] = useState<number>(10);
+  const [emptyGuestName, setEmptyGuestName] = useState<number | null>(null);
 
   const handleAddGuest = () => {
-    const hasEmpty = booking.guestNames?.find((guest) => {
-      console.log("Guest:", guest);
-      return guest.trim() === "";
+    const hasEmpty = booking.guestNames?.some((guest, index) => {
+      if (guest.trim() === "") {
+        setEmptyGuestName(index);
+        return true;
+      }
     });
 
-    if (!hasEmpty) return;
+    if (hasEmpty) return;
 
     setBooking((prev) => ({
       ...prev,
-      guestNames: [...(prev.guestNames || []), ""],
+      guestNames: [...(prev.guestNames || ""), ""],
     }));
   };
 
-  const [timeRemaining, setTimeRemaining] = useState<number>(10);
+  const handleGuestInput = (name: string, index: number) => {
+    setBooking((prev) => ({
+      ...prev,
+      guestNames: (prev.guestNames || []).map((guest, i) =>
+        i === index ? name : guest,
+      ),
+    }));
+
+    if (emptyGuestName === index && name.trim()) {
+      setEmptyGuestName(null);
+    }
+  };
 
   const toMonthStr: (month: number) => string = (month) => {
     const months = [
@@ -121,9 +136,20 @@ const BookingRequestModal = ({
         <h4>Guests:</h4>
         <div>
           {booking.guestNames?.map((guest, index) => (
-            <input value={guest} key={index} />
+            <input
+              value={guest}
+              key={index}
+              onChange={(e) => handleGuestInput(e.target.value, index)}
+              className={
+                index === emptyGuestName
+                  ? "booking-modal-guests-input-error"
+                  : "booking-modal-guests-input"
+              }
+            />
           ))}
-          <button onClick={handleAddGuest}>+</button>
+          <button onClick={handleAddGuest} disabled={emptyGuestName !== null}>
+            +
+          </button>
         </div>
       </div>
 
