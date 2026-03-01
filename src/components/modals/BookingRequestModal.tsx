@@ -26,6 +26,20 @@ const BookingRequestModal = ({
 
   const [booking, setBooking] = useState<Booking>(defaultBooking);
 
+  const handleAddGuest = () => {
+    const hasEmpty = booking.guestNames?.find((guest) => {
+      console.log("Guest:", guest);
+      return guest.trim() === "";
+    });
+
+    if (!hasEmpty) return;
+
+    setBooking((prev) => ({
+      ...prev,
+      guestNames: [...(prev.guestNames || []), ""],
+    }));
+  };
+
   const [timeRemaining, setTimeRemaining] = useState<number>(10);
 
   const toMonthStr: (month: number) => string = (month) => {
@@ -78,18 +92,23 @@ const BookingRequestModal = ({
   return (
     <div className="booking-modal-container">
       {/* Booking Request Status */}
-      <h4>Booking for: {data.property.title}</h4>
+      <h3>Booking Details</h3>
       <hr />
 
       {/* Timer for booking expiration */}
       <h4 className="booking-timer">
-        Timer: {formatTime(timeRemaining)} remaining
+        Timer: <span>{formatTime(timeRemaining)} remaining</span>
       </h4>
       <hr />
 
       {/* Booking Details */}
-      <h3>Property: {data.property.title}</h3>
+      <h3>
+        Property: <span>{data.property.title}</span>
+      </h3>
       <p>{data.property.description}</p>
+      <h3>
+        Location: <span>{data.property.address}</span>
+      </h3>
       <h4>
         Dates:{" "}
         <span>
@@ -99,12 +118,12 @@ const BookingRequestModal = ({
         </span>
       </h4>
       <div className="booking-modal-guests">
-        <h4>Total Guests:</h4>
+        <h4>Guests:</h4>
         <div>
           {booking.guestNames?.map((guest, index) => (
             <input value={guest} key={index} />
           ))}
-          <button>+</button>
+          <button onClick={handleAddGuest}>+</button>
         </div>
       </div>
 
