@@ -6,6 +6,7 @@ import type {
   PropertyTypesView,
 } from "../../pages/property/Propertytypes";
 import PropertyCardDetails from "./PropertyCardDetails";
+import { useState } from "react";
 
 export type PropertyCardProps = {
   property: PropertyTypesView;
@@ -14,16 +15,29 @@ export type PropertyCardProps = {
 };
 
 const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!property.id) return;
+
+    actions.onFavorite?.(property.id);
+
+    // Trigger animation
+    setIsAnimating(true);
+
+    // Remove animation class after it ends (300ms)
+    setTimeout(() => setIsAnimating(false), 300);
+  };
+
   return (
-    <div>
+    <div className="property-card">
       {settings.mode === "home" && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            if (property.id) actions.onFavorite?.(property?.id);
-          }}
-          className="favorite"
+          onClick={handleFavoriteClick}
+          className={`favorite ${isAnimating ? "animate" : ""}`}
         >
           {property.isFavorite ? <FaHeart color="#ff0000" /> : <FaRegHeart />}
         </button>

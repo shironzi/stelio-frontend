@@ -39,6 +39,22 @@ p {
   text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);;
 }
 
+.favorite.animate {
+  animation: pop 1s forwards;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .home-properties {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -55,11 +71,12 @@ p {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: grid;
   flex-direction: column;
-  height: 45vh;
+  height: auto; 
   width: 20vw;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 1;
+  animation: cardFadeIn 0.5s ease-out forwards;
 }
 
 .property-card img {
@@ -137,5 +154,16 @@ p {
 
   .property-card {
     max-width: 100%;
+  }
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

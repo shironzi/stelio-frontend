@@ -1,10 +1,12 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { IoMdClose } from "react-icons/io";
 import "../../styles/components/bookingRequestModal.css";
+
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
+import { useUserData } from "../../context/UserContext";
 import {
   defaultBooking,
   type Booking,
-  type PaymentType,
 } from "../../pages/bookings/BookingTypes";
 
 const BookingRequestModal = ({
@@ -14,19 +16,21 @@ const BookingRequestModal = ({
   data: {
     property: PropertyTypesView;
     duration: { startDate: Date; endDate: Date };
-    paymentType: PaymentType;
   };
   action: {
-    handleRequestBooking: () => void;
-    handlePaymentType: (payment: PaymentType) => void;
+    handleRequestBooking: (booking: Booking) => void;
+    onClose: () => void;
   };
 }) => {
   const startDate = new Date(data.duration.startDate);
   const endDate = new Date(data.duration.endDate);
 
+  const { userData } = useUserData();
+
   const [booking, setBooking] = useState<Booking>(defaultBooking);
-  const [timeRemaining, setTimeRemaining] = useState<number>(10);
   const [emptyGuestName, setEmptyGuestName] = useState<number | null>(null);
+  const [error, setError] = useState<string>("");
+  const [isClosing, setIsClosing] = useState<boolean>(false);
 
   const handleAddGuest = () => {
     const hasEmpty = booking.guestNames?.some((guest, index) => {
@@ -84,36 +88,49 @@ const BookingRequestModal = ({
     return formatter.format(amount);
   };
 
-  const formatTime = useCallback((seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const secondsLeft = seconds % 60;
-    return `${minutes}:${secondsLeft < 10 ? "0" : ""}${secondsLeft}`;
-  }, []);
+  const handleValidation = () => {
+    const emptyIndex =
+      booking.guestNames?.findIndex((guest) => guest.trim() === "") ?? -1;
+    setEmptyGuestName(emptyIndex !== -1 ? emptyIndex : null);
+
+    if (!booking.contactPhone || booking.contactPhone.trim().length <= 0) {
+      setError("contact");
+      return;
+    }
+
+    action.handleRequestBooking(booking);
+  };
+
+  const handleContactInput = (contact: string) => {
+    if (contact.trim() === "") return;
+    if (error === "contact") setError("");
+
+    setBooking((booking) => ({ ...booking, contactPhone: contact }));
+  };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeRemaining((prevTime) => {
-        if (prevTime <= 0) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
+    setBooking((booking) => ({ ...booking, guestNames: [userData.name] }));
   }, []);
 
   return (
-    <div className="booking-modal-container">
+    <div
+      className={`booking-modal-container ${
+        isClosing ? "booking-modal-exit" : ""
+      }`}
+    >
       {/* Booking Request Status */}
-      <h3>Booking Details</h3>
-      <hr />
-
-      {/* Timer for booking expiration */}
-      <h4 className="booking-timer">
-        Timer: <span>{formatTime(timeRemaining)} remaining</span>
-      </h4>
+      <div className="booking-modal-header">
+        <h3>Booking Details</h3>
+        <IoMdClose
+          onClick={() => {
+            setIsClosing(true);
+            action.onClose;
+          }}
+          size={25}
+          color="red"
+          cursor={"pointer"}
+        />
+      </div>
       <hr />
 
       {/* Booking Details */}
@@ -121,17 +138,30 @@ const BookingRequestModal = ({
         Property: <span>{data.property.title}</span>
       </h3>
       <p>{data.property.description}</p>
-      <h3>
-        Location: <span>{data.property.address}</span>
-      </h3>
       <h4>
-        Dates:{" "}
+        Location: <span>{data.property.address}</span>
+      </h4>
+      <h4>
+        Duration:{" "}
         <span>
-          {toMonthStr(startDate.getMonth() + 1)} {startDate.getUTCDate()} to{" "}
+          {toMonthStr(startDate.getMonth() + 1)} {startDate.getUTCDate()}{" "}
+          {" - "}
           {toMonthStr(endDate.getMonth() + 1)} {endDate.getUTCDate()}{" "}
           {endDate.getFullYear()}
         </span>
       </h4>
+      <div className="booking-modal-contact">
+        <h4>Contact Number:</h4>
+        <input
+          type="text"
+          className={
+            error == "contact"
+              ? "booking-modal-guests-input-error"
+              : "booking-modal-guests-input"
+          }
+          onChange={(e) => handleContactInput(e.target.value)}
+        />
+      </div>
       <div className="booking-modal-guests">
         <h4>Guests:</h4>
         <div>
@@ -160,40 +190,12 @@ const BookingRequestModal = ({
         </h4>
       </div>
 
-      {/* Booking Request Buttons */}
-      <div className="booking-payment-type">
-        <button
-          className={
-            data.paymentType === ("NOW" as unknown as PaymentType)
-              ? "booking-payment-type-active"
-              : "booking-payment-type-disable"
-          }
-          onClick={() =>
-            action.handlePaymentType("NOW" as unknown as PaymentType)
-          }
-        >
-          Pay Later
-        </button>
-        <button
-          className={
-            data.paymentType === ("LATER" as unknown as PaymentType)
-              ? "booking-payment-type-active"
-              : "booking-payment-type-disable"
-          }
-          onClick={() =>
-            action.handlePaymentType("LATER" as unknown as PaymentType)
-          }
-        >
-          Pay Later
-        </button>
-      </div>
-
       <button
         className="booking-modal-proceed"
-        onClick={action.handleRequestBooking}
-        disabled={timeRemaining === 0}
+        onClick={handleValidation}
+        disabled={error.trim() !== "" || emptyGuestName !== null}
       >
-        Proceed
+        Book Now
       </button>
     </div>
   );

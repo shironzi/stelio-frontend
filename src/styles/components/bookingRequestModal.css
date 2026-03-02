@@ -1,26 +1,42 @@
 /* Container */
 .booking-modal-container {
-    border-radius: 12px;
+    border-radius: 20px;
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     max-width: 500px;
+    max-height: 700px;
     height: auto;
+
     position: fixed;
     top: 50%;
     left: 50%;
+
     transform: translate(-50%, -50%);
+    opacity: 0;
+
     z-index: 1000;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
     border: 2px solid #444957;
     background-color: #ffffff;
     padding: 10px 30px;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    color: #333;
+
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    animation: modalFadeIn 0.3s ease forwards;
+}
+
+.booking-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .booking-modal-container hr {
     border: 1px solid #444957;
-    margin: 20px -30px;
+    margin: 0 -30px;
 }
 
 .booking-modal-container span {
@@ -69,6 +85,7 @@
     background-color: #f9f9f9;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     color: var(--primary);
+    width: 100%;
 }
 
 .booking-modal-guests-input-error {
@@ -208,6 +225,16 @@
     color: #000;
 }
 
+.booking-modal-contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.booking-modal-contact h4 {
+    width: 70%;
+}
+
 /* Keyframes for Sliding Effect */
 @keyframes slide-in {
     0% {
@@ -231,5 +258,31 @@
 
     .booking-modal-guests > div > input {
         font-size: 14px;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.booking-modal-exit {
+    animation: modalFadeOut 0.25s ease forwards;
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -45%);
     }
 }

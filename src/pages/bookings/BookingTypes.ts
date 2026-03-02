@@ -48,8 +48,8 @@ export type Booking = {
     coupon: string;
 
     // Schedule
-    startDateTime: string;
-    endDateTime: string;
+    start: string;
+    end: string;
 
     images: string[];
 };
@@ -75,7 +75,7 @@ export const defaultBooking: Booking = {
     specialRequest: null,
     totalGuests: null,
     coupon: "",
-    startDateTime: "",
-    endDateTime: "",
+    start: "",
+    end: "",
     images: [],
 };

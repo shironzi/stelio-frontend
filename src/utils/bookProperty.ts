@@ -1,10 +1,11 @@
+import type { Booking } from "../pages/bookings/BookingTypes";
 import type { BookingStatus } from "../types/booking";
 import api from "./axios"
 
 
-export const bookProperty = async (propertyId: string, start: Date, end: Date) => {
+export const bookProperty = async (propertyId: string, details: Booking) => {
     // Checks Idempotent key
-    const storageKey = `booking:${propertyId}:${start.toISOString()}:${end.toISOString()}`;
+    const storageKey = `booking:${propertyId}:${details.start}:${details.end}`;
     try {
         let idempotencyKey = localStorage.getItem(storageKey);
 
@@ -13,7 +14,7 @@ export const bookProperty = async (propertyId: string, start: Date, end: Date) =
             localStorage.setItem(storageKey, idempotencyKey);
         }
 
-        const { data } = await api.post(`/bookings/${propertyId}`, { start, end }, {
+        const { data } = await api.post(`/bookings/${propertyId}`, { details }, {
             headers: {
                 'Idempotency-Key': idempotencyKey
             }
@@ -27,7 +28,7 @@ export const bookProperty = async (propertyId: string, start: Date, end: Date) =
             localStorage.removeItem(storageKey);
         }
 
-        throw error;
+        return error?.response?.data;
     }
 }
 
