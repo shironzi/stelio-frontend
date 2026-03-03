@@ -48,10 +48,16 @@ export type Booking = {
     coupon: string;
 
     // Schedule
-    start: string;
-    end: string;
+    start: Date;
+    end: Date;
 
     images: string[];
+};
+
+const generateEndDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 2);
+    return date;
 };
 
 export const defaultBooking: Booking = {
@@ -75,7 +81,7 @@ export const defaultBooking: Booking = {
     specialRequest: null,
     totalGuests: null,
     coupon: "",
-    start: "",
-    end: "",
+    start: new Date(),
+    end: generateEndDate(),
     images: [],
 };

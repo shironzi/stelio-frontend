@@ -1,5 +1,5 @@
 import { getPropertyById } from "../../utils/property";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   type PropertyTypesView,
@@ -13,34 +13,26 @@ import ScheduleProperty from "../../components/property/ScheduleProperty";
 import ToastNotif from "../../components/modals/ToastNotif";
 import { bookProperty } from "../../utils/bookProperty";
 import BookingRequestModal from "../../components/modals/BookingRequestModal";
-import { type Booking } from "../bookings/BookingTypes";
+import { defaultBooking, type Booking } from "../bookings/BookingTypes";
 
 const PropertyView = () => {
-  const generateEndDate = useMemo(() => {
-    const date = new Date();
-    date.setDate(date.getDate() + 2);
-    return date;
-  }, []);
-
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState<PropertyTypesView>(
     PropertyTypesViewDefaultData,
   );
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(generateEndDate);
+  const [booking, setBooking] = useState<Booking>(defaultBooking);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
   const [requestBookingModal, setRequestBookingModal] =
     useState<boolean>(false);
 
-  const onBook = async (bookingDetails: Booking) => {
+  const onBook = async () => {
     if (!id) {
       return;
     }
-    const res = await bookProperty(id, bookingDetails);
-
-    console.log(res);
+    console.log(booking);
+    const res = await bookProperty(id, booking);
 
     setRequestBookingModal(!requestBookingModal);
     setModalMessage(res.message);
@@ -83,10 +75,12 @@ const PropertyView = () => {
 
         {/* Right Details (date picker) */}
         <ScheduleProperty
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
+          startDate={booking.start}
+          endDate={booking.end}
+          setStartDate={(start) =>
+            setBooking((prev) => ({ ...prev, start: start }))
+          }
+          setEndDate={(end) => setBooking((prev) => ({ ...prev, end: end }))}
           onBook={() => setRequestBookingModal(!requestBookingModal)}
           price={property.price}
         />
@@ -103,13 +97,11 @@ const PropertyView = () => {
         <BookingRequestModal
           data={{
             property: property,
-            duration: {
-              startDate: startDate,
-              endDate: endDate,
-            },
+            booking: booking,
           }}
           action={{
-            handleRequestBooking: (booking) => onBook(booking),
+            handleRequestBooking: onBook,
+            updateBooking: setBooking,
             onClose: () => setRequestBookingModal(!requestBookingModal),
           }}
         />

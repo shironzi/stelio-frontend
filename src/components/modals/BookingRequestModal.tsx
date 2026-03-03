@@ -4,10 +4,7 @@ import "../../styles/components/bookingRequestModal.css";
 
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
 import { useUserData } from "../../context/UserContext";
-import {
-  defaultBooking,
-  type Booking,
-} from "../../pages/bookings/BookingTypes";
+import { type Booking } from "../../pages/bookings/BookingTypes";
 
 const BookingRequestModal = ({
   data,
@@ -15,25 +12,22 @@ const BookingRequestModal = ({
 }: {
   data: {
     property: PropertyTypesView;
-    duration: { startDate: Date; endDate: Date };
+    booking: Booking;
   };
   action: {
-    handleRequestBooking: (booking: Booking) => void;
+    handleRequestBooking: () => void;
+    updateBooking: (booking: Booking) => void;
     onClose: () => void;
   };
 }) => {
-  const startDate = new Date(data.duration.startDate);
-  const endDate = new Date(data.duration.endDate);
-
   const { userData } = useUserData();
 
-  const [booking, setBooking] = useState<Booking>(defaultBooking);
   const [emptyGuestName, setEmptyGuestName] = useState<number | null>(null);
   const [error, setError] = useState<string>("");
   const [isClosing, setIsClosing] = useState<boolean>(false);
 
   const handleAddGuest = () => {
-    const hasEmpty = booking.guestNames?.some((guest, index) => {
+    const hasEmpty = data.booking.guestNames?.some((guest, index) => {
       if (guest.trim() === "") {
         setEmptyGuestName(index);
         return true;
@@ -42,19 +36,19 @@ const BookingRequestModal = ({
 
     if (hasEmpty) return;
 
-    setBooking((prev) => ({
-      ...prev,
-      guestNames: [...(prev.guestNames || ""), ""],
-    }));
+    action.updateBooking({
+      ...data.booking,
+      guestNames: [...(data.booking.guestNames || ""), ""],
+    });
   };
 
   const handleGuestInput = (name: string, index: number) => {
-    setBooking((prev) => ({
-      ...prev,
-      guestNames: (prev.guestNames || []).map((guest, i) =>
+    action.updateBooking({
+      ...data.booking,
+      guestNames: (data.booking.guestNames || []).map((guest, i) =>
         i === index ? name : guest,
       ),
-    }));
+    });
 
     if (emptyGuestName === index && name.trim()) {
       setEmptyGuestName(null);
@@ -90,26 +84,32 @@ const BookingRequestModal = ({
 
   const handleValidation = () => {
     const emptyIndex =
-      booking.guestNames?.findIndex((guest) => guest.trim() === "") ?? -1;
+      data.booking.guestNames?.findIndex((guest) => guest.trim() === "") ?? -1;
     setEmptyGuestName(emptyIndex !== -1 ? emptyIndex : null);
 
-    if (!booking.contactPhone || booking.contactPhone.trim().length <= 0) {
+    if (
+      !data.booking.contactPhone ||
+      data.booking.contactPhone.trim().length <= 0
+    ) {
       setError("contact");
       return;
     }
 
-    action.handleRequestBooking(booking);
+    action.handleRequestBooking();
   };
 
   const handleContactInput = (contact: string) => {
     if (contact.trim() === "") return;
     if (error === "contact") setError("");
 
-    setBooking((booking) => ({ ...booking, contactPhone: contact }));
+    action.updateBooking({ ...data.booking, contactPhone: contact });
   };
 
   useEffect(() => {
-    setBooking((booking) => ({ ...booking, guestNames: [userData.name] }));
+    action.updateBooking({
+      ...data.booking,
+      guestNames: [userData.name],
+    });
   }, []);
 
   return (
@@ -144,10 +144,10 @@ const BookingRequestModal = ({
       <h4>
         Duration:{" "}
         <span>
-          {toMonthStr(startDate.getMonth() + 1)} {startDate.getUTCDate()}{" "}
-          {" - "}
-          {toMonthStr(endDate.getMonth() + 1)} {endDate.getUTCDate()}{" "}
-          {endDate.getFullYear()}
+          {toMonthStr(data.booking.start.getMonth() + 1)}{" "}
+          {data.booking.start.getUTCDate()} {" - "}
+          {toMonthStr(data.booking.end.getMonth() + 1)}{" "}
+          {data.booking.end.getUTCDate()} {data.booking.end.getFullYear()}
         </span>
       </h4>
       <div className="booking-modal-contact">
@@ -165,7 +165,7 @@ const BookingRequestModal = ({
       <div className="booking-modal-guests">
         <h4>Guests:</h4>
         <div>
-          {booking.guestNames?.map((guest, index) => (
+          {data.booking.guestNames?.map((guest, index) => (
             <input
               value={guest}
               key={index}

@@ -14,7 +14,7 @@ export const bookProperty = async (propertyId: string, details: Booking) => {
             localStorage.setItem(storageKey, idempotencyKey);
         }
 
-        const { data } = await api.post(`/bookings/${propertyId}`, { details }, {
+        const { data } = await api.post(`/bookings/${propertyId}`, details, {
             headers: {
                 'Idempotency-Key': idempotencyKey
             }
