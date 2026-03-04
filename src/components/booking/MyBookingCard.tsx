@@ -26,7 +26,7 @@ const MyBookingCard = ({
       </div>
 
       {/* Booking Action button */}
-      {booking.status.toLocaleLowerCase() !== "cancelled" && (
+      {booking.status.toLocaleLowerCase() === "pending_payment" && (
         <div className="my-bookings-status">
           <button
             className="payment-button action-button"

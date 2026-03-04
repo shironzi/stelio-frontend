@@ -1,5 +1,8 @@
 .mybookings {
-    padding: 20px 0;
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 20px;
 }
 
 .my-bookings-container {
@@ -57,14 +60,6 @@
   font-weight: 500;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.pending {
-  background-color: #ffcc00;
-}
-
-.confirmed {
-  background-color: #4caf50;
 }
 
 .cancel-button {
@@ -138,4 +133,26 @@
 
 .expired {
   color: #808080; /* Gray */
+}
+
+@media (max-width: 1300px) {
+  .mybookings {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1050px) {
+  .mybookings {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .mybookings {
+    grid-template-columns: 1fr;
+    align-items: center;
+    margin: 0 auto;
+    width: fit-content;
+  }
 }

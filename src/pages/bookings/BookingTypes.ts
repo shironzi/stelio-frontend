@@ -50,6 +50,7 @@ export type Booking = {
     // Schedule
     start: Date;
     end: Date;
+    expiresAt: number;
 
     images: string[];
 };
@@ -59,6 +60,8 @@ const generateEndDate = () => {
     date.setDate(date.getDate() + 2);
     return date;
 };
+
+let expiration = new Date()
 
 export const defaultBooking: Booking = {
     id: "",
@@ -84,4 +87,5 @@ export const defaultBooking: Booking = {
     start: new Date(),
     end: generateEndDate(),
     images: [],
+    expiresAt: expiration.getMinutes() + 10,
 };

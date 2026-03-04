@@ -11,7 +11,7 @@ const Login = () => {
 
   const { setUserData } = useUserData();
   const [email, setEmail] = useState("test@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("password.");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 

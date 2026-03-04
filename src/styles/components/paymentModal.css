@@ -1,25 +1,35 @@
 .payment-container {
-    border-radius: 12px;
+    border-radius: 20px;
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     max-width: 500px;
+    max-height: 700px;
     height: auto;
+
     position: fixed;
     top: 50%;
     left: 50%;
+
     transform: translate(-50%, -50%);
+    opacity: 0;
+
     z-index: 1000;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
     border: 2px solid #444957;
     background-color: #ffffff;
     padding: 10px 30px;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    color: #333;
+
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    animation: modalFadeIn 0.3s ease forwards;
 }
 
 .payment-container hr {
     border: 1px solid #444957;
-    margin: 20px -30px;
+    margin: 0 -30px;
 }
 
 .payment-container span {
@@ -27,7 +37,6 @@
 }
 
 .payment-container h3, .payment-container h4 {
-    margin-bottom: 10px;
     color: var(--primary);
 }
 
@@ -41,7 +50,6 @@
 .payment-coupon input {
     width: 50%;
     padding: 10px;
-    margin-top: 5px;
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 16px;
@@ -57,8 +65,6 @@
 .payment-container button {
     width: 100%;
     padding: 12px;
-    margin-top: 20px;
-    background-color: #28a745;
     border: none;
     border-radius: 8px;
     font-size: 18px;
@@ -67,23 +73,34 @@
     transition: background-color 0.3s ease;
 }
 
-.payment-container button:hover {
+.payment-container button:enabled {
+    background-color: #28a745;
+}
+
+.payment-container button:active:hover {
     background-color: #218838;
+}
+
+.payment-container button:disabled {
+    cursor: not-allowed;
+    color: #ccc;
+    transform: none;
+    border: 1px solid #ddd;
+}
+
+.payment-container button:disabled:hover,
+.payment-container button:disabled:active {
+    color: #ccc;
+    transform: none;
 }
 
 .payment-timer {
     color: #ff4d4d;
 }
 
-.payment-container div {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
 .payment-container h4:last-child {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 20px;
 }
 
 .payment-pricing h4 {
