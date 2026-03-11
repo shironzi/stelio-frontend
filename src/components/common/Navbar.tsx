@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { logout, verifyToken } from "../../utils/auth";
+import { logout, verifyToken } from "../../api/auth";
 import { useUserData } from "../../context/UserContext";
 import { TbMessage } from "react-icons/tb";
 import NavbarMenu from "./NavbarMenu";
 
-import { becomeHost } from "../../utils/user";
+import { becomeHost } from "../../api/user";
 
 import "@/styles/Navbar.css";
 

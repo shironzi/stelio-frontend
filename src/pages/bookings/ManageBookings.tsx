@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { PropertyTypesView } from "../property/Propertytypes";
-import { getMyProperties } from "../../utils/property";
+import { getMyProperties } from "../../api/property";
 import PropertyCard from "../../components/property/PropertyCard";
 
 const ManageBookings = () => {

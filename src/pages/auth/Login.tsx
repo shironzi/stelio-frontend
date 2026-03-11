@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 import "@/styles/auth.css";
-import { login } from "../../utils/auth";
+import { login } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserContext";
 

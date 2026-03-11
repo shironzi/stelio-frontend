@@ -4,3 +4,66 @@
     padding: 25px;
     border-radius: 12px;
 }
+
+.chatbox-empty,
+.chatbox-loading,
+.chatbox-error {
+    margin: 0;
+}
+
+.chatbox-messages {
+    height: 100%;
+    max-height: calc(100vh - 60px - 30px - 20px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 6px;
+}
+
+.chatbox-row {
+    display: flex;
+}
+
+.chatbox-row--own {
+    justify-content: flex-end;
+}
+
+.chatbox-row--other {
+    justify-content: flex-start;
+}
+
+.chatbox-bubble {
+    max-width: min(520px, 85%);
+    height: fit-content;
+    padding: 10px 12px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chatbox-bubble--own {
+    background-color: var(--accent);
+}
+
+.chatbox-bubble--other {
+    background-color: var(--primary);
+}
+
+.chatbox-name {
+    margin: 0;
+    opacity: 0.85;
+}
+
+.chatbox-text {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.chatbox-time {
+    margin: 0;
+    opacity: 0.75;
+    align-self: flex-end;
+}

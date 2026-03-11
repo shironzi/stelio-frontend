@@ -1,6 +1,6 @@
 import "@/styles/message/messageHead.css";
 import type ChatHead from "../../pages/messages/MessagesTypes";
-import { chatDateFormatted } from "../../utils/DateFormat";
+import { chatDateFormatted } from "../../api/DateFormat";
 
 export default function MessageHead({ head }: { head: ChatHead }) {
   return (

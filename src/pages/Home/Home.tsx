@@ -1,8 +1,8 @@
 import PropertyCard from "../../components/property/PropertyCard";
-import { getProperties } from "../../utils/property";
+import { getProperties } from "../../api/property";
 import { useEffect, useState } from "react";
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
-import { addFavorite, removeFavorite } from "../../utils/favorite";
+import { addFavorite, removeFavorite } from "../../api/favorite";
 import { useUserData } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 

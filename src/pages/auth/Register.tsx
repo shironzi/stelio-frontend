@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import "@/styles/auth.css";
-import { register } from "../../utils/auth";
+import { register } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {

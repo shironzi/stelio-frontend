@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import {
   getBookingsByPropertyId,
   updateBookingStatus,
-} from "../../utils/bookProperty";
+} from "../../api/bookProperty";
 import ConfirmationPopUp from "../common/ConfirmationPopUp";
 import BookingListNav from "./BookingListNav";
 

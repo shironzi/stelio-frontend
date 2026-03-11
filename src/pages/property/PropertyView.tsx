@@ -1,4 +1,4 @@
-import { getPropertyById } from "../../utils/property";
+import { getPropertyById } from "../../api/property";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -11,7 +11,7 @@ import PropertySlider from "../../components/property/PropertySlider";
 import PropertyDetails from "../../components/property/PropertyDetails";
 import ScheduleProperty from "../../components/property/ScheduleProperty";
 import ToastNotif from "../../components/modals/ToastNotif";
-import { bookProperty } from "../../utils/bookProperty";
+import { bookProperty } from "../../api/bookProperty";
 import BookingRequestModal from "../../components/modals/BookingRequestModal";
 import { defaultBooking, type Booking } from "../bookings/BookingTypes";
 

@@ -3,7 +3,7 @@ import { handleNumeric } from "./PropertyFunc";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProperty, type PropertyTypes } from "../../context/PropertyContext";
 import { useEffect, useState } from "react";
-import { getPropertyById } from "../../utils/property";
+import { getPropertyById } from "../../api/property";
 
 const PropertyForm = () => {
   const navigate = useNavigate();

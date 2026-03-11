@@ -1,7 +1,7 @@
 import PropertyDetails from "../../components/property/PropertyDetails";
 import PropertySlider from "../../components/property/PropertySlider";
 import { propertyData, useProperty } from "../../context/PropertyContext";
-import { createProperty } from "../../utils/property";
+import { createProperty } from "../../api/property";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import "@/styles/booking/bookingList.css";
 import { BookingStatus, type BookingListCard } from "../../types/booking";
-import { formatDateMDY, formatDateYear } from "../../utils/DateFormat";
+import { formatDateMDY, formatDateYear } from "../../api/DateFormat";
 import type { ReactElement } from "react";
 
 interface BookingCardProps {

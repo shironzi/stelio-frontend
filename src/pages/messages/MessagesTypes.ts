@@ -5,3 +5,12 @@ export default interface ChatHead {
     profileLink: string;
     conversationId: string;
 }
+
+export interface Message {
+    id: string;
+    userId: string;
+    name: string;
+    message: string;
+    filePaths: string[];
+    timestamp: string;
+}

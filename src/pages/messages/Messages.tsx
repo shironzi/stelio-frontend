@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import MessageHead from "../../components/message/MessageHead";
 import "@/styles/message/message.css";
 import type ChatHead from "./MessagesTypes";
-import { getChatHeads } from "../../utils/message";
-import { Link } from "react-router-dom";
+import { getChatHeads } from "../../api/message";
+import { Link, useParams } from "react-router-dom";
 import ChatBox from "../../components/message/ChatBox";
 
 export default function Messages() {
   const [chatHeads, setChatHeads] = useState<ChatHead[]>([]);
   const [active, setActive] = useState<String | null>(null);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchChatHeads = async () => {
@@ -22,12 +23,16 @@ export default function Messages() {
     fetchChatHeads();
   }, []);
 
+  useEffect(() => {
+    setActive(id ?? null);
+  }, [id]);
+
   return (
     <div className="message">
       {/* Chat Heads */}
       <div className="message_chat-heads">
         <div className="message-chat-heads-list">
-          {chatHeads.length > 1 &&
+          {chatHeads.length > 0 &&
             chatHeads.map((headInfo) => (
               <Link
                 key={headInfo.conversationId}

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "@/styles/property/manageProperty.css";
 import { useEffect, useState } from "react";
-import { deleteProperty, getMyProperties } from "../../utils/property";
+import { deleteProperty, getMyProperties } from "../../api/property";
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
 import PropertyCard from "../../components/property/PropertyCard";
 import { propertyData, useProperty } from "../../context/PropertyContext";

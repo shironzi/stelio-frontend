@@ -2,7 +2,7 @@ import "@/styles/booking/bookingDashboard.css";
 import { useEffect, useState } from "react";
 import { defaultPropertyStats, type PropertyStats } from "../../types/booking";
 import { useParams } from "react-router-dom";
-import { fetchPropertyStats } from "../../utils/propertyStats";
+import { fetchPropertyStats } from "../../api/propertyStats";
 
 const BookingDashboard = () => {
   const { id } = useParams();

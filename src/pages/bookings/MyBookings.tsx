@@ -3,7 +3,7 @@ import {
   getMyBookings,
   cancelBooking,
   payBooking,
-} from "../../utils/bookProperty";
+} from "../../api/bookProperty";
 import type { Booking } from "./BookingTypes";
 import MyBookingCard from "../../components/booking/MyBookingCard";
 import "../../styles/mybookings/myBookings.css";
