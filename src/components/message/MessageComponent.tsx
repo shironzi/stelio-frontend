@@ -1,34 +1,56 @@
+import { useState } from "react";
+import type { Message } from "../../pages/messages/MessagesTypes";
+
 const MessageComponent = ({
   message,
-  timestamp,
-  isOwn,
-  name,
+  userId,
 }: {
-  message: string;
-  timestamp: string;
-  isOwn: boolean;
-  name: string;
+  message: Message;
+  userId: string;
 }) => {
-  const messageLines = message.split("\n");
+  const [showTime, setShowTime] = useState<Boolean>(false);
 
-  const timeText = new Date(timestamp).toLocaleTimeString([], {
+  const messageLines = message.message.split("\n");
+
+  const timeText = new Date(message.timestamp).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  const isOwn = message.userId === userId;
+
+  const handleMouseEnter = () => {
+    setShowTime(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTime(false);
+  };
 
   return (
     <div
       className={
         isOwn
-          ? "chatbox-bubble chatbox-bubble--own"
-          : "chatbox-bubble chatbox-bubble--other"
+          ? "chatbox-row chatbox-row--own"
+          : "chatbox-row chatbox-row--other"
       }
     >
-      {!isOwn && <h5 className="chatbox-name">{name}</h5>}
-      {messageLines.map((line, index) => (
-        <p key={index}>{line}</p>
-      ))}
-      <h6 className="chatbox-time">{timeText}</h6>
+      <div
+        className={
+          isOwn
+            ? "chatbox-bubble chatbox-bubble--own"
+            : "chatbox-bubble chatbox-bubble--other"
+        }
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {!isOwn && <h5 className="chatbox-name">{message.name}</h5>}
+        {messageLines.map((line, index) => (
+          <p key={index}>{line}</p>
+        ))}
+
+        <h6 className="chatbox-time">{showTime && timeText}</h6>
+      </div>
     </div>
   );
 };

@@ -11,3 +11,9 @@ export const getMessageById = async (messageId: string) => {
 
     return res.data
 }
+
+export const sendMessage = async (conversationId: string, message: string) => {
+    const res = await api.post(`/messages/${conversationId}`, { message })
+
+    return res.data;
+}
