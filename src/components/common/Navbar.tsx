@@ -71,8 +71,7 @@ export function Navbar() {
       <Link to={"/"} className="logo link">
         STELIO
       </Link>
-
-      {/* Navigations */}
+      {/* Navigations
       <div className="nav-mid">
         <Link to={"/"} className="link">
           Homes
@@ -83,8 +82,7 @@ export function Navbar() {
         <Link to={"./services"} className="link">
           Services
         </Link>
-      </div>
-
+      </div> */}
       {/* User Menu */}
       <div className="nav-account">
         {userData.isAuthenticated ? (
