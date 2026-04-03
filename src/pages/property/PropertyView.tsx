@@ -145,7 +145,7 @@ const PropertyView = () => {
                   placeholderText="Select date"
                   minDate={new Date()}
                   dateFormat="MMM d, yyyy"
-                  className="w-full p-3 bg-transparent border border-white/20 rounded-[10px] text-[#e8e6e1] placeholder:text-muted-faint focus:outline-none focus:ring-2 focus:ring-gold" // w-full ensures input takes up full width
+                  className="w-[280px] p-3 bg-transparent border border-white/20 rounded-[10px] text-[#e8e6e1] placeholder:text-muted-faint focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             </div>
@@ -167,7 +167,7 @@ const PropertyView = () => {
                   minDate={booking.start || new Date()}
                   placeholderText="Select date"
                   dateFormat="MMM d, yyyy"
-                  className="w-[280px] p-3 bg-transparent border border-white/20 rounded-[10px] text-[#e8e6e1] placeholder:text-muted-faint focus:outline-none focus:ring-2 focus:ring-gold" // w-full to ensure the DatePicker takes up full width
+                  className="w-[280px] p-3 bg-transparent border border-white/20 rounded-[10px] text-[#e8e6e1] placeholder:text-muted-faint focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             </div>

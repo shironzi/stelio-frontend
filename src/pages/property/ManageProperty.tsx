@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { deleteProperty, getMyProperties } from "../../api/property";
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
 import { propertyData, useProperty } from "../../context/PropertyContext";
+import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 
 const ManageProperty = () => {
   const navigate = useNavigate();
@@ -104,20 +105,24 @@ const ManageProperty = () => {
                     {property.title || "Property Title"}
                   </div>
                   <div className="text-[12px] text-gold mb-3">
-                    {property.price || "₱0.00"} per night
+                    {property.price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "PHP",
+                    })}{" "}
+                    <span className="text-muted-faint">/ night</span>
                   </div>
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleOnEdit(property.id)}
                       className="flex-1 py-[7px] rounded-[7px] text-[12px] font-sans cursor-pointer border border-white/10 bg-transparent text-muted flex items-center justify-center gap-1 hover:bg-white/[0.06] transition-all"
                     >
-                      ✏ Edit
+                      <FaPencil /> Edit
                     </button>
                     <button
                       onClick={() => handleOnDelete(property.id)}
                       className="flex-1 py-[7px] rounded-[7px] text-[12px] font-sans cursor-pointer border border-white/10 bg-transparent text-muted flex items-center justify-center gap-1 hover:bg-red-900/10 hover:border-red-500/30 hover:text-red-400 transition-all"
                     >
-                      🗑 Delete
+                      <FaRegTrashCan /> Delete
                     </button>
                   </div>
                 </div>
