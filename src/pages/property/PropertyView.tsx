@@ -30,7 +30,6 @@ const PropertyView = () => {
     if (!id) {
       return;
     }
-    console.log(booking);
     const res = await bookProperty(id, booking);
 
     setRequestBookingModal(!requestBookingModal);
@@ -199,11 +198,14 @@ const PropertyView = () => {
           {/* Rent and Reserve Buttons */}
           <button
             className="w-full bg-gold text-dark-900 border-none rounded-[10px] py-[13px] text-[14px] font-semibold cursor-pointer hover:bg-gold-light transition-colors mb-2"
-            onClick={onBook}
+            onClick={() => setRequestBookingModal(!requestBookingModal)}
           >
             Rent
           </button>
-          <button className="w-full bg-transparent text-[#e8e6e1] border border-white/20 rounded-[10px] py-3 text-[14px] cursor-pointer hover:bg-white/[0.06] transition-colors">
+          <button
+            className="w-full bg-transparent text-[#e8e6e1] border border-white/20 rounded-[10px] py-3 text-[14px] cursor-pointer hover:bg-white/[0.06] transition-colors"
+            onClick={() => setRequestBookingModal(!requestBookingModal)}
+          >
             Reserve
           </button>
         </div>
@@ -218,7 +220,7 @@ const PropertyView = () => {
       )}
 
       {/* Booking request modal */}
-      {requestBookingModal && (
+      {requestBookingModal && property && (
         <BookingRequestModal
           data={{
             property: property,

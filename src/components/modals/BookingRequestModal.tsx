@@ -1,7 +1,6 @@
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import "../../styles/components/bookingRequestModal.css";
-
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
 import { useUserData } from "../../context/UserContext";
 import { type Booking } from "../../pages/bookings/BookingTypes";
@@ -40,19 +39,6 @@ const BookingRequestModal = ({
       ...data.booking,
       guestNames: [...(data.booking.guestNames || ""), ""],
     });
-  };
-
-  const handleGuestInput = (name: string, index: number) => {
-    action.updateBooking({
-      ...data.booking,
-      guestNames: (data.booking.guestNames || []).map((guest, i) =>
-        i === index ? name : guest,
-      ),
-    });
-
-    if (emptyGuestName === index && name.trim()) {
-      setEmptyGuestName(null);
-    }
   };
 
   const toMonthStr: (month: number) => string = (month) => {
@@ -114,91 +100,201 @@ const BookingRequestModal = ({
 
   return (
     <div
-      className={`booking-modal-container ${
+      className={`s-modal-bg absolute inset-0 bg-black/70 items-center justify-center z-[200] ${
         isClosing ? "booking-modal-exit" : ""
       }`}
+      onClick={action.onClose}
     >
-      {/* Booking Request Status */}
-      <div className="booking-modal-header">
-        <h3>Booking Details</h3>
-        <IoMdClose
-          onClick={() => {
-            setIsClosing(true);
-            action.onClose;
-          }}
-          size={25}
-          color="red"
-          cursor={"pointer"}
-        />
-      </div>
-      <hr />
+      <div
+        className="m-auto bg-dark-800 border border-white/[0.1] rounded-2xl w-[520px] max-w-[92%] relative overflow-hidden"
+        style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.6)" }}
+      >
+        {/* Modal header with gold accent bar */}
+        <div className="h-[3px] w-full bg-gradient-to-r from-gold to-gold-dark"></div>
 
-      {/* Booking Details */}
-      <h3>
-        Property: <span>{data.property.title}</span>
-      </h3>
-      <p>{data.property.description}</p>
-      <h4>
-        Location: <span>{data.property.address}</span>
-      </h4>
-      <h4>
-        Duration:{" "}
-        <span>
-          {toMonthStr(data.booking.start.getMonth() + 1)}{" "}
-          {data.booking.start.getUTCDate()} {" - "}
-          {toMonthStr(data.booking.end.getMonth() + 1)}{" "}
-          {data.booking.end.getUTCDate()} {data.booking.end.getFullYear()}
-        </span>
-      </h4>
-      <div className="booking-modal-contact">
-        <h4>Contact Number:</h4>
-        <input
-          type="text"
-          className={
-            error == "contact"
-              ? "booking-modal-guests-input-error"
-              : "booking-modal-guests-input"
-          }
-          onChange={(e) => handleContactInput(e.target.value)}
-        />
-      </div>
-      <div className="booking-modal-guests">
-        <h4>Guests:</h4>
-        <div>
-          {data.booking.guestNames?.map((guest, index) => (
-            <input
-              value={guest}
-              key={index}
-              onChange={(e) => handleGuestInput(e.target.value, index)}
-              className={
-                index === emptyGuestName
-                  ? "booking-modal-guests-input-error"
-                  : "booking-modal-guests-input"
-              }
+        <div className="p-6">
+          {/* Title row */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="font-serif text-[20px] text-[#e8e6e1] leading-tight">
+                Booking Summary
+              </div>
+              <div className="text-[12px] text-muted-faint mt-0.5">
+                Review your stay details before confirming
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                setIsClosing(true);
+                action.onClose();
+              }}
+              className="w-8 h-8 rounded-full bg-white/[0.07] border border-white/[0.1] text-muted-faint cursor-pointer flex items-center justify-center text-[13px] hover:bg-white/[0.12] hover:text-[#e8e6e1] transition-all"
+            >
+              <IoMdClose />
+            </button>
+          </div>
+
+          {/* Property summary card */}
+          <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 mb-5 flex items-center gap-4">
+            <img
+              src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=80&h=80&fit=crop"
+              className="w-14 h-14 rounded-lg object-cover flex-shrink-0"
             />
-          ))}
-          <button onClick={handleAddGuest} disabled={emptyGuestName !== null}>
-            +
+            <div className="flex-1 min-w-0">
+              <div className="text-[14px] font-medium text-[#e8e6e1] truncate">
+                {data.property.title}
+              </div>
+              <div className="text-[12px] text-muted-faint mt-0.5">
+                📍 {data.property.address}
+              </div>
+            </div>
+            <div className="text-right flex-shrink-0">
+              <div className="text-[13px] font-semibold text-gold">
+                {formatPHP(data.property.price)}
+              </div>
+              <div className="text-[11px] text-muted-faint">per night</div>
+            </div>
+          </div>
+
+          {/* Stay duration row */}
+          <div className="grid grid-cols-3 gap-3 mb-5">
+            <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-3 col-span-1">
+              <div className="text-[10px] text-muted-faint uppercase tracking-widest mb-1">
+                Check-in
+              </div>
+              <div className="text-[13px] font-medium text-[#e8e6e1]">
+                {toMonthStr(data.booking.start.getMonth() + 1)}{" "}
+                {data.booking.start.getUTCDate()}
+              </div>
+              <div className="text-[11px] text-muted-faint">
+                {data.booking.start.getFullYear()}
+              </div>
+            </div>
+            <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-3 col-span-1 flex flex-col items-center justify-center">
+              <div className="text-[11px] text-muted-faint mb-1">Duration</div>
+              <div className="text-[18px] font-semibold text-gold leading-none">
+                {Math.ceil(
+                  (data.booking.end.getTime() - data.booking.start.getTime()) /
+                    (1000 * 3600 * 24),
+                )}
+              </div>
+              <div className="text-[11px] text-muted-faint mt-0.5">nights</div>
+            </div>
+            <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-3 col-span-1">
+              <div className="text-[10px] text-muted-faint uppercase tracking-widest mb-1">
+                Check-out
+              </div>
+              <div className="text-[13px] font-medium text-[#e8e6e1]">
+                {toMonthStr(data.booking.end.getMonth() + 1)}{" "}
+                {data.booking.end.getUTCDate()}
+              </div>
+              <div className="text-[11px] text-muted-faint">
+                {data.booking.end.getFullYear()}
+              </div>
+            </div>
+          </div>
+
+          {/* Contact number */}
+          <div className="mb-4">
+            <label className="block text-[11px] text-muted-dim uppercase tracking-[0.07em] mb-2">
+              Contact Number
+            </label>
+            <input
+              className={`s-input w-full bg-dark-900 border border-white/[0.1] rounded-xl px-4 py-3 text-[#e8e6e1] text-[13px] font-sans transition-colors ${
+                error === "contact" ? "border-red-500" : ""
+              }`}
+              placeholder="09XX XXX XXXX"
+              onChange={(e) => handleContactInput(e.target.value)}
+            />
+          </div>
+
+          {/* Guests */}
+          <div className="mb-5">
+            <label className="block text-[11px] text-muted-dim uppercase tracking-[0.07em] mb-2">
+              Guests
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {data.booking.guestNames?.map((guest, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center gap-2 bg-dark-900 border border-white/[0.08] rounded-[20px] py-1.5 pr-3 pl-1.5 text-[12px] text-muted ${
+                    index === emptyGuestName ? "border-red-500" : ""
+                  }`}
+                >
+                  <span>{guest}</span>
+                  <span
+                    className="text-muted-ghost cursor-pointer hover:text-muted-faint ml-0.5 text-[11px]"
+                    onClick={() => {
+                      action.updateBooking({
+                        ...data.booking,
+                        guestNames: data.booking.guestNames
+                          ? data.booking.guestNames.filter(
+                              (_, i) => i !== index,
+                            )
+                          : null,
+                      });
+                    }}
+                  >
+                    <IoMdClose />
+                  </span>
+                </div>
+              ))}
+              <button
+                onClick={handleAddGuest}
+                className="flex items-center gap-1.5 border border-dashed border-white/[0.15] rounded-[20px] px-3 py-1.5 text-[12px] text-muted-faint cursor-pointer bg-transparent font-sans hover:border-gold/40 hover:text-gold transition-all"
+                disabled={emptyGuestName !== null}
+              >
+                + Add guest
+              </button>
+            </div>
+          </div>
+
+          {/* Price breakdown */}
+          <div className="space-y-2 mb-4">
+            <div className="flex justify-between text-[13px]">
+              <span className="text-muted-faint">
+                {formatPHP(data.property.price)} ×{" "}
+                {Math.ceil(
+                  (data.booking.end.getTime() - data.booking.start.getTime()) /
+                    (1000 * 3600 * 24),
+                )}
+                {" nights"}
+              </span>
+              <span className="text-[#e8e6e1]">
+                {formatPHP(data.property.price * 2)}
+              </span>
+            </div>
+            <div className="flex justify-between text-[13px]">
+              <span className="text-muted-faint">Service fee</span>
+              <span className="text-[#e6e6e6]">₱0</span>
+            </div>
+          </div>
+
+          {/* Total */}
+          <div className="flex items-center justify-between bg-dark-900 border border-white/[0.07] rounded-xl px-4 py-3 mb-5">
+            <span className="text-[14px] font-medium text-[#e8e6e1]">
+              Total
+            </span>
+            <span className="font-serif text-[22px] text-gold">
+              {formatPHP(data.property.price * 2)}
+            </span>
+          </div>
+
+          {/* CTA */}
+          <button
+            className="w-full bg-gold text-dark-900 border-none rounded-xl py-[14px] text-[14px] font-semibold cursor-pointer hover:bg-gold-light transition-colors tracking-wide"
+            onClick={handleValidation}
+            disabled={error.trim() !== "" || emptyGuestName !== null}
+          >
+            Confirm Booking
           </button>
+          <p className="text-center text-[11px] text-muted-ghost mt-3">
+            You won't be charged yet · Free cancellation for 24h
+          </p>
         </div>
       </div>
-
-      {/* Booking Pricing */}
-      <div className="booking-request-pricing">
-        <h4>
-          Total: <span>{formatPHP(data.property.price)}</span>
-        </h4>
-      </div>
-
-      <button
-        className="booking-modal-proceed"
-        onClick={handleValidation}
-        disabled={error.trim() !== "" || emptyGuestName !== null}
-      >
-        Book Now
-      </button>
     </div>
   );
 };
 
-export default memo(BookingRequestModal);
+export default BookingRequestModal;

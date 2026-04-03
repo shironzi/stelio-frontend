@@ -3,7 +3,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { login } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserContext";
-import ToastNotif from "../../components/modals/ToastNotif";
 
 const Login = () => {
   const navigate = useNavigate();
