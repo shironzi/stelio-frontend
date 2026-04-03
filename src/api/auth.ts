@@ -51,12 +51,8 @@ export async function register(
 
 		return res;
 	} catch (err: any) {
-		const objects = err.response.data.messages;
-		const firstMessage = Object.values(objects)[0];
 		throw new Error(
-			typeof firstMessage === "string"
-				? firstMessage
-				: "Something went wrong.Please try again."
+			err.response.data
 		);
 	}
 }

@@ -51,6 +51,7 @@ const Register = () => {
     } catch (err: any) {
       e.preventDefault();
       setMessage(err.message);
+      console.log(err.message);
       setIsError(true);
     }
   };
@@ -76,8 +77,8 @@ const Register = () => {
   }, [navigate]);
 
   return (
-    <div className="s-screen bg-dark-800 min-h-screen h-full" id="sc-register">
-      <div className="flex items-center justify-center min-h-screen p-8">
+    <div className="min-h-[90vh] bg-dark-800" id="sc-register">
+      <div className="flex items-center justify-center p-8">
         <div className="bg-dark-700 border border-white/[0.09] rounded-[16px] px-10 py-9 w-full max-w-[440px]">
           <h1 className="font-serif text-[26px] text-[#e8e6e1] mb-1.5">
             Create account
@@ -87,10 +88,14 @@ const Register = () => {
           </p>
 
           {message && (
-            <h4 className={isError ? "error" : "success"}>
-              {message}{" "}
+            <h4
+              className={`p-4 rounded-md mb-3 ${isError ? "bg-red-100 text-red-700 border-l-4 border-red-500" : "bg-green-100 text-green-700 border-l-4 border-green-500"}`}
+            >
+              {message}
               {!isError && countdown > 0 && (
-                <span>Redirecting to login in {countdown}...</span>
+                <span className="ml-2 text-sm text-gray-600">
+                  Redirecting to login in {countdown}...
+                </span>
               )}
             </h4>
           )}

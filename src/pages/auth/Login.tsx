@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { login } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserContext";
+import ToastNotif from "../../components/modals/ToastNotif";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -49,17 +50,21 @@ const Login = () => {
   }, [navigate]);
 
   return (
-    <div className="s-screen bg-dark-800 min-h-screen h-full" id="sc-login">
+    <div className="h-[90vh] bg-dark-800 min-h-screen h-full" id="sc-login">
       <div className="flex items-center justify-center min-h-screen p-8">
         <div className="bg-dark-700 border border-white/[0.09] rounded-[16px] px-10 py-9 w-full max-w-[400px]">
           <h1 className="font-serif text-[26px] text-[#e8e6e1] mb-1.5">
             Welcome back
           </h1>
-          <p className="text-[13px] text-muted-faint mb-7">
+          <p className="text-[13px] text-muted-faint mb-5">
             Sign in to your Stelio account
           </p>
 
-          {error.length > 0 && <h4 className="error">{error}</h4>}
+          {error.length > 0 && (
+            <div className="border-l-4 border-red-500 text-red-500 p-2 bg-red-100">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={onSubmit}>
             <div className="mb-3">
