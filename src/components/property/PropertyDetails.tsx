@@ -4,8 +4,6 @@ import { MdOutlineBathroom, MdOutlineMeetingRoom } from "react-icons/md";
 
 import type { PropertyTypesView } from "../../pages/property/Propertytypes";
 
-import "@/styles/property/viewProperty.css";
-
 const PropertyDetails = ({ property }: { property: PropertyTypesView }) => {
   return (
     <div className="property-details">

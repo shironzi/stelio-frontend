@@ -19,7 +19,7 @@
   --color-muted-deep: #3a3d47;
 
   /* Fonts */
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
 }
 
@@ -46,81 +46,41 @@
   box-sizing: border-box;
 }
 
-body {
+/* Ensure full height for html and body */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  overflow-x: hidden; /* Avoid horizontal scroll */
+  overflow-y: auto; /* Allow vertical scrolling */
 }
 
-/* h1, h2, h3, h4, h5, p, li {
-  font-family: "Roboto";
+/* The container holding all the content, ensuring it doesn’t add extra height */
+.s-screen {
+  min-height: 100vh; /* Ensure it's at least the height of the viewport */
+  overflow-y: auto; /* Enable scroll if content overflows */
 }
 
-h1 { font-size: 42px; }
-
-h1, h2, h3, h4, h5, h6 {
-  color: #fff;
-  text-decoration: none;
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
 }
 
-li { text-decoration: none; }
-a { all: unset; cursor: pointer; } */
-
-/* 4. FORMS & UTILITIES */
-/* input {
-  background-color: transparent;
-  color: #fff;
-  border: 1px solid #fff;
-  padding: 10px 20px;
+::-webkit-scrollbar-track {
+  background: var(--color-dark-700); /* Darker background for the track */
+  border-radius: 10px; /* Optional: rounded corners for track */
 }
 
-input:focus {
-  outline: none;
-} */
-
-/* 5. CUSTOM COMPONENTS / UTILITY CLASSES */
-/* .container {
-  width: 85%;
-  margin: 0 auto;
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-gold); /* Color of the thumb */
+  border-radius: 10px; /* Optional: rounded corners for thumb */
+  border: 3px solid var(--color-dark-700); /* Optional: add a border around the thumb */
 }
 
-.card-container {
-  background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 12px;
-  padding: 10px 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-gold-light); /* Lighter color when hovered */
 }
 
-.card-container :is(h1, h2, h3, h4, h5) {
-  color: #000;
-} */
-
-/* Buttons */
-/* .btn-outline, .btn-success, .btn-danger, .btn-white-outline {
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: 0.2s;
+::-webkit-scrollbar-corner {
+  background: var(--color-dark-700); /* Color of the corner of the scrollbar */
 }
-
-.btn-outline { background: #fff; border: 1px solid #222; }
-.btn-outline:hover { background: #222; color: #fff; }
-
-.btn-white-outline { color: #fff; background: transparent; border: 1px solid #fff; }
-.btn-white-outline:hover { background: #fff; color: #222; }
-
-.btn-success { background: #2ecc71; border: none; color: #fff; }
-.btn-success:hover { background: #27ae60; }
-
-.btn-danger { background: #e74c3c; border: none; color: #fff; }
-.btn-danger:hover { background: #c0392b; }
-
-.btn-disable {
-  background: transparent;
-  color: #aaa;
-  opacity: 0.6;
-  border: 1px solid #dcdcdc;
-  cursor: default;
-} */

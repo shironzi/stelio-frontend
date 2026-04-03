@@ -19,43 +19,52 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
   });
 
   return (
-    <div className="property-card">
+    <div>
       <Link
         to={
           settings.mode === "home"
             ? `/property/${property.id}`
             : `/booking/${property.id}`
         }
+        className="block mb-4"
       >
-        <img
-          src={
-            Array.isArray(property.image) &&
-            typeof property.image[0] === "string"
-              ? property.image[0]
-              : ""
-          }
-          alt={property.title}
-        />
+        <div className="relative w-full h-[180px] overflow-hidden">
+          <img
+            src={
+              Array.isArray(property.image) &&
+              typeof property.image[0] === "string"
+                ? property.image[0]
+                : ""
+            }
+            alt={property.title}
+            className="w-full h-full object-cover"
+          />
+
+          {/* Category Badge (Top Left) */}
+          <div className="absolute top-2 left-2 bg-gold/90 text-dark-900 text-xs px-2 py-1 rounded tracking-wide">
+            CONDO
+          </div>
+        </div>
 
         {/* Property Details */}
-        <div className="property-info">
-          <h3>{property.title}</h3>
-          <h4
-            className={`status ${
-              property.status ? property.status.toLowerCase() : ""
-            }`}
-          >
-            {formatted} for {property.totalNights}{" "}
-            {property.totalNights ? "nights" : "night"}
-          </h4>
+        <div className="mx-4 my-2">
+          <h3 className="text-xl text-white">{property.title}</h3>
+          <h5 className="text-sm font-medium text-muted-faint mb-1 flex items-center space-x-2">
+            📍{property.address}
+          </h5>
+          <hr className="my-2 border-t-1 rounded-lg text-muted-faint" />
+          <h5 className="text-sm font-medium text-gold-light mb-2">
+            <span className="font-semibold">{formatted}</span>{" "}
+            <span className="text-muted-faint">/ night</span>
+          </h5>
         </div>
       </Link>
 
-      {/* Manage Property actions */}
+      {/* Manage Property Actions */}
       {settings.mode === "manage" && (
-        <div className="property-actions">
+        <div className="flex gap-2 mt-4">
           <button
-            className="property-actions-buttons edit-btn"
+            className="edit-btn p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
             onClick={() =>
               actions.onEdit && property.id && actions.onEdit(property.id)
             }
@@ -63,7 +72,7 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
             <MdEdit />
           </button>
           <button
-            className="property-actions-buttons delete-btn"
+            className="delete-btn p-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
             onClick={() =>
               actions.onDelete && property.id && actions.onDelete(property.id)
             }

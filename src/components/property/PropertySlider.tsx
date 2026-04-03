@@ -1,4 +1,3 @@
-import "@/styles/property/propertySlider.css";
 import { useState, useMemo } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { GoDot, GoDotFill } from "react-icons/go";
@@ -8,7 +7,7 @@ const PropertySlider = ({ images }: { images: string[] | File[] }) => {
 
   const imageUrls = useMemo(() => {
     return images.map((image) =>
-      image instanceof File ? URL.createObjectURL(image) : image
+      image instanceof File ? URL.createObjectURL(image) : image,
     );
   }, [images]);
 
@@ -33,43 +32,45 @@ const PropertySlider = ({ images }: { images: string[] | File[] }) => {
   };
 
   return (
-    <div className="property-slider-container">
-      <button
-        className={`property-slider-button property-slider-prev ${
-          currentImage === 0 ? "property-slider-button-active" : ""
-        }`}
-        onClick={onPrev}
-        disabled={currentImage === 0}
-      >
-        <MdNavigateBefore width={24} height={24} />
-      </button>
-      <img
-        src={imageUrls[currentImage]}
-        alt={`property-image-${currentImage}`}
-      />
-      <button
-        className={`property-slider-button property-slider-next ${
-          currentImage === images.length - 1
-            ? "property-slider-button-active"
-            : ""
-        }`}
-        onClick={onNext}
-        disabled={currentImage === images.length - 1}
-      >
-        <MdNavigateNext width={24} height={24} />
-      </button>
-
-      <div className="property-slider-image-index">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => onImageNavigation(index)}
-            className={index === currentImage ? "active" : ""}
+    <div className="relative bg-dark-800 min-h-[520px]">
+      {/* Hero image section */}
+      <div className="relative w-full h-[320px] bg-dark-700 overflow-hidden">
+        <img
+          src={imageUrls[currentImage]}
+          alt={`property-image-${currentImage}`}
+          className="w-full h-full object-cover opacity-[0.85]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[rgba(21,24,32,0.95)]"></div>
+        <div className="absolute top-1/2 left-4 right-4 flex justify-between -translate-y-1/2">
+          <div
+            onClick={onPrev}
+            className="w-9 h-9 bg-dark-900/60 rounded-full flex items-center justify-center text-[14px] cursor-pointer text-[#e8e6e1] border border-white/[0.15]"
           >
-            {index === currentImage ? <GoDotFill /> : <GoDot />}
-          </button>
-        ))}
+            <MdNavigateBefore />
+          </div>
+          <div
+            onClick={onNext}
+            className="w-9 h-9 bg-dark-900/60 rounded-full flex items-center justify-center text-[14px] cursor-pointer text-[#e8e6e1] border border-white/[0.15]"
+          >
+            <MdNavigateNext />
+          </div>
+        </div>
+
+        {/* Dot navigation */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-[5px]">
+          {images.map((_, index) => (
+            <div
+              key={index}
+              onClick={() => onImageNavigation(index)}
+              className={`s-dot w-[5px] h-[5px] rounded-full bg-white/30 cursor-pointer ${
+                index === currentImage ? "bg-white" : ""
+              }`}
+            ></div>
+          ))}
+        </div>
       </div>
+
+      {/* Optional: Any additional content (like property details) can be added here */}
     </div>
   );
 };

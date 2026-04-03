@@ -1,13 +1,10 @@
-import { FaImage } from "react-icons/fa6";
-
-import "@/styles/property/propertyImage.css";
+import { FaImage, FaPencil, FaRegTrashCan } from "react-icons/fa6";
 import { useProperty } from "../../context/PropertyContext";
 import { type ChangeEvent, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const PropertyImages = () => {
   const navigate = useNavigate();
-
   const { id } = useParams();
   const { data, setData } = useProperty();
   const [hasError, setHasError] = useState<boolean>(false);
@@ -20,8 +17,6 @@ const PropertyImages = () => {
         ...prev,
         image: [...prev.image, image],
       }));
-
-      console.log(data);
     }
   };
 
@@ -32,7 +27,7 @@ const PropertyImages = () => {
 
   const handleEditImage = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     if (e.target.files && e.target.files[0]) {
       const updatedFile = e.target.files[0];
@@ -52,63 +47,122 @@ const PropertyImages = () => {
     }
 
     setHasError(false);
-    navigate(`/property/edit/review/${id}`);
+    if (id) {
+      navigate(`/property/edit/review/${id}`);
+      return;
+    }
+
+    navigate(`/property/review`);
   };
 
   const handleBack = () => {
+    if (id) {
+      navigate(`/property/edit/info/${id}`);
+      return;
+    }
     navigate("/property/form");
   };
 
   return (
-    <div className="property-image-container">
-      <div className="image-grid">
-        {hasError && <h2>{errorMessage}</h2>}
+    <div className="h-[90vh] flex flex-col bg-dark-800" id="sc-add">
+      <div className="p-8 flex-grow">
+        <div className="flex items-center justify-between mb-5">
+          <h1 className="font-serif text-[20px] text-[#e8e6e1]">
+            Add Property Images
+          </h1>
+        </div>
 
-        {data.image.map((file, index) => (
-          <div key={index} className="image-card">
-            <img
-              src={
-                typeof file === "string"
-                  ? file
-                  : URL.createObjectURL(file as File)
-              }
-              alt={`preview-${index}`}
-            />
-            <div className="image-actions">
-              <button onClick={() => handleRemoveImage(index)}>🗑️</button>
-              <label>
-                ✏️
-                <input
-                  type="file"
-                  accept="image/*"
-                  hidden
-                  onChange={(e) => handleEditImage(e, index)}
-                  required
-                />
-              </label>
+        <div className="grid place-items-center mb-7 mx-auto">
+          <div className="flex items-center mb-2">
+            <div className="w-10 h-10 rounded-full border-[1.5px] border-gold bg-gold text-dark-900 flex items-center justify-center text-[11px] font-medium">
+              ✓
+            </div>
+            <div className="w-10 h-px bg-gold"></div>
+            <div className="w-10 h-10 rounded-full border-[1.5px] border-gold bg-gold/10 text-gold flex items-center justify-center text-[11px] font-medium">
+              2
+            </div>
+            <div className="w-10 h-px bg-white/10"></div>
+            <div className="w-10 h-10 rounded-full border-[1.5px] border-white/[0.15] bg-dark-700 text-muted-faint flex items-center justify-center text-[11px] font-medium">
+              3
             </div>
           </div>
-        ))}
+          <div className="text-[11px] text-muted-faint mt-1.5">
+            Step 2 of 3 — Photos
+          </div>
+        </div>
 
-        <label className="add-image-card">
-          <FaImage size={50} color="#fff" />
-          <h4>+ Add Image</h4>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            hidden
-            onChange={handleAddImage}
-          />
-        </label>
+        {hasError && (
+          <div className="text-red-500 text-sm font-medium mb-4 ">
+            {errorMessage}
+          </div>
+        )}
+
+        {/* Grid for Images */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {data.image.map((file, index) => (
+            <div
+              key={index}
+              className="image-card relative rounded-lg overflow-hidden bg-dark-700 border border-white/[0.1] shadow-md hover:shadow-lg"
+            >
+              <img
+                src={
+                  typeof file === "string"
+                    ? file
+                    : URL.createObjectURL(file as File)
+                }
+                alt={`preview-${index}`}
+                className="w-full h-[200px] object-cover"
+              />
+              <div className="absolute top-0 right-0 p-2 flex gap-2">
+                <button
+                  onClick={() => handleRemoveImage(index)}
+                  className="bg-red-500 w-10 h-10 text-white p-2 rounded-full hover:bg-red-600 transition-colors flex items-center justify-center"
+                  title="Remove image"
+                >
+                  <FaRegTrashCan className="text-xl" />
+                </button>
+                <label className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+                  <FaPencil color="white" className=" hover:text-gray-100" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => handleEditImage(e, index)}
+                    aria-label="Choose an image to upload"
+                  />
+                </label>
+              </div>
+            </div>
+          ))}
+
+          {/* Add Image Button */}
+          <label className="add-image-card flex flex-col items-center justify-center gap-2 p-5 rounded-lg bg-dark-700 border border-white/[0.15] hover:bg-dark-600 transition-colors cursor-pointer">
+            <FaImage size={50} color="#fff" />
+            <h4 className="text-[#e6e6e1] text-sm">+ Add Image</h4>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              hidden
+              onChange={handleAddImage}
+            />
+          </label>
+        </div>
       </div>
 
-      <div className="property-button-container">
-        <button onClick={handleBack} className="back-button btn-white-outline">
-          Prev
+      {/* Navigation buttons */}
+      <div className="flex gap-2.5 mt-auto justify-center mb-8">
+        <button
+          onClick={handleBack}
+          className="bg-transparent border border-white/[0.15] text-muted rounded-[9px] px-6 py-[11px] text-[13px] font-sans cursor-pointer hover:bg-white/[0.04] transition-colors"
+        >
+          ← Back
         </button>
-        <button onClick={handleNavigation} className="btn-white-outline">
-          Next
+        <button
+          onClick={handleNavigation}
+          className="bg-gold border-none text-dark-900 rounded-[9px] px-7 py-[11px] text-[13px] font-semibold font-sans cursor-pointer hover:bg-gold-light transition-colors"
+        >
+          Next → Review
         </button>
       </div>
     </div>

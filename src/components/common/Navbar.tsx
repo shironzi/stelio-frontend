@@ -3,16 +3,12 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { logout, verifyToken } from "../../api/auth";
 import { useUserData } from "../../context/UserContext";
-import { TbMessage } from "react-icons/tb";
+import { LuMessageSquareText } from "react-icons/lu";
 import NavbarMenu from "./NavbarMenu";
-
 import { becomeHost } from "../../api/user";
-
-import "@/styles/Navbar.css";
 
 export function Navbar() {
   const navigate = useNavigate();
-
   const { userData, setUserData } = useUserData();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
@@ -66,50 +62,55 @@ export function Navbar() {
   }, [setUserData]);
 
   return (
-    <nav>
+    <nav className="bg-dark-900 border-b border-white/[0.08] flex items-center justify-between px-8 h-[10vh] sticky top-0 z-50">
       {/* Logo */}
-      <Link to={"/"} className="logo link">
+      <Link
+        to={"/"}
+        className="font-serif text-[28px] font-medium tracking-widest text-[#e8e6e1] transition-all duration-300 ease-in-out hover:text-[#00ADB5]"
+        style={{ fontFamily: "Bristol" }}
+      >
         STELIO
       </Link>
-      {/* Navigations
-      <div className="nav-mid">
-        <Link to={"/"} className="link">
-          Homes
-        </Link>
-        <Link to={"/experience"} className="link">
-          Experience
-        </Link>
-        <Link to={"./services"} className="link">
-          Services
-        </Link>
-      </div> */}
+
       {/* User Menu */}
-      <div className="nav-account">
+      <div className="flex items-center gap-2">
         {userData.isAuthenticated ? (
           <>
-            {userData.role.toLocaleLowerCase() === "renter" && (
-              <button className="nav-renter" onClick={handleBecomeHost}>
+            {userData.role.toLowerCase() === "renter" && (
+              <button
+                onClick={handleBecomeHost}
+                className="bg-white/[0.06] border border-white/[0.12] text-[#e8e6e1] rounded-lg px-[14px] py-[7px] text-[13px] cursor-pointer hover:bg-white/10 transition-colors"
+              >
                 Want to become a host?
               </button>
             )}
             {/* Message Icon */}
-            <Link to={"/messages/"} className="nav-message">
-              <TbMessage size={30} color="#000" />
+            <Link
+              to={"/messages/"}
+              className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-muted text-[15px]"
+            >
+              <LuMessageSquareText size={24} color="white" />
             </Link>
 
-            {/* Profile Icon */}
+            {/* Profile Icon (Dropdown) */}
             <div
-              className="dropdown"
+              className="relative"
               onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
-              <BsPersonCircle size={30} className="dropdown-icon" />
+              <BsPersonCircle
+                size={30}
+                className="text-[#e8e6e1] cursor-pointer"
+              />
               {isDropdownOpen && (
                 <NavbarMenu userData={userData} logout={handleLogout} />
               )}
             </div>
           </>
         ) : (
-          <Link to={"/login"} className="authentication link">
+          <Link
+            to={"/login"}
+            className="text-[#e8e6e1] text-[13px] font-medium"
+          >
             Login / Signup
           </Link>
         )}

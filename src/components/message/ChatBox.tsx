@@ -1,4 +1,3 @@
-import "@/styles/message/chatbox.css";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMessageById, sendMessage } from "../../api/message";
@@ -13,19 +12,15 @@ export default function ChatBox() {
   const [error, setError] = useState<string | null>(null);
   const [draftMessage, setDraftMessage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
   const baseTextareaHeightRef = useRef<number | null>(null);
-
   const chatboxMessagesRef = useRef<HTMLDivElement | null>(null); // Reference for chatbox messages container
 
   const fetchMessages = async () => {
     if (!id) return;
     setError(null);
-
     try {
       const res = await getMessageById(id);
       setMessages(res?.messages ?? []);
-      console.log(res.messages);
     } catch {
       setError("Failed to load messages");
       setMessages([]);
@@ -37,13 +32,12 @@ export default function ChatBox() {
     fetchMessages();
   }, [id]);
 
-  // Scroll to the bottom when messages or the component changes
   useEffect(() => {
     const container = chatboxMessagesRef.current;
     if (container) {
       container.scrollTop = container.scrollHeight; // Scroll to the bottom
     }
-  }, [messages]); // Run this effect whenever the messages array changes (e.g., after fetching messages or sending a new one)
+  }, [messages]);
 
   useLayoutEffect(() => {
     const el = textareaRef.current;
@@ -65,8 +59,6 @@ export default function ChatBox() {
     if (res?.success) {
       setDraftMessage("");
       setMessages((message) => [...message, res?.message]);
-    } else {
-      console.log("send message failed");
     }
   };
 
@@ -77,28 +69,14 @@ export default function ChatBox() {
     }
   };
 
-  useLayoutEffect(() => {
-    const el = textareaRef.current;
-    if (!el) return;
-
-    const baseHeight = baseTextareaHeightRef.current;
-    if (baseHeight === null) return;
-
-    // Always measure overflow against the collapsed height, otherwise
-    // scrollHeight will match the expanded height and "stick" expanded.
-    el.style.height = `${baseHeight}px`;
-    const needsExpand = el.scrollHeight > baseHeight + 1;
-
-    setIsExpanded((prev) => (prev === needsExpand ? prev : needsExpand));
-    el.style.height = needsExpand ? "50px" : `${baseHeight}px`;
-    el.style.overflowY = needsExpand ? "auto" : "hidden";
-  }, [draftMessage]);
-
   return (
-    <div className="chat-box">
-      {error && <h5 className="chatbox-error">{error}</h5>}
+    <div className="flex flex-col flex-1 p-5 gap-3">
+      {error && <h5 className="chatbox-error text-red-500">{error}</h5>}
 
-      <div ref={chatboxMessagesRef} className="chatbox-messages">
+      <div
+        ref={chatboxMessagesRef}
+        className="chatbox-messages overflow-y-auto flex-1 flex flex-col gap-1.5"
+      >
         {messages.map((message) => (
           <MessageComponent
             key={message.id}
@@ -108,21 +86,24 @@ export default function ChatBox() {
         ))}
       </div>
 
-      <form className="chat-box-input-container" onSubmit={handleSubmit}>
+      <form
+        className="chat-box-input-container flex items-center gap-3"
+        onSubmit={handleSubmit}
+      >
         <textarea
           ref={textareaRef}
-          className={
-            isExpanded
-              ? "chatbox-textarea chatbox-textarea--expanded"
-              : "chatbox-textarea"
-          }
+          className={`s-msg-input bg-dark-900 border border-white/[0.08] rounded-lg px-[14px] py-[9px] text-white text-[12px] font-sans flex-1`}
+          placeholder="Type a message..."
           value={draftMessage}
           onChange={(e) => setDraftMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          rows={1}
-          cols={50}
         />
-        <button type="submit">Send</button>
+        <button
+          type="submit"
+          className="w-[38px] h-[38px] bg-gold rounded-full text-dark-900 flex items-center justify-center cursor-pointer"
+        >
+          →
+        </button>
       </form>
     </div>
   );

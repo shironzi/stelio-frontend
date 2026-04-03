@@ -28,28 +28,37 @@ const MessageComponent = ({
   };
 
   return (
-    <div
-      className={
-        isOwn
-          ? "chatbox-row chatbox-row--own"
-          : "chatbox-row chatbox-row--other"
-      }
-    >
+    <div className={`flex ${isOwn ? "justify-end" : "justify-start"} gap-2`}>
+      {/* Message Bubble */}
       <div
-        className={
+        className={`${
           isOwn
-            ? "chatbox-bubble chatbox-bubble--own"
-            : "chatbox-bubble chatbox-bubble--other"
-        }
+            ? "bg-gold/20 border border-gold/25 text-[#e8e6e1] rounded-xl p-[14px] max-w-[300px] text-[13px] leading-[1.5]"
+            : "bg-dark-700 border border-gold/25 text-white rounded-xl p-[14px] max-w-[300px] text-[13px] leading-[1.5]"
+        }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {!isOwn && <h5 className="chatbox-name">{message.name}</h5>}
+        {/* Sender's Name (Only for incoming messages) */}
+        {!isOwn && (
+          <h5 className="font-medium text-[#e8e6e1] text-[13px] mb-1">
+            {message.name}
+          </h5>
+        )}
+
+        {/* Message Content */}
         {messageLines.map((line, index) => (
-          <p key={index}>{line}</p>
+          <p key={index} className="mb-1">
+            {line}
+          </p>
         ))}
 
-        <h6 className="chatbox-time">{showTime && timeText}</h6>
+        {/* Time Display (Appears on hover) */}
+        <h6
+          className={`text-[10px] text-muted-faint ${showTime ? "block" : "hidden"}`}
+        >
+          {timeText}
+        </h6>
       </div>
     </div>
   );
