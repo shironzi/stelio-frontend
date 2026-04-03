@@ -1,3 +1,29 @@
+@import "tailwindcss";
+
+/* 1. TAILWIND CONFIGURATION (v4 CSS-first approach) */
+@theme {
+  /* Colors */
+  --color-gold: #c9a96e;
+  --color-gold-light: #d9b87e;
+  --color-gold-dark: #a07840;
+
+  --color-dark-900: #0d0f14;
+  --color-dark-800: #151820;
+  --color-dark-700: #1c2030;
+  --color-dark-600: #2a2d3a;
+
+  --color-muted: #b0ae9a;
+  --color-muted-dim: #8a8880;
+  --color-muted-faint: #6b6a64;
+  --color-muted-ghost: #4a4d57;
+  --color-muted-deep: #3a3d47;
+
+  /* Fonts */
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+/* 2. CUSTOM FONTS */
 @font-face {
   font-family: "Roboto";
   src: url("../fonts/Roboto.ttf");
@@ -8,6 +34,7 @@
   src: url("../fonts/Bristol.otf");
 }
 
+/* 3. CSS VARIABLES & BASE STYLES */
 :root {
   --primary: #222831;
   --secondary: #393E46;
@@ -15,37 +42,32 @@
   --background: #EEEEEE;
 }
 
-*,
-*::before,
-*::after {
+*, ::before, ::after {
   box-sizing: border-box;
 }
 
 body {
-  background-color: #222831;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  height: 100vh;
 }
 
-h1, h2, h3, h4, h5, p, li {
+/* h1, h2, h3, h4, h5, p, li {
   font-family: "Roboto";
 }
 
-li {
-  text-decoration: none;
-}
-
-h1 {
-  font-size: 42px;
-}
+h1 { font-size: 42px; }
 
 h1, h2, h3, h4, h5, h6 {
   color: #fff;
   text-decoration: none;
 }
 
-input {
+li { text-decoration: none; }
+a { all: unset; cursor: pointer; } */
+
+/* 4. FORMS & UTILITIES */
+/* input {
   background-color: transparent;
   color: #fff;
   border: 1px solid #fff;
@@ -54,43 +76,12 @@ input {
 
 input:focus {
   outline: none;
-  box-shadow: none;
-}
+} */
 
-/* Colors */
-.black {
-  color: #484848
-}
-
-.white {
-  color: #fff;
-}
-
-.primary {
-  color: #FF5A5F;
-}
-
-.secondary{
-  color: #B08D57;
-}
-
-.background_white {
-  background-color: #fff;
-}
-
-/* text align */
-.text-center {
-  text-align: center;
-}
-
-.container {
+/* 5. CUSTOM COMPONENTS / UTILITY CLASSES */
+/* .container {
   width: 85%;
   margin: 0 auto;
-}
-
-.back-button {
-  border: #B08D57 1px solid;
-  background-color: transparent;
 }
 
 .card-container {
@@ -101,18 +92,12 @@ input:focus {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card-container h1,
-.card-container h2,
-.card-container h3,
-.card-container h4,
-.card-container h5 {
+.card-container :is(h1, h2, h3, h4, h5) {
   color: #000;
-}
+} */
 
-.btn-outline,
-.btn-success,
-.btn-danger,
-.btn-white-outline {
+/* Buttons */
+/* .btn-outline, .btn-success, .btn-danger, .btn-white-outline {
   padding: 10px 18px;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -120,46 +105,17 @@ input:focus {
   transition: 0.2s;
 }
 
-.btn-outline {
-  background: #fff;
-  border: 1px solid #222;
-}
+.btn-outline { background: #fff; border: 1px solid #222; }
+.btn-outline:hover { background: #222; color: #fff; }
 
-.btn-outline:hover {
-    background: #222;
-    color: #fff;
-}
+.btn-white-outline { color: #fff; background: transparent; border: 1px solid #fff; }
+.btn-white-outline:hover { background: #fff; color: #222; }
 
-.btn-white-outline {
-  color: #fff;
-  background: transparent;
-  border: 1px solid #fff;
-}
+.btn-success { background: #2ecc71; border: none; color: #fff; }
+.btn-success:hover { background: #27ae60; }
 
-.btn-white-outline:hover {
-    background: #fff;
-    color: #222;
-}
-
-/* Approve Button */
-.btn-success {
-    background: #2ecc71;
-    border: none;
-    color: #fff;
-}
-.btn-success:hover {
-    background: #27ae60;
-}
-
-/* Decline Button */
-.btn-danger {
-    background: #e74c3c;
-    border: none;
-    color: #fff;
-}
-.btn-danger:hover {
-    background: #c0392b;
-}
+.btn-danger { background: #e74c3c; border: none; color: #fff; }
+.btn-danger:hover { background: #c0392b; }
 
 .btn-disable {
   background: transparent;
@@ -167,13 +123,4 @@ input:focus {
   opacity: 0.6;
   border: 1px solid #dcdcdc;
   cursor: default;
-}
-
-.btn-disable:hover {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-a {
-  all: unset;
-  cursor: pointer;
-}
+} */
