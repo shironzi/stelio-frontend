@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import "@/styles/auth.css";
 import { register } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -31,8 +30,6 @@ const Register = () => {
     setMessage("");
     setCountdown(0);
 
-    console.log(password);
-
     if (password !== confirmPassword) {
       setMessage("Password does not match.");
       return;
@@ -50,7 +47,6 @@ const Register = () => {
       setIsError(false);
       setMessage(res?.data?.message ?? "Registration successful");
 
-      // Start countdown (5 seconds)
       setCountdown(5);
     } catch (err: any) {
       e.preventDefault();
@@ -59,7 +55,6 @@ const Register = () => {
     }
   };
 
-  // Countdown effect
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => {
@@ -72,115 +67,146 @@ const Register = () => {
     }
   }, [countdown, isError, message, navigate]);
 
-  // Redirect to homepage, if logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
       navigate("/");
-      console.log(token);
     }
-  }, []);
+  }, [navigate]);
 
   return (
-    <div>
-      <h1 className="text-center">Register</h1>
+    <div className="s-screen bg-dark-800 min-h-screen h-full" id="sc-register">
+      <div className="flex items-center justify-center min-h-screen p-8">
+        <div className="bg-dark-700 border border-white/[0.09] rounded-[16px] px-10 py-9 w-full max-w-[440px]">
+          <h1 className="font-serif text-[26px] text-[#e8e6e1] mb-1.5">
+            Create account
+          </h1>
+          <p className="text-[13px] text-muted-faint mb-7">
+            Join Stelio and start exploring
+          </p>
 
-      {message && (
-        <h4 className={isError ? "error" : "success"}>
-          {message}{" "}
-          {!isError && countdown > 0 && (
-            <span>Redirecting to login in {countdown}...</span>
+          {message && (
+            <h4 className={isError ? "error" : "success"}>
+              {message}{" "}
+              {!isError && countdown > 0 && (
+                <span>Redirecting to login in {countdown}...</span>
+              )}
+            </h4>
           )}
-        </h4>
-      )}
 
-      <form onSubmit={onSubmit} className="registration_container auth-form">
-        <div className="name_container">
-          <input
-            type="text"
-            value={firstname}
-            onInput={(e) => setFirstname((e.target as HTMLInputElement).value)}
-            placeholder="Firstname"
-            className="input"
-            required
-          />
-          <input
-            type="text"
-            value={lastname}
-            onInput={(e) => setLastname((e.target as HTMLInputElement).value)}
-            placeholder="Lastname"
-            className="input"
-            required
-          />
+          <form onSubmit={onSubmit} className="grid gap-3">
+            <div className="grid grid-cols-2 gap-2.5 mb-3">
+              <div>
+                <div className="text-[11px] text-white uppercase tracking-[0.07em] mb-1.5">
+                  First name
+                </div>
+                <input
+                  type="text"
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.currentTarget.value)}
+                  placeholder="First name"
+                  className="s-input w-full bg-dark-900 border border-white/10 rounded-lg px-[14px] py-[11px] text-[#e8e6e1] text-[13px] font-sans transition-colors"
+                  required
+                />
+              </div>
+              <div>
+                <div className="text-[11px] text-white uppercase tracking-[0.07em] mb-1.5">
+                  Last name
+                </div>
+                <input
+                  type="text"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.currentTarget.value)}
+                  placeholder="Last name"
+                  className="s-input w-full bg-dark-900 border border-white/10 rounded-lg px-[14px] py-[11px] text-[#e8e6e1] text-[13px] font-sans transition-colors"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <div className="text-[11px] text-white uppercase tracking-[0.07em] mb-1.5">
+                Email
+              </div>
+              <input
+                className="s-input w-full bg-dark-900 border border-white/10 rounded-lg px-[14px] py-[11px] text-[#e8e6e1] text-[13px] font-sans transition-colors"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.currentTarget.value)}
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <div className="text-[11px] text-white uppercase tracking-[0.07em] mb-1.5">
+                Password
+              </div>
+              <div className="relative">
+                <input
+                  className="s-input w-full bg-dark-900 border border-white/10 rounded-lg px-[14px] py-[11px] pr-10 text-[#e8e6e1] text-[13px] font-sans transition-colors"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.currentTarget.value)}
+                  placeholder="Password"
+                  required
+                />
+                <span
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-faint text-[14px] cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <FaEye color="#ffffff" />
+                  ) : (
+                    <FaEyeSlash color="#ffffff" />
+                  )}
+                </span>
+              </div>
+            </div>
+
+            <div className="mb-5">
+              <div className="text-[11px] text-white uppercase tracking-[0.07em] mb-1.5">
+                Confirm Password
+              </div>
+              <div className="relative">
+                <input
+                  className="s-input w-full bg-dark-900 border border-white/10 rounded-lg px-[14px] py-[11px] pr-10 text-[#e8e6e1] text-[13px] font-sans transition-colors"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+                  placeholder="Confirm password"
+                  required
+                />
+                <span
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-faint text-[14px] cursor-pointer"
+                  onClick={toggleConfirmPasswordVisibility}
+                >
+                  {showConfirmPassword ? (
+                    <FaEye color="#ffffff" />
+                  ) : (
+                    <FaEyeSlash color="#ffffff" />
+                  )}
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-gold text-dark-900 border-none rounded-[10px] py-[13px] text-[14px] font-semibold font-sans cursor-pointer hover:bg-gold-light transition-colors"
+            >
+              Create account
+            </button>
+
+            <div className="text-center text-[12px] text-muted-faint mt-3">
+              Already have an account?{" "}
+              <Link to="/login" className="text-gold cursor-pointer">
+                Sign in →
+              </Link>
+            </div>
+          </form>
         </div>
-
-        <input
-          className="input"
-          type="email"
-          name="email"
-          value={email}
-          onInput={(e) => setEmail((e.target as HTMLInputElement).value)}
-          placeholder="Email"
-          required
-        />
-
-        <div className="password_container">
-          <input
-            className="password_input"
-            name="passwordInput"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onInput={(e) => setPassword((e.target as HTMLInputElement).value)}
-            placeholder="Password"
-            required
-          />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="password_visibility"
-          >
-            {showPassword ? (
-              <FaEye color="#e0e0e0" size={16} />
-            ) : (
-              <FaEyeSlash color="#e0e0e0" size={16} />
-            )}
-          </button>
-        </div>
-
-        <div className="password_container">
-          <input
-            className="password_input"
-            name="passwordInput"
-            type={showConfirmPassword ? "text" : "password"}
-            value={confirmPassword}
-            onInput={(e) =>
-              setConfirmPassword((e.target as HTMLInputElement).value)
-            }
-            placeholder="Confirm Password"
-            required
-          />
-          <button
-            type="button"
-            onClick={toggleConfirmPasswordVisibility}
-            className="password_visibility"
-          >
-            {showConfirmPassword ? (
-              <FaEye color="#e0e0e0" size={16} />
-            ) : (
-              <FaEyeSlash color="#e0e0e0" size={16} />
-            )}
-          </button>
-        </div>
-
-        <Link to="/login" className="auth-redirect">
-          <h4>Have an account?</h4>
-        </Link>
-
-        <button className="auth-button" type="submit">
-          Register
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
