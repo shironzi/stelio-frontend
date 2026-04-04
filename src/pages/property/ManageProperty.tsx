@@ -93,9 +93,9 @@ const ManageProperty = () => {
               >
                 <img
                   src={
-                    typeof property.image[0] === "string"
-                      ? property.image[0]
-                      : "https://via.placeholder.com/400x200"
+                    "url" in property.images[0]
+                      ? property.images[0].url
+                      : URL.createObjectURL(property.images[0])
                   }
                   alt={property.title || "Property Image"}
                   className="w-full h-[160px] object-cover block"

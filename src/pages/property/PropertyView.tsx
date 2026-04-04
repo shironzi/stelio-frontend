@@ -44,6 +44,8 @@ const PropertyView = () => {
         const res = await getPropertyById(id);
         if (res.success) {
           setProperty(res.property);
+
+          console.log(res.property);
         }
       } catch (e) {
         console.error("Failed to fetch property:", e);
@@ -79,9 +81,8 @@ const PropertyView = () => {
   return (
     <div className="s-screen bg-dark-800 min-h-[520px] relative" id="sc-detail">
       <div className="relative w-full h-[320px] bg-dark-700 overflow-hidden">
-        <PropertySlider images={property.image} />
+        <PropertySlider images={property.images} />
       </div>
-
       <div
         className="grid gap-6 px-8 py-6"
         style={{ gridTemplateColumns: "1fr 320px" }}

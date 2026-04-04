@@ -1,6 +1,6 @@
 import PropertySlider from "../../components/property/PropertySlider";
 import { propertyData, useProperty } from "../../context/PropertyContext";
-import { createProperty } from "../../api/property";
+import { createProperty, updateProperty } from "../../api/property";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,7 +22,9 @@ const PropertyReview = () => {
   const handleCreate = async () => {
     setIsFetching(true);
     try {
-      const res = await createProperty(data);
+      const res = id
+        ? await updateProperty(data, id)
+        : await createProperty(data);
       if (res.success) {
         setData(propertyData);
         navigate("/property/manage");
@@ -38,7 +40,7 @@ const PropertyReview = () => {
     <div className="h-[90vh] bg-dark-800 min-h-[520px] relative" id="sc-add">
       {/* Property Images Slider */}
       <div className="relative w-full h-[320px] bg-dark-700 overflow-hidden">
-        <PropertySlider images={data.image} />
+        <PropertySlider images={data.images} />
       </div>
 
       <div className="px-8 py-6">

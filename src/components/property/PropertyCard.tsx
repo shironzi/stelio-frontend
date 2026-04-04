@@ -23,7 +23,7 @@ const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
   };
 
   return (
-    <div className="relative bg-dark-700 rounded-[14px] border border-white/[0.07] overflow-hidden cursor-pointer hover:-translate-y-1 hover:border-gold/30 transition-all duration-200 w-[20vw] animate-cardFadeIn">
+    <div className="relative bg-dark-700 rounded-[14px] border border-white/[0.07] overflow-hidden cursor-pointer hover:-translate-y-1 hover:border-gold/30 transition-all duration-200 animate-cardFadeIn">
       {/* Favorite Button (Home Mode) */}
       {settings.mode === "home" && (
         <div

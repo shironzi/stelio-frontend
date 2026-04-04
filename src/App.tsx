@@ -33,7 +33,7 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <div className="container">
+      <div className="w-screen">
         <Routes>
           {/* Home Page */}
           <Route path="/" element={<Home />} />

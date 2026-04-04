@@ -1,15 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
-import { GoDot, GoDotFill } from "react-icons/go";
+import type { PropertyImage } from "../../context/PropertyContext";
 
-const PropertySlider = ({ images }: { images: string[] | File[] }) => {
+const PropertySlider = ({ images }: { images: File[] | PropertyImage[] }) => {
   const [currentImage, setCurrentImage] = useState(0);
 
-  const imageUrls = useMemo(() => {
-    return images.map((image) =>
-      image instanceof File ? URL.createObjectURL(image) : image,
-    );
-  }, [images]);
+  const imageUrls = images.map((image) =>
+    image instanceof File ? URL.createObjectURL(image) : image.url,
+  );
 
   const onNext = () => {
     if (currentImage < images.length - 1) {

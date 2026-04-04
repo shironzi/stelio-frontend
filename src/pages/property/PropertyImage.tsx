@@ -15,14 +15,22 @@ const PropertyImages = () => {
       const image = e.target.files[0];
       setData((prev) => ({
         ...prev,
-        image: [...prev.image, image],
+        images: [...prev.images, image],
       }));
     }
   };
 
   const handleRemoveImage = (index: number) => {
-    const newFiles = data.image.filter((_, i) => i !== index);
-    setData((prev) => ({ ...prev, image: newFiles }));
+    const newFiles = data.images.filter((_, i) => i !== index);
+    const removedImage = data.images[index];
+    setData((prev) => ({
+      ...prev,
+      images: newFiles,
+      deletedImages:
+        removedImage instanceof File
+          ? [...(prev.deletedImages ?? [])]
+          : [...(prev.deletedImages ?? []), removedImage.id],
+    }));
   };
 
   const handleEditImage = (
@@ -32,15 +40,15 @@ const PropertyImages = () => {
     if (e.target.files && e.target.files[0]) {
       const updatedFile = e.target.files[0];
       setData((prev) => {
-        const updatedImages = [...prev.image];
+        const updatedImages = [...prev.images];
         updatedImages[index] = updatedFile;
-        return { ...prev, image: updatedImages };
+        return { ...prev, images: updatedImages };
       });
     }
   };
 
   const handleNavigation = () => {
-    if (data.image.length < 1) {
+    if (data.images.length < 1) {
       setHasError(true);
       setErrorMessage("Property Image is required");
       return;
@@ -99,16 +107,16 @@ const PropertyImages = () => {
 
         {/* Grid for Images */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.image.map((file, index) => (
+          {data.images.map((image, index) => (
             <div
               key={index}
               className="image-card relative rounded-lg overflow-hidden bg-dark-700 border border-white/[0.1] shadow-md hover:shadow-lg"
             >
               <img
                 src={
-                  typeof file === "string"
-                    ? file
-                    : URL.createObjectURL(file as File)
+                  image instanceof File
+                    ? URL.createObjectURL(image as File)
+                    : image.url
                 }
                 alt={`preview-${index}`}
                 className="w-full h-[200px] object-cover"

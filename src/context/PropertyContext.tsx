@@ -7,6 +7,11 @@ import {
   useContext,
 } from "react";
 
+export type PropertyImage = {
+  id: string;
+  url: string;
+};
+
 export type PropertyTypes = {
   title: string;
   price: number;
@@ -18,7 +23,8 @@ export type PropertyTypes = {
   totalBath: number;
   city: string;
   propertyType: "APARTMENT" | "HOUSE" | "VILLA" | "CABIN";
-  image: File[];
+  images: (File | PropertyImage)[];
+  deletedImages: string[];
 };
 
 type PropertyContextType = {
@@ -37,7 +43,8 @@ export const propertyData: PropertyTypes = {
   totalBath: 1,
   city: "",
   propertyType: "APARTMENT",
-  image: [],
+  images: [],
+  deletedImages: [],
 };
 
 export const PropertyContext = createContext<PropertyContextType>({

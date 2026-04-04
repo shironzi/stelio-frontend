@@ -31,10 +31,11 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
         <div className="relative w-full h-[180px] overflow-hidden">
           <img
             src={
-              Array.isArray(property.image) &&
-              typeof property.image[0] === "string"
-                ? property.image[0]
-                : ""
+              property.images[0]
+                ? "url" in property.images[0]
+                  ? property.images[0].url
+                  : URL.createObjectURL(property.images[0])
+                : undefined
             }
             alt={property.title}
             className="w-full h-full object-cover"

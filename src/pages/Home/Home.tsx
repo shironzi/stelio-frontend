@@ -119,7 +119,7 @@ const Home = () => {
         </div>
 
         {/* Listings Grid */}
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(20vw,1fr))]">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
           {properties?.map((property) => (
             <PropertyCard
               key={property.id}
