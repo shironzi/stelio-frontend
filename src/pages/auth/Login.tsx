@@ -22,17 +22,19 @@ const Login = () => {
 
     try {
       const res = await login(email, password);
-      const userDetails = res.userDetails;
 
-      setUserData({
-        id: userDetails.id,
-        name: userDetails?.name,
-        email: userDetails?.email,
-        role: userDetails?.role,
-        isAuthenticated: true,
-      });
+      if (res.success) {
+        const userDetails = res.userDetails;
+        setUserData({
+          id: userDetails.id,
+          name: userDetails?.name,
+          email: userDetails?.email,
+          role: userDetails?.role,
+          isAuthenticated: true,
+        });
 
-      navigate("/");
+        navigate("/");
+      }
     } catch (err: any) {
       setError(err.message);
       e.preventDefault();
