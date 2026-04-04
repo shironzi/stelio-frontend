@@ -14,27 +14,40 @@ const Home = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [properties, setProperties] = useState<PropertyTypesView[]>([]);
 
+  const [updatingFavorites, setUpdatingFavorites] = useState<string[]>([]);
+
   const handleFavorite = async (propertyId: string) => {
     if (!userData.isAuthenticated) {
       navigate("/login");
+      return;
     }
 
-    const isFavorite = properties.find(
-      (property) => property.id === propertyId,
-    )?.isFavorite;
+    if (updatingFavorites.includes(propertyId)) return;
 
-    const res = !isFavorite
-      ? await addFavorite(propertyId)
-      : await removeFavorite(propertyId);
+    setUpdatingFavorites((prev) => [...prev, propertyId]);
 
-    if (res.success) {
-      setProperties((prev) =>
-        prev.map((property) =>
-          property.id === propertyId
-            ? { ...property, isFavorite: !property.isFavorite }
-            : property,
-        ),
-      );
+    try {
+      const isFavorite = properties.find(
+        (property) => property.id === propertyId,
+      )?.isFavorite;
+
+      const res = !isFavorite
+        ? await addFavorite(propertyId)
+        : await removeFavorite(propertyId);
+
+      if (res.success) {
+        setProperties((prev) =>
+          prev.map((property) =>
+            property.id === propertyId
+              ? { ...property, isFavorite: !property.isFavorite }
+              : property,
+          ),
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUpdatingFavorites((prev) => prev.filter((id) => id !== propertyId));
     }
   };
 
