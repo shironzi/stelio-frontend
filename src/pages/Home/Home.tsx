@@ -5,6 +5,7 @@ import type { PropertyTypesView } from "../../pages/property/Propertytypes";
 import { addFavorite, removeFavorite } from "../../api/favorite";
 import { useUserData } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import SkeletonLoading from "../../components/common/SkeletonLoading";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -55,11 +56,7 @@ const Home = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div>
-        <h1>Loading....</h1>
-      </div>
-    );
+    return <SkeletonLoading />;
   }
 
   return (
