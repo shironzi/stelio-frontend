@@ -24,7 +24,8 @@ import axios, { AxiosError } from 'axios'
 // Create axios instance with the base url
 const api = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
-    withCredentials: true
+    withCredentials: true,
+    timeout: 10 * 60 * 1000
 });
 
 /**
