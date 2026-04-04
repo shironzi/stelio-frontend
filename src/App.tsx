@@ -20,6 +20,7 @@ import PageNotFound from "./PageNotFound";
 import Bookings from "./pages/bookings/Bookings";
 import Messages from "./pages/messages/Messages";
 import MyBookings from "./pages/bookings/MyBookings";
+import Profile from "./pages/Profile";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");
@@ -66,6 +67,8 @@ function App() {
             {/* Messages Routes */}
             <Route path="/messages" element={<Messages />} />
             <Route path="/messages/:id" element={<Messages />} />
+
+            <Route path="/profile" element={<Profile />} />
 
             {/* Page not found */}
             <Route path="*" element={<PageNotFound />} />

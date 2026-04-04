@@ -1,5 +1,6 @@
 import PropertySlider from "../../components/property/PropertySlider";
 import { propertyData, useProperty } from "../../context/PropertyContext";
+import type { PropertyImage } from "../../context/PropertyContext";
 import { createProperty, updateProperty } from "../../api/property";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -40,7 +41,7 @@ const PropertyReview = () => {
     <div className="h-[90vh] bg-dark-800 min-h-[520px] relative" id="sc-add">
       {/* Property Images Slider */}
       <div className="relative w-full h-[320px] bg-dark-700 overflow-hidden">
-        <PropertySlider images={data.images} />
+        <PropertySlider images={data.images as File[] | PropertyImage[]} />
       </div>
 
       <div className="px-8 py-6">
