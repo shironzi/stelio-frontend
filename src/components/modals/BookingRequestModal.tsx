@@ -108,6 +108,7 @@ const BookingRequestModal = ({
       <div
         className="m-auto bg-dark-800 border border-white/[0.1] rounded-2xl w-[520px] max-w-[92%] relative overflow-hidden"
         style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.6)" }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Modal header with gold accent bar */}
         <div className="h-[3px] w-full bg-gradient-to-r from-gold to-gold-dark"></div>
