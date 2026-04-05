@@ -16,7 +16,7 @@ const MyBookings = () => {
     show: Boolean;
     message: string;
   }>({ show: false, message: "" });
-  const [selectedBooking, setSelectedBooking] = useState<Booking | null>();
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
   const handleCancelBooking = async (bookingId: String) => {
     const res = await cancelBooking(bookingId);
@@ -114,7 +114,7 @@ const MyBookings = () => {
               Track and manage all your reservations
             </p>
           </div>
-          
+
           <div className="flex gap-2">
             <button className="s-chip active px-[14px] py-[6px] rounded-[20px] border border-white/[0.12] text-[12px] text-muted bg-transparent hover:bg-gold/15 hover:border-gold hover:text-gold transition-all">
               All
@@ -200,10 +200,14 @@ const MyBookings = () => {
         {showPaymentModal && selectedBooking && (
           <PaymentModal
             booking={selectedBooking}
+            isOpen={showPaymentModal}
             action={{
               payment: handlePaymentBooking,
               coupon: handleCoupon(),
-              onClose: () => setShowPaymentModal(!showPaymentModal),
+              onClose: () => {
+                setShowPaymentModal(false);
+                setSelectedBooking(null);
+              },
             }}
           />
         )}

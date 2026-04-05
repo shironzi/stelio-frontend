@@ -8,7 +8,7 @@ import {
 
 import PropertySlider from "../../components/property/PropertySlider";
 import ToastNotif from "../../components/modals/ToastNotif";
-import { bookProperty } from "../../api/bookProperty";
+import { bookProperty, reserveProperty } from "../../api/bookProperty";
 import BookingRequestModal from "../../components/modals/BookingRequestModal";
 import { defaultBooking, type Booking } from "../bookings/BookingTypes";
 import DatePicker from "react-datepicker";
@@ -25,12 +25,25 @@ const PropertyView = () => {
   const [modalMessage, setModalMessage] = useState<string>("");
   const [requestBookingModal, setRequestBookingModal] =
     useState<boolean>(false);
+  const [reserveBookingModal, setReserveBookingModal] =
+    useState<boolean>(false);
 
   const onBook = async () => {
     if (!id) {
       return;
     }
     const res = await bookProperty(id, booking);
+
+    setRequestBookingModal(!requestBookingModal);
+    setModalMessage(res.message);
+    setShowModal(true);
+  };
+
+  const onReserve = async () => {
+    if (!id) {
+      return;
+    }
+    const res = await reserveProperty(id, booking);
 
     setRequestBookingModal(!requestBookingModal);
     setModalMessage(res.message);
@@ -127,49 +140,45 @@ const PropertyView = () => {
             </span>
           </div>
 
-          <div className="gap-6 w-full">
-            <div>
-              <label className="text-[#e8e6e1] text-[14px]">Check-in</label>
-              <div className="relative w-full">
-                {" "}
-                {/* Use w-full on the parent container */}
-                <DatePicker
-                  selected={booking.start}
-                  onChange={(date) => {
-                    if (!date) return;
-                    setBooking((prev) => ({ ...prev, start: date }));
-                  }}
-                  selectsStart
-                  startDate={booking.start}
-                  endDate={booking.end}
-                  placeholderText="Select date"
-                  minDate={new Date()}
-                  dateFormat="MMM d, yyyy"
-                  className="w-[280px] p-3 bg-transparent border border-white/20 rounded-[10px] text-[#e8e6e1] placeholder:text-muted-faint focus:outline-none focus:ring-2 focus:ring-gold"
-                />
-              </div>
+          <div className="grid grid-cols-2 border border-white/[0.12] rounded-[10px] overflow-hidden my-[14px]">
+            <div className="px-[14px] py-[10px] border-r border-white/[0.12]">
+              <label className="text-[10px] text-muted-faint uppercase tracking-[0.06em] mb-1">
+                Check-in
+              </label>
+              <DatePicker
+                selected={booking.start}
+                onChange={(date) => {
+                  if (!date) return;
+                  setBooking((prev) => ({ ...prev, start: date }));
+                }}
+                selectsStart
+                startDate={booking.start}
+                endDate={booking.end}
+                placeholderText="Select date"
+                minDate={new Date()}
+                dateFormat="MMM d, yyyy"
+                className="text-[13px] text-[#e8e6e1] outline-none cursor-pointer"
+              />
             </div>
 
-            <div>
-              <label className="text-[#e8e6e1] text-[14px]">Checkout</label>
-              <div className="relative w-full">
-                {" "}
-                {/* Ensure the parent div is w-full */}
-                <DatePicker
-                  selected={booking.end}
-                  onChange={(date) => {
-                    if (!date) return;
-                    setBooking((prev) => ({ ...prev, end: date }));
-                  }}
-                  selectsEnd
-                  startDate={booking.start}
-                  endDate={booking.end}
-                  minDate={booking.start || new Date()}
-                  placeholderText="Select date"
-                  dateFormat="MMM d, yyyy"
-                  className="w-[280px] p-3 bg-transparent border border-white/20 rounded-[10px] text-[#e8e6e1] placeholder:text-muted-faint focus:outline-none focus:ring-2 focus:ring-gold"
-                />
-              </div>
+            <div className="px-[14px] py-[10px] border-r border-white/[0.12]">
+              <label className="text-[10px] text-muted-faint uppercase tracking-[0.06em] mb-1">
+                Checkout
+              </label>
+              <DatePicker
+                selected={booking.end}
+                onChange={(date) => {
+                  if (!date) return;
+                  setBooking((prev) => ({ ...prev, end: date }));
+                }}
+                selectsEnd
+                startDate={booking.start}
+                endDate={booking.end}
+                minDate={booking.start || new Date()}
+                placeholderText="Select date"
+                dateFormat="MMM d, yyyy"
+                className="text-[13px] text-[#e8e6e1] outline-none cursor-pointer"
+              />
             </div>
           </div>
 
@@ -201,11 +210,11 @@ const PropertyView = () => {
             className="w-full bg-gold text-dark-900 border-none rounded-[10px] py-[13px] text-[14px] font-semibold cursor-pointer hover:bg-gold-light transition-colors mb-2"
             onClick={() => setRequestBookingModal(!requestBookingModal)}
           >
-            Rent
+            Book Now
           </button>
           <button
             className="w-full bg-transparent text-[#e8e6e1] border border-white/20 rounded-[10px] py-3 text-[14px] cursor-pointer hover:bg-white/[0.06] transition-colors"
-            onClick={() => setRequestBookingModal(!requestBookingModal)}
+            onClick={() => setReserveBookingModal(!reserveBookingModal)}
           >
             Reserve
           </button>
@@ -221,14 +230,14 @@ const PropertyView = () => {
       )}
 
       {/* Booking request modal */}
-      {requestBookingModal && property && (
+      {(requestBookingModal || reserveBookingModal) && property && (
         <BookingRequestModal
           data={{
             property: property,
             booking: booking,
           }}
           action={{
-            handleRequestBooking: onBook,
+            handleRequestBooking: requestBookingModal ? onBook : onReserve,
             updateBooking: setBooking,
             onClose: () => setRequestBookingModal(!requestBookingModal),
           }}

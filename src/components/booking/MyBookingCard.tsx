@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Booking } from "../../pages/bookings/BookingTypes";
 
 const MyBookingCard = ({
@@ -7,8 +8,43 @@ const MyBookingCard = ({
   booking: Booking;
   action: { cancel: () => void; paymentModal: () => void };
 }) => {
-  const status = booking.status.toLowerCase();
-  const paymentStatus = booking.paymentStatus.toLowerCase();
+  const status = booking.status.toUpperCase();
+  const paymentStatus = booking.paymentStatus.toUpperCase();
+
+  const statusMap: Record<string, { text: string; classes: string }> = {
+    CANCELLED: {
+      text: "CANCELLED",
+      classes: "bg-red-500/10 text-red-400 border-red-500/20",
+    },
+    PENDING_PAYMENT: {
+      text: "AWAITING PAYMENT",
+      classes: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    },
+    PENDING_APPROVAL: {
+      text: "PENDING APPROVAL",
+      classes: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    },
+    CONFIRMED: {
+      text: "CONFIRMED",
+      classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    },
+    REJECTED: {
+      text: "REJECTED",
+      classes: "bg-red-500/10 text-red-400 border-red-500/20",
+    },
+    NOSHOW: {
+      text: "NO SHOW",
+      classes: "bg-red-500/10 text-red-400 border-red-500/20",
+    },
+    COMPLETED: {
+      text: "COMPLETED",
+      classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    },
+    EXPIRED: {
+      text: "EXPIRED",
+      classes: "bg-red-500/10 text-red-400 border-red-500/20",
+    },
+  };
 
   const formatDate = (date: Date) =>
     new Date(date).toLocaleDateString("en-US", {
@@ -49,42 +85,12 @@ const MyBookingCard = ({
 
               {/* Status Badge */}
               <span
-                className={`text-[10px] font-semibold px-2.5 py-[4px] rounded-full tracking-wide border
-                ${
-                  status === "confirmed"
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                    : status === "pending"
-                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                      : "bg-red-500/10 text-red-400 border-red-500/20"
+                className={`text-[10px] font-semibold px-2.5 py-[4px] rounded-full tracking-wide border ${
+                  statusMap[status]?.classes ||
+                  "bg-white/10 text-white/80 border-white/20"
                 }`}
               >
-                {status === "confirmed"
-                  ? "CONFIRMED"
-                  : status === "pending"
-                    ? "PENDING"
-                    : "CANCELLED"}
-              </span>
-
-              {/* Payment Badge */}
-              <span
-                className={`text-[10px] font-semibold px-2.5 py-[4px] rounded-full tracking-wide border
-                  ${
-                    paymentStatus === "paid"
-                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                      : paymentStatus === "pending"
-                        ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                        : paymentStatus === "failed"
-                          ? "bg-red-500/10 text-red-400 border-red-500/20"
-                          : "bg-gold/10 text-gold border-gold/20"
-                  }`}
-              >
-                {paymentStatus === "paid"
-                  ? "PAID"
-                  : paymentStatus === "pending"
-                    ? "AWAITING PAYMENT"
-                    : paymentStatus === "failed"
-                      ? "FAILED"
-                      : booking.paymentStatus}
+                {statusMap[status]?.text || status}
               </span>
             </div>
 
@@ -149,27 +155,40 @@ const MyBookingCard = ({
 
           {/* Actions */}
           <div className="flex gap-2">
-            {paymentStatus === "pending" && status !== "cancelled" && (
-              <button
-                onClick={action.paymentModal}
-                className="px-4 py-2 rounded-lg text-[12px] bg-gold/10 border border-gold/20 text-gold hover:bg-gold/20 transition"
-              >
-                Pay Now
-              </button>
-            )}
+            {/* View Details */}
+            <Link
+              className="px-4 py-2 rounded-lg text-[12px] bg-gold/10 border border-gold/20 text-gold hover:bg-gold/20 transition"
+              to={`/property/${booking.propertyId}`}
+            >
+              View Details
+            </Link>
 
-            <button
-              onClick={action.cancel}
-              disabled={status === "cancelled"}
-              className={`px-4 py-2 rounded-lg text-[12px] border
+            {!["REJECTED", "EXPIRED", "CANCELLED"].includes(status) && (
+              <>
+                {/* Payment Button */}
+                {paymentStatus === "PENDING" && (
+                  <button
+                    onClick={action.paymentModal}
+                    className="px-4 py-2 rounded-lg text-[12px] bg-gold/10 border border-gold/20 text-gold hover:bg-gold/20 transition"
+                  >
+                    Pay Now
+                  </button>
+                )}
+                {/* Cancel Button */}
+                <button
+                  onClick={action.cancel}
+                  disabled={status === "cancelled"}
+                  className={`px-4 py-2 rounded-lg text-[12px] border
                 ${
                   status === "cancelled"
                     ? "border-white/10 text-muted cursor-not-allowed"
                     : "border-white/10 text-muted hover:bg-red-900/10 hover:border-red-500/30 hover:text-red-400"
                 }`}
-            >
-              Cancel
-            </button>
+                >
+                  Cancel
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -5,22 +5,55 @@ import api from "./axios"
 
 export const bookProperty = async (propertyId: string, details: Booking) => {
     // Checks Idempotent key
-    const storageKey = `booking:${propertyId}:${details.start}:${details.end}`;
+    const storageKey = `booking:${propertyId}:${details.start}:${details.end}:book`;
+    let idempotencyKey = localStorage.getItem(storageKey);
+
+    if (!idempotencyKey) {
+        idempotencyKey = crypto.randomUUID();
+        localStorage.setItem(storageKey, idempotencyKey);
+    }
+
     try {
-        let idempotencyKey = localStorage.getItem(storageKey);
-
-        if (!idempotencyKey) {
-            idempotencyKey = crypto.randomUUID();
-            localStorage.setItem(storageKey, idempotencyKey);
-        }
-
-        const { data } = await api.post(`/bookings/${propertyId}`, details, {
+        const { data } = await api.post(`/bookings/${propertyId}/book`, details, {
             headers: {
                 'Idempotency-Key': idempotencyKey
             }
         });
 
-        localStorage.removeItem(storageKey);
+        if (data?.success) {
+            localStorage.removeItem(storageKey);
+        }
+
+        return data
+    } catch (error: any) {
+        if (error.response?.status >= 400 && error.response?.status < 500) {
+            localStorage.removeItem(storageKey);
+        }
+
+        return error?.response?.data;
+    }
+}
+
+export const reserveProperty = async (propertyId: string, details: Booking) => {
+    // Checks Idempotent key
+    const storageKey = `booking:${propertyId}:${details.start}:${details.end}:reserve`;
+    let idempotencyKey = localStorage.getItem(storageKey);
+
+    if (!idempotencyKey) {
+        idempotencyKey = crypto.randomUUID();
+        localStorage.setItem(storageKey, idempotencyKey);
+    }
+
+    try {
+        const { data } = await api.post(`/bookings/${propertyId}/reserve`, details, {
+            headers: {
+                'Idempotency-Key': idempotencyKey
+            }
+        });
+
+        if (data?.success) {
+            localStorage.removeItem(storageKey);
+        }
 
         return data
     } catch (error: any) {
