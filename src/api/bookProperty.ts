@@ -3,9 +3,7 @@ import type { BookingStatus } from "../types/booking";
 import api from "./axios"
 
 
-export const bookProperty = async (propertyId: string, details: Booking) => {
-    // Checks Idempotent key
-    const storageKey = `booking:${propertyId}:${details.start}:${details.end}:book`;
+export const bookProperty = async (propertyId: string, details: Booking, storageKey: string) => {
     let idempotencyKey = localStorage.getItem(storageKey);
 
     if (!idempotencyKey) {

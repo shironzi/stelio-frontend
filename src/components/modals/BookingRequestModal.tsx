@@ -24,6 +24,7 @@ const BookingRequestModal = ({
   const [emptyGuestName, setEmptyGuestName] = useState<number | null>(null);
   const [error, setError] = useState<string>("");
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const [requestingBooking, setRequestingBooking] = useState<boolean>(false);
 
   const handleAddGuest = () => {
     const hasEmpty = data.booking.guestNames?.some((guest, index) => {
@@ -81,6 +82,7 @@ const BookingRequestModal = ({
       return;
     }
 
+    setRequestingBooking(true);
     action.handleRequestBooking();
   };
 
@@ -90,6 +92,11 @@ const BookingRequestModal = ({
 
     action.updateBooking({ ...data.booking, contactPhone: contact });
   };
+
+  const duration = Math.ceil(
+    (data.booking.end.getTime() - data.booking.start.getTime()) /
+      (1000 * 3600 * 24),
+  );
 
   useEffect(() => {
     action.updateBooking({
@@ -174,10 +181,7 @@ const BookingRequestModal = ({
             <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-3 col-span-1 flex flex-col items-center justify-center">
               <div className="text-[11px] text-muted-faint mb-1">Duration</div>
               <div className="text-[18px] font-semibold text-gold leading-none">
-                {Math.ceil(
-                  (data.booking.end.getTime() - data.booking.start.getTime()) /
-                    (1000 * 3600 * 24),
-                )}
+                {duration}
               </div>
               <div className="text-[11px] text-muted-faint mt-0.5">nights</div>
             </div>
@@ -262,7 +266,7 @@ const BookingRequestModal = ({
                 {" nights"}
               </span>
               <span className="text-[#e8e6e1]">
-                {formatPHP(data.property.price * 2)}
+                {formatPHP(data.property.price * duration)}
               </span>
             </div>
             <div className="flex justify-between text-[13px]">
@@ -277,7 +281,7 @@ const BookingRequestModal = ({
               Total
             </span>
             <span className="font-serif text-[22px] text-gold">
-              {formatPHP(data.property.price * 2)}
+              {formatPHP(data.property.price * duration)}
             </span>
           </div>
 
@@ -285,9 +289,13 @@ const BookingRequestModal = ({
           <button
             className="w-full bg-gold text-dark-900 border-none rounded-xl py-[14px] text-[14px] font-semibold cursor-pointer hover:bg-gold-light transition-colors tracking-wide"
             onClick={handleValidation}
-            disabled={error.trim() !== "" || emptyGuestName !== null}
+            disabled={
+              error.trim() !== "" ||
+              emptyGuestName !== null ||
+              requestingBooking
+            }
           >
-            Confirm Booking
+            {requestingBooking ? "Booking In-progress" : "Confirm Booking"}
           </button>
           <p className="text-center text-[11px] text-muted-ghost mt-3">
             You won't be charged yet · Free cancellation for 24h
