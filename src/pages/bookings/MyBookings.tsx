@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
+
 import MyBookingCard from "../../components/booking/MyBookingCard";
 import PaymentModal from "../../components/modals/PaymentModal";
 import ToastNotif from "../../components/modals/ToastNotif";
 import type { Booking } from "./BookingTypes";
-import {
-  cancelBooking,
-  getMyBookings,
-  payBooking,
-} from "../../api/bookProperty";
+import { cancelBooking, getMyBookings } from "../../api/bookProperty";
+import { requestPaymentIntent } from "../../api/payment";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const MyBookings = () => {
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISH_KEY);
+
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [notification, setNotification] = useState<{
@@ -17,6 +19,7 @@ const MyBookings = () => {
     message: string;
   }>({ show: false, message: "" });
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
 
   const handleCancelBooking = async (bookingId: String) => {
     const res = await cancelBooking(bookingId);
@@ -27,13 +30,11 @@ const MyBookings = () => {
     }
   };
 
-  const handlePaymentBooking = async (bookingId: string, amount: number) => {
-    const res = await payBooking(bookingId, amount);
-
-    if (res.success) {
-      setShowPaymentModal(false);
-      setNotification({ show: true, message: res.message });
-    }
+  const onPaymentSuccess = async () => {
+    fetchBookings();
+    setSelectedBooking(null);
+    setShowPaymentModal(!showPaymentModal);
+    setNotification({ show: true, message: "Payment successful!" });
   };
 
   const fetchBookings = async () => {
@@ -44,14 +45,14 @@ const MyBookings = () => {
     }
   };
 
-  const handlePaymentModal = (booking: Booking) => {
-    if (showPaymentModal) {
-      setSelectedBooking(null);
-    } else {
-      setSelectedBooking(booking);
-    }
+  const handlePaymentModal = async (booking: Booking) => {
+    const res = await requestPaymentIntent(booking.id);
 
-    setShowPaymentModal(!showPaymentModal);
+    if (res?.success) {
+      setClientSecret(res.paymentId);
+      setSelectedBooking(booking);
+      setShowPaymentModal(true);
+    }
   };
 
   const handleCoupon = useCallback(
@@ -64,17 +65,14 @@ const MyBookings = () => {
         ),
       );
     },
-    [selectedBooking], // ✅ fix stale closure
+    [selectedBooking],
   );
 
   useEffect(() => {
     fetchBookings();
   }, []);
 
-  // ✅ derived helpers (UI only)
   const isCompleted = (b: Booking) => new Date(b.end) < new Date();
-
-  // ✅ stats (fixed)
   const total = bookings.length;
 
   const upcoming = bookings.filter(
@@ -197,19 +195,21 @@ const MyBookings = () => {
         </div>
 
         {/* Modal */}
-        {showPaymentModal && selectedBooking && (
-          <PaymentModal
-            booking={selectedBooking}
-            isOpen={showPaymentModal}
-            action={{
-              payment: handlePaymentBooking,
-              coupon: handleCoupon(),
-              onClose: () => {
-                setShowPaymentModal(false);
-                setSelectedBooking(null);
-              },
-            }}
-          />
+        {showPaymentModal && selectedBooking && clientSecret && (
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <PaymentModal
+              booking={selectedBooking}
+              clientSecret={clientSecret}
+              action={{
+                onPaymentSuccess: onPaymentSuccess,
+                coupon: handleCoupon(),
+                onClose: () => {
+                  setShowPaymentModal(false);
+                  setSelectedBooking(null);
+                },
+              }}
+            />
+          </Elements>
         )}
       </div>
     </div>
