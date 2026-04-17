@@ -26,7 +26,7 @@ export function Navbar() {
   };
 
   const handleBecomeHost = async () => {
-    const res = await becomeHost(userData.id);
+    const res = await becomeHost();
 
     if (res.success) {
       setUserData({
@@ -51,7 +51,7 @@ export function Navbar() {
         id: res.id,
         name: res.name,
         email: res.email,
-        role: res.role,
+        role: res?.role,
         isAuthenticated: true,
       });
     };
@@ -59,7 +59,7 @@ export function Navbar() {
     if (token) {
       verifyUser();
     }
-  }, [setUserData]);
+  }, []);
 
   return (
     <nav className="bg-dark-900 border-b border-white/[0.08] flex items-center justify-between px-8 h-[10vh] sticky top-0 z-50">
@@ -76,7 +76,7 @@ export function Navbar() {
       <div className="flex items-center gap-2">
         {userData.isAuthenticated ? (
           <>
-            {userData.role.toLowerCase() === "renter" && (
+            {userData.role === "RENTER" && (
               <button
                 onClick={handleBecomeHost}
                 className="bg-white/[0.06] border border-white/[0.12] text-[#e8e6e1] rounded-lg px-[14px] py-[7px] text-[13px] cursor-pointer hover:bg-white/10 transition-colors"

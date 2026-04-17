@@ -8,9 +8,12 @@ import { cancelBooking, getMyBookings } from "../../api/bookProperty";
 import { requestPaymentIntent } from "../../api/payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { useUserData } from "../../context/UserContext";
 
 const MyBookings = () => {
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISH_KEY);
+
+  const { userData } = useUserData();
 
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
@@ -20,6 +23,9 @@ const MyBookings = () => {
   }>({ show: false, message: "" });
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [idempotencyKeyStorage, setIdempotencyKeyStorage] = useState<
+    string | null
+  >(null);
 
   const handleCancelBooking = async (bookingId: String) => {
     const res = await cancelBooking(bookingId);
@@ -35,6 +41,8 @@ const MyBookings = () => {
     setSelectedBooking(null);
     setShowPaymentModal(!showPaymentModal);
     setNotification({ show: true, message: "Payment successful!" });
+    setIdempotencyKeyStorage(null);
+    if (idempotencyKeyStorage) localStorage.removeItem(idempotencyKeyStorage);
   };
 
   const fetchBookings = async () => {
@@ -46,10 +54,12 @@ const MyBookings = () => {
   };
 
   const handlePaymentModal = async (booking: Booking) => {
-    const res = await requestPaymentIntent(booking.id);
+    const storageKey = `payment:${booking.id}:${userData.id}:pay`;
+    setIdempotencyKeyStorage(storageKey);
+    const res = await requestPaymentIntent(booking.id, storageKey);
 
     if (res?.success) {
-      setClientSecret(res.paymentId);
+      setClientSecret(res.paymentIntent);
       setSelectedBooking(booking);
       setShowPaymentModal(true);
     }

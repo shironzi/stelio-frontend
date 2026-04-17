@@ -3,10 +3,9 @@
 import api from "./axios"
 
 
-export const becomeHost = async (userId: string) => {
+export const becomeHost = async () => {
     try {
-        console.log(userId)
-        const { data } = await api.patch(`/users/${userId}`);
+        const { data } = await api.patch(`/users/`);
 
         return data;
     } catch (e: any) {
