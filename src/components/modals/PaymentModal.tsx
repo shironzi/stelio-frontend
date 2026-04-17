@@ -1,22 +1,33 @@
-import { memo, useCallback, useEffect, useState, useRef } from "react";
+import { memo, useState } from "react";
+
 import type { Booking } from "../../pages/bookings/BookingTypes";
+import {
+  useStripe,
+  useElements,
+  CardCvcElement,
+  CardExpiryElement,
+  CardNumberElement,
+} from "@stripe/react-stripe-js";
 
 interface PaymentModalProps {
   booking: Booking;
+  clientSecret: string;
   action: {
-    payment: (bookingId: string, amount: number) => void;
+    onPaymentSuccess: () => void;
     coupon: (coupon: string) => void;
     onClose: () => void;
   };
-  isOpen: boolean;
 }
 
-const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
+const PaymentModal = ({ booking, clientSecret, action }: PaymentModalProps) => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [cardName, setCardName] = useState("");
+  const [brand, setBrand] = useState<string | null>(null);
+
   const startDate = new Date(booking.start);
   const endDate = new Date(booking.end);
-
-  const [timeRemaining, setTimeRemaining] = useState<number>(600);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const toMonthStr = (month: number) => {
     const months = [
@@ -36,54 +47,46 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
     return months[month - 1] || "Invalid month";
   };
 
-  const formatPHP = (amount: number) => {
-    return new Intl.NumberFormat("en-PH", {
+  const formatPHP = (amount: number) =>
+    new Intl.NumberFormat("en-PH", {
       style: "currency",
       currency: "PHP",
     }).format(amount);
-  };
-
-  const formatTime = useCallback((seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const secondsLeft = seconds % 60;
-    return `${minutes}:${secondsLeft < 10 ? "0" : ""}${secondsLeft}`;
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeRemaining(600);
-      clearInterval(intervalRef.current!);
-      return;
-    }
-
-    const expiresAt = new Date(booking.expiresAt);
-    const now = new Date();
-    const initialSeconds = Math.max(
-      0,
-      Math.floor((expiresAt.getTime() - now.getTime()) / 1000),
-    );
-    setTimeRemaining(initialSeconds);
-
-    intervalRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current!);
-          action.onClose();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(intervalRef.current!);
-  }, [isOpen, booking.expiresAt, action]);
-
-  if (!isOpen) return null;
 
   const totalNights = endDate.getDate() - startDate.getDate();
   const totalPrice = Math.max(0, booking.price * totalNights);
-  const pct = (timeRemaining / 600) * 100;
-  const barColor = pct < 30 ? "#e24b4a" : pct < 60 ? "#ef9f27" : "#c9a96e";
+
+  const handleElementChange = (event: any) => {
+    if (event.brand) {
+      setBrand(event.brand);
+    }
+  };
+
+  const handlePay = async () => {
+    if (!stripe || !elements) return;
+
+    const cardNumberElement = elements.getElement(CardNumberElement);
+
+    if (!cardNumberElement) {
+      console.error("Stripe Element not found");
+      return;
+    }
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardNumberElement,
+        billing_details: {
+          name: cardName,
+        },
+      },
+    });
+
+    if (result.error) {
+      console.error(result.error.message);
+    } else if (result.paymentIntent?.status === "succeeded") {
+      action.onPaymentSuccess();
+    }
+  };
 
   return (
     <div
@@ -92,17 +95,9 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
       onClick={(e) => e.target === e.currentTarget && action.onClose()}
     >
       <div
-        className="w-full max-w-[460px] bg-dark-700 border border-white/10 rounded-[20px] overflow-hidden"
+        className="w-full max-h-[90vh] max-w-[35vw] bg-dark-700 border border-white/10 rounded-l-lg overflow-y-auto"
         style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.6)" }}
       >
-        {/* Gold bar */}
-        <div
-          className="h-[3px] w-full"
-          style={{
-            background: "linear-gradient(90deg, #a07840, #c9a96e, #d9b87e)",
-          }}
-        />
-
         <div className="p-6">
           {/* Header */}
           <div className="flex items-start justify-between mb-5">
@@ -125,7 +120,7 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
             </button>
           </div>
 
-          {/* Status + Timer */}
+          {/* Payment status */}
           <div className="flex items-center justify-between bg-dark-900 border border-white/[0.07] rounded-xl px-4 py-3 mb-3">
             <div className="flex items-center gap-2">
               <span
@@ -136,45 +131,10 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
                 {booking.paymentStatus}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <circle
-                  cx="7"
-                  cy="7.5"
-                  r="5.5"
-                  stroke="#6b6a64"
-                  strokeWidth="1.2"
-                />
-                <path
-                  d="M7 4.5V7.5L9 9"
-                  stroke="#c9a96e"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <div>
-                <div
-                  className="text-[14px] font-semibold text-[#e8e6e1] tabular-nums leading-none"
-                  style={{ color: pct < 30 ? "#e24b4a" : "#e8e6e1" }}
-                >
-                  {formatTime(timeRemaining)}
-                </div>
-                <div className="text-[10px] text-muted-faint">remaining</div>
-              </div>
-            </div>
           </div>
 
-          {/* Timer progress bar */}
-          <div className="h-[3px] bg-white/[0.07] rounded-full overflow-hidden mb-5">
-            <div
-              className="h-full rounded-full transition-all duration-1000 ease-linear"
-              style={{ width: `${pct}%`, background: barColor }}
-            />
-          </div>
-
-          {/* Booking Info */}
+          {/* Booking info */}
           <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 mb-4 flex gap-4 items-start">
-            {/* Thumbnail */}
             <div className="w-[25%] min-w-[80px] aspect-square rounded-[10px] bg-dark-600 flex-shrink-0 overflow-hidden">
               {booking.images?.[0] ? (
                 <img
@@ -186,9 +146,7 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
                 <div className="w-full h-full bg-dark-600" />
               )}
             </div>
-
-            {/* Booking details */}
-            <div className="flex flex-col justify-between text-[13px] text-white my-auto">
+            <div className="flex flex-col justify-between text-[13px] text-white my-auto gap-1">
               <div>
                 <span className="text-muted-faint">Property:</span>{" "}
                 <span className="font-medium">{booking.title}</span>
@@ -217,12 +175,6 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
               <span className="text-muted-dim">Property Rate</span>
               <span className="text-[#e8e6e1]">{formatPHP(booking.price)}</span>
             </div>
-            <div className="flex justify-between text-[13px] py-1">
-              <span className="text-muted-dim">Applied Discount</span>
-              <span className="text-emerald-400">
-                –{formatPHP(booking.price - totalPrice)}
-              </span>
-            </div>
             <div className="border-t border-white/[0.06] mt-2 pt-3 flex items-center justify-between">
               <span className="text-[14px] font-medium text-[#e8e6e1]">
                 Total due
@@ -236,13 +188,159 @@ const PaymentModal = ({ booking, action, isOpen }: PaymentModalProps) => {
             </div>
           </div>
 
+          {/* ── Card payment form ── */}
+          <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 mb-5">
+            {/* Method label */}
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[11px] font-semibold text-muted-dim uppercase tracking-[0.08em]">
+                Pay with card
+              </span>
+              <div className="flex items-center gap-1.5">
+                {/* Visa */}
+                <span
+                  className="px-2 py-0.5 rounded bg-white/[0.07] border border-white/[0.08] text-[9px] font-bold tracking-wider text-[#e8e6e1]"
+                  style={{ opacity: brand === "visa" || !brand ? 1 : 0.35 }}
+                >
+                  VISA
+                </span>
+                {/* Mastercard */}
+                <span
+                  className="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white/[0.07] border border-white/[0.08]"
+                  style={{ opacity: brand === "mc" || !brand ? 1 : 0.35 }}
+                >
+                  <span className="w-3 h-3 rounded-full bg-red-500 opacity-90 inline-block" />
+                  <span className="w-3 h-3 rounded-full bg-amber-400 opacity-90 -ml-1.5 inline-block" />
+                </span>
+                {/* Amex */}
+                <span
+                  className="px-2 py-0.5 rounded bg-white/[0.07] border border-white/[0.08] text-[9px] font-bold tracking-wider text-blue-400"
+                  style={{ opacity: brand === "amex" || !brand ? 1 : 0.35 }}
+                >
+                  AMEX
+                </span>
+              </div>
+            </div>
+
+            {/* Card number */}
+            <div className="mb-3">
+              <label className="block text-[11px] text-muted-dim mb-1.5 tracking-wide">
+                Card number
+              </label>
+              <CardNumberElement
+                onChange={handleElementChange}
+                className="w-full bg-dark-700 border rounded-xl px-4 py-3 text-[14px] text-[#e8e6e1] placeholder:text-white/20 outline-none transition-all pr-16"
+                options={{
+                  style: {
+                    base: {
+                      fontFamily: "'DM Mono', monospace",
+                      letterSpacing: "0.08em",
+                      color: "#e8e6e1",
+                      "::placeholder": {
+                        color: "rgba(255,255,255,0.2)",
+                      },
+                    },
+                  },
+                  disableLink: true,
+                }}
+              />
+            </div>
+
+            {/* Name on card */}
+            <div className="mb-3">
+              <label className="block text-[11px] text-muted-dim mb-1.5 tracking-wide">
+                Name on card
+              </label>
+              <input
+                type="text"
+                placeholder="Alex Reyes"
+                value={cardName}
+                onChange={(e) => setCardName(e.target.value.toUpperCase())}
+                className="w-full bg-dark-700 border rounded-xl px-4 py-3 text-[14px] text-[#e8e6e1] placeholder:text-white/20 outline-none transition-all"
+                style={{
+                  borderColor: "rgba(255,255,255,0.08)",
+                  fontFamily: "'DM Mono', monospace",
+                  letterSpacing: "0.05em",
+                }}
+                onFocus={(e) =>
+                  (e.target.style.borderColor = "rgba(201,169,110,0.5)")
+                }
+                onBlur={(e) =>
+                  (e.target.style.borderColor = "rgba(255,255,255,0.08)")
+                }
+              />
+            </div>
+
+            {/* Expiry + CVV */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] text-muted-dim mb-1.5 tracking-wide">
+                  Expiry date
+                </label>
+                <CardExpiryElement
+                  className="w-full bg-dark-700 border rounded-xl px-4 py-3 text-[14px] text-[#e8e6e1] placeholder:text-white/20 outline-none transition-all"
+                  options={{
+                    style: {
+                      base: {
+                        fontFamily: "'DM Mono', monospace",
+                        letterSpacing: "0.08em",
+                        color: "#e8e6e1",
+                        "::placeholder": {
+                          color: "rgba(255,255,255,0.2)",
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] text-muted-dim mb-1.5 tracking-wide">
+                  CVV
+                </label>
+                <CardCvcElement
+                  className="w-full bg-dark-700 border rounded-xl px-4 py-3 text-[14px] text-[#e8e6e1] placeholder:text-white/20 outline-none transition-all pr-10"
+                  options={{
+                    style: {
+                      base: {
+                        fontFamily: "'DM Mono', monospace",
+                        letterSpacing: "0.1em",
+                        color: "#e8e6e1",
+                        "::placeholder": {
+                          color: "rgba(255,255,255,0.2)",
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Secure note */}
+            <div className="flex items-center gap-2 mt-4 pt-3 border-t border-white/[0.06]">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="text-muted-dim flex-shrink-0"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0110 0v4" />
+              </svg>
+              <span className="text-[11px] text-muted-faint">
+                Your payment info is encrypted and never stored
+              </span>
+            </div>
+          </div>
+
           {/* Pay button */}
           <button
-            onClick={() => action.payment(booking.id, booking.price)}
-            disabled={timeRemaining === 0}
             className="w-full bg-gold text-dark-900 border-none rounded-xl py-[14px] text-[14px] font-semibold cursor-pointer hover:bg-gold-light transition-colors flex items-center justify-center gap-2"
+            onClick={handlePay}
           >
-            Pay now
+            Pay
           </button>
         </div>
       </div>

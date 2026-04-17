@@ -92,9 +92,3 @@ export const cancelBooking = async (bookingId: String) => {
 
     return data;
 }
-
-export const payBooking = async (bookingId: String, amount: number) => {
-    const { data } = await api.post(`/payments/${bookingId}`, { amount });
-
-    return data;
-}

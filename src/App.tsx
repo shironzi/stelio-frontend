@@ -8,8 +8,8 @@ import {
 import Login from "./pages/auth/Login";
 import Home from "./pages/Home/Home";
 import Register from "./pages/auth/Register";
-import { Navbar } from "./components/common/Navbar";
 
+import { Navbar } from "./components/common/Navbar";
 import "./styles/global.css";
 import PropertyForm from "./pages/property/PropertyForm";
 import PropertyImage from "./pages/property/PropertyImage";
