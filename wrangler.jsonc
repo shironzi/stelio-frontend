@@ -1,0 +1,8 @@
+{
+  "name": "stelio",
+  "compatibility_date": "2026-04-17",
+  "main": "src/index.ts",
+  "assets": {
+    "dir": "./dist",
+  },
+}
