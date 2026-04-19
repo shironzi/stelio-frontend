@@ -1,8 +1,14 @@
 {
-  "name": "stelio",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "stelio-frontend",
   "compatibility_date": "2026-04-17",
-  "main": "src/main.tsx",
-  "assets": {
-    "dir": "./dist",
+  "observability": {
+    "enabled": true
   },
+  "assets": {
+    "not_found_handling": "single-page-application"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
 }
