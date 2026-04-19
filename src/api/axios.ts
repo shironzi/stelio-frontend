@@ -21,9 +21,11 @@
 
 import axios, { AxiosError } from 'axios'
 
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 // Create axios instance with the base url
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: `${baseUrl}/api`,
     withCredentials: true,
     timeout: 10 * 60 * 1000
 });

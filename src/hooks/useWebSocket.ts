@@ -15,16 +15,16 @@ export function useWebSocket(subscribeTo: string | null) {
     if (!token || !userData.id || !subscribeTo) return;
 
     const baseUrl = import.meta.env.VITE_BASE_URL;
-    const socket = new SockJS(`http://${baseUrl}/ws`);
+    const socket = new SockJS(`${baseUrl}/ws`);
 
     const client = new Client({
       webSocketFactory: () => socket,
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
-      // debug: (str) => {
-      // console.log('STOMP debug:', str);
-      // },
+      debug: (str) => {
+        console.log('STOMP debug:', str);
+      },
       reconnectDelay: 5000,
       onConnect: () => {
         setConnected(true);
@@ -33,7 +33,7 @@ export function useWebSocket(subscribeTo: string | null) {
           setPayload(data);
         });
 
-        // console.log("Connected")
+        console.log("Connected")
       },
       onStompError: (frame) => {
         console.error('STOMP error', frame);
