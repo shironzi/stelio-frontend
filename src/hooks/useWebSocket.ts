@@ -22,9 +22,9 @@ export function useWebSocket(subscribeTo: string | null) {
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
-      debug: (str) => {
-        // console.log('STOMP debug:', str);
-      },
+      // debug: (str) => {
+      // console.log('STOMP debug:', str);
+      // },
       reconnectDelay: 5000,
       onConnect: () => {
         setConnected(true);
