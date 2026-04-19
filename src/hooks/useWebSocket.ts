@@ -22,9 +22,9 @@ export function useWebSocket(subscribeTo: string | null) {
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },
-      debug: (str) => {
-        console.log('STOMP debug:', str);
-      },
+      // debug: (str) => {
+      //   console.log('STOMP debug:', str);
+      // },
       reconnectDelay: 5000,
       onConnect: () => {
         setConnected(true);
@@ -33,11 +33,11 @@ export function useWebSocket(subscribeTo: string | null) {
           setPayload(data);
         });
 
-        console.log("Connected")
+        // console.log("Connected")
       },
-      onStompError: (frame) => {
-        console.error('STOMP error', frame);
-      },
+      // onStompError: (frame) => {
+      //   console.error('STOMP error', frame);
+      // },
     });
 
     client.activate();
