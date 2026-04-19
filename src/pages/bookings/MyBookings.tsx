@@ -9,11 +9,13 @@ import { requestPaymentIntent } from "../../api/payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useUserData } from "../../context/UserContext";
+import { useWebSocket } from "../../hooks/useWebSocket";
 
 const MyBookings = () => {
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISH_KEY);
 
   const { userData } = useUserData();
+  const { payload } = useWebSocket("my-bookings");
 
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
@@ -37,7 +39,7 @@ const MyBookings = () => {
   };
 
   const onPaymentSuccess = async () => {
-    fetchBookings();
+    // fetchBookings();
     setSelectedBooking(null);
     setShowPaymentModal(!showPaymentModal);
     setNotification({ show: true, message: "Payment successful!" });
@@ -81,6 +83,16 @@ const MyBookings = () => {
   useEffect(() => {
     fetchBookings();
   }, []);
+
+  useEffect(() => {
+    if (!payload) return;
+
+    setBookings((prevBookings) =>
+      prevBookings.map((booking) =>
+        booking.id === payload.id ? { ...booking, ...payload } : booking,
+      ),
+    );
+  }, [payload]);
 
   const isCompleted = (b: Booking) => new Date(b.end) < new Date();
   const total = bookings.length;
