@@ -38,7 +38,7 @@ const BookingRequestModal = ({
 
     action.updateBooking({
       ...data.booking,
-      guestNames: [...(data.booking.guestNames || ""), ""],
+      guestNames: [...(data.booking.guestNames || []), ""],
     });
   };
 
@@ -70,10 +70,6 @@ const BookingRequestModal = ({
   };
 
   const handleValidation = () => {
-    const emptyIndex =
-      data.booking.guestNames?.findIndex((guest) => guest.trim() === "") ?? -1;
-    setEmptyGuestName(emptyIndex !== -1 ? emptyIndex : null);
-
     if (
       !data.booking.contactPhone ||
       data.booking.contactPhone.trim().length <= 0
@@ -204,12 +200,18 @@ const BookingRequestModal = ({
             <label className="block text-[11px] text-muted-dim uppercase tracking-[0.07em] mb-2">
               Contact Number
             </label>
+            {error === "contact" && (
+              <p className="text-[red] text-[11px]">Phone Number is required</p>
+            )}
             <input
-              className={`s-input w-full bg-dark-900 border border-white/[0.1] rounded-xl px-4 py-3 text-[#e8e6e1] text-[13px] font-sans transition-colors ${
-                error === "contact" ? "border-red-500" : ""
+              className={`s-input w-full bg-dark-900 border rounded-xl px-4 py-3 text-[#e8e6e1] text-[13px] font-sans transition-colors ${
+                error === "contact" ? "border-red-500" : "border-white/[0.1]"
               }`}
               placeholder="09XX XXX XXXX"
+              type="tel"
+              pattern="09\d{2} \d{3} \d{3}"
               onChange={(e) => handleContactInput(e.target.value)}
+              value={data.booking.contactPhone ?? ""}
             />
           </div>
 
