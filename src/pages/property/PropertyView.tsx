@@ -26,7 +26,6 @@ const PropertyView = () => {
   const [modalMessage, setModalMessage] = useState<string>("");
   const [requestBookingModal, setRequestBookingModal] =
     useState<boolean>(false);
-  const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [reserveBookingModal, setReserveBookingModal] =
     useState<boolean>(false);
   const { userData } = useUserData();
@@ -222,7 +221,7 @@ const PropertyView = () => {
           >
             Book Now
           </button>
-          <button
+          {/* <button
             className="w-full bg-transparent text-[#e8e6e1] border border-white/20 rounded-[10px] py-3 text-[14px] cursor-pointer hover:bg-white/[0.06] transition-colors"
             onClick={() => {
               setReserveBookingModal(!reserveBookingModal);
@@ -230,7 +229,7 @@ const PropertyView = () => {
             }}
           >
             Reserve
-          </button>
+          </button> */}
         </div>
       </div>
 
