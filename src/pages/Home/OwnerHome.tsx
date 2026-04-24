@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const OwnerHome = () => {
   return (
     <div className="animate-fadeIn h-[83vh] active bg-dark-800 overflow-y-auto p-8">
@@ -59,12 +61,12 @@ const OwnerHome = () => {
             <h2 className="font-serif text-[20px] text-white">
               Properties Performance
             </h2>
-            <a
-              href="#"
+            <Link
+              to="/manage"
               className="text-[12px] text-gold hover:text-gold-light transition-colors"
             >
               View All →
-            </a>
+            </Link>
           </div>
 
           <div className="space-y-4">

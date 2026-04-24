@@ -55,7 +55,7 @@ const ManageProperty = () => {
   }
 
   return (
-    <div className="s-screen bg-dark-800 min-h-[520px] p-8">
+    <div className="s-screen bg-dark-800 min-h-[520px] p-8 animate-fadeIn">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="font-serif text-[24px] text-white">My Properties</h2>
