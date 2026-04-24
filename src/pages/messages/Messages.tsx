@@ -4,8 +4,10 @@ import type ChatHead from "./MessagesTypes";
 import { getChatHeads } from "../../api/message";
 import { Link, useParams } from "react-router-dom";
 import ChatBox from "../../components/message/ChatBox";
+import { useUserData } from "../../context/UserContext";
 
 export default function Messages() {
+  const { userData } = useUserData();
   const [chatHeads, setChatHeads] = useState<ChatHead[]>([]);
   const [active, setActive] = useState<String | null>(null);
   const { id } = useParams();
@@ -25,13 +27,15 @@ export default function Messages() {
   }, [id]);
 
   return (
-    <div className="h-[90vh] bg-dark-800" id="sc-messages">
+    <div
+      className={` bg-dark-800 ${userData.role === "OWNER" ? "h-[83vh]" : "h-[90vh]"}`}
+    >
       <div
-        className="grid min-h-[520px]"
-        style={{ gridTemplateColumns: "280px 1fr" }}
+        className="grid min-h-[600px]"
+        style={{ gridTemplateColumns: "300px 1fr" }}
       >
         {/* Sidebar */}
-        <div className="border-r border-white/[0.07] p-4 h-[90vh]">
+        <div className="border-r border-white/[0.07] p-4">
           <input
             className="s-msg-input w-full bg-dark-900 border border-white/[0.08] rounded-lg px-[14px] py-[9px] text-[#e8e6e1] text-[12px] font-sans mb-3"
             placeholder="Search conversations..."
@@ -54,8 +58,12 @@ export default function Messages() {
         </div>
 
         {/* Chat Main */}
-        <div className="flex flex-col">
-          <div className="px-5 py-[14px] border-b border-white/[0.07] flex items-center gap-2.5">
+        <div
+          className={`flex flex-col ${userData.role === "OWNER" ? "h-[83vh]" : "h-[90vh]"}`}
+        >
+          <div
+            className={`px-5 py-[14px] border-b border-white/[0.07] flex items-center gap-2.5`}
+          >
             <div className="w-[38px] h-[38px] rounded-full bg-dark-600 flex items-center justify-center text-[14px] font-medium text-gold">
               TT
             </div>

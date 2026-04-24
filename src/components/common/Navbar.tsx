@@ -141,11 +141,11 @@ export function Navbar() {
 
           <Link
             className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
-              isActive("/property/manage")
+              isActive("/manage")
                 ? "text-gold border-gold"
                 : "text-muted-faint border-transparent hover:text-muted"
             }`}
-            to="/property/manage"
+            to="/manage"
           >
             <span>🏠</span>
             Properties
