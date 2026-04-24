@@ -73,7 +73,7 @@ const Home = () => {
   }
 
   return (
-    <div className="h-[90vh] active bg-dark-800 overflow-y-auto" id="sc-home">
+    <div className="h-[90vh] active bg-dark-800 overflow-y-auto">
       <div className="p-8">
         {/* Search Bar */}
         <div className="bg-dark-700 border border-white/10 rounded-[40px] flex items-center mb-8 overflow-hidden">
