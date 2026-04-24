@@ -16,15 +16,6 @@ export default function NavbarMenu({ userData, logout }: Props) {
         Profile
       </Link>
 
-      {userData.role === "OWNER" && (
-        <Link
-          to="/property/manage"
-          className="link px-6 py-3 text-[#e8e6e1] text-sm hover:bg-[#00ADB5]/[0.1] rounded-lg transition-colors duration-300 w-full text-center"
-        >
-          Manage Property
-        </Link>
-      )}
-
       {userData.role === "RENTER" && (
         <Link
           to="/my-bookings"
@@ -33,13 +24,6 @@ export default function NavbarMenu({ userData, logout }: Props) {
           My Bookings
         </Link>
       )}
-
-      <Link
-        to="/settings"
-        className="px-6 py-3 w-full text-[#e8e6e1] text-sm hover:bg-[#00ADB5]/[0.1] rounded-lg transition-colors duration-300 text-center"
-      >
-        Settings
-      </Link>
 
       <div
         onClick={logout}

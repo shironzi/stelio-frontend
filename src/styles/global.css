@@ -68,7 +68,6 @@ html, body {
 
 ::-webkit-scrollbar-track {
   background: var(--color-dark-700); /* Darker background for the track */
-  border-radius: 10px; /* Optional: rounded corners for track */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -96,7 +95,30 @@ html, body {
   animation: shimmer 1.4s ease infinite;
 }
 
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+.animate-fadeOut {
+  animation: fadeOut 0.2s ease-out;
+}
+
 @keyframes shimmer {
   0% { background-position: 100% 0; }
   100% { background-position: -100% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }

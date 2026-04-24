@@ -21,6 +21,8 @@ import Bookings from "./pages/bookings/Bookings";
 import Messages from "./pages/messages/Messages";
 import MyBookings from "./pages/bookings/MyBookings";
 import Profile from "./pages/Profile";
+import { useUserData } from "./context/UserContext";
+import OwnerHome from "./pages/Home/OwnerHome";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");
@@ -31,13 +33,17 @@ const ProtectedRoutes = () => {
 };
 
 function App() {
+  const { userData } = useUserData();
+
+  const isOwner = userData.role === "OWNER";
+
   return (
     <Router>
-      <Navbar />
       <div className="w-screen">
+        <Navbar />
         <Routes>
           {/* Home Page */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={isOwner ? <OwnerHome /> : <Home />} />
 
           {/* Auth Page */}
           <Route path="/login" element={<Login />} />
