@@ -69,8 +69,8 @@ export function Navbar() {
   }, []);
 
   return (
-    <>
-      <nav className="bg-dark-900 border-b border-white/[0.08] flex items-center justify-between px-8 h-[10vh] sticky top-0 z-50">
+    <nav className="bg-dark-900 sticky top-0 z-50">
+      <div className="flex items-center justify-between px-8 h-[10vh] border-b border-white/[0.08]">
         {/* Logo */}
         <Link
           to={"/"}
@@ -123,69 +123,71 @@ export function Navbar() {
             </Link>
           )}
         </div>
-      </nav>
+      </div>
 
-      <nav className="bg-dark-900 border-b border-white/[0.08] mx-auto flex justify-between px-8 h-[7vh]">
-        <Link
-          className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
-            isActive("/")
-              ? "text-gold border-gold"
-              : "text-muted-faint border-transparent hover:text-muted"
-          }`}
-          to="/"
-        >
-          <span>📊</span>
-          Overview
-        </Link>
+      {userData.role === "OWNER" && (
+        <div className="bg-dark-900 border-b border-white/[0.08] mx-auto flex justify-between px-8 h-[7vh]">
+          <Link
+            className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
+              isActive("/")
+                ? "text-gold border-gold"
+                : "text-muted-faint border-transparent hover:text-muted"
+            }`}
+            to="/"
+          >
+            <span>📊</span>
+            Overview
+          </Link>
 
-        <Link
-          className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
-            isActive("/property/manage")
-              ? "text-gold border-gold"
-              : "text-muted-faint border-transparent hover:text-muted"
-          }`}
-          to="/property/manage"
-        >
-          <span>🏠</span>
-          Properties
-        </Link>
+          <Link
+            className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
+              isActive("/property/manage")
+                ? "text-gold border-gold"
+                : "text-muted-faint border-transparent hover:text-muted"
+            }`}
+            to="/property/manage"
+          >
+            <span>🏠</span>
+            Properties
+          </Link>
 
-        <Link
-          className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
-            isActive("/bookings")
-              ? "text-gold border-gold"
-              : "text-muted-faint border-transparent hover:text-muted"
-          }`}
-          to="/bookings"
-        >
-          <span>📅</span>
-          Bookings
-        </Link>
+          <Link
+            className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
+              isActive("/bookings")
+                ? "text-gold border-gold"
+                : "text-muted-faint border-transparent hover:text-muted"
+            }`}
+            to="/bookings"
+          >
+            <span>📅</span>
+            Bookings
+          </Link>
 
-        <Link
-          className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
-            isActive("/analytics")
-              ? "text-gold border-gold"
-              : "text-muted-faint border-transparent hover:text-muted"
-          }`}
-          to="/analytics"
-        >
-          <span>📈</span>
-          Analytics
-        </Link>
+          <Link
+            className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
+              isActive("/analytics")
+                ? "text-gold border-gold"
+                : "text-muted-faint border-transparent hover:text-muted"
+            }`}
+            to="/analytics"
+          >
+            <span>📈</span>
+            Analytics
+          </Link>
 
-        <Link
-          className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
-            isActive("/guests")
-              ? "text-gold border-gold"
-              : "text-muted-faint border-transparent hover:text-muted"
-          }`}
-          to="/guests"
-        >
-          <span>👥</span>
-          Guests
-        </Link>
-      </nav>
-    </>
+          <Link
+            className={`nav-item flex items-center gap-2 px-4 py-4 text-[13px] font-medium border-b-2 transition-all ${
+              isActive("/guests")
+                ? "text-gold border-gold"
+                : "text-muted-faint border-transparent hover:text-muted"
+            }`}
+            to="/guests"
+          >
+            <span>👥</span>
+            Guests
+          </Link>
+        </div>
+      )}
+    </nav>
   );
 }
