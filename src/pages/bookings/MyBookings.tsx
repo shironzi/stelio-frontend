@@ -37,7 +37,6 @@ const MyBookings = () => {
   };
 
   const onPaymentSuccess = async () => {
-    fetchBookings();
     setSelectedBooking(null);
     setShowPaymentModal(!showPaymentModal);
     setNotification({ show: true, message: "Payment successful!" });
