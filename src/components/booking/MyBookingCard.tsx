@@ -65,13 +65,15 @@ const MyBookingCard = ({
       }`}
     >
       {/* Image */}
-      <img
-        src={booking.images[0]}
-        alt={booking.title}
-        className={`w-[200px] h-auto object-cover flex-shrink-0 ${
-          status === "cancelled" ? "grayscale" : ""
-        }`}
-      />
+      {booking.images && (
+        <img
+          src={booking.images[0]}
+          alt={booking.title}
+          className={`w-[200px] h-auto object-cover flex-shrink-0 ${
+            status === "cancelled" ? "grayscale" : ""
+          }`}
+        />
+      )}
 
       {/* Content */}
       <div className="flex-1 p-5 flex flex-col justify-between min-w-0">
