@@ -25,6 +25,8 @@ const PaymentModal = ({ booking, clientSecret, action }: PaymentModalProps) => {
 
   const [cardName, setCardName] = useState("");
   const [brand, setBrand] = useState<string | null>(null);
+  const [isPaymentInprogress, setIsPaymentInprogress] =
+    useState<boolean>(false);
 
   const startDate = new Date(booking.start);
   const endDate = new Date(booking.end);
@@ -72,6 +74,8 @@ const PaymentModal = ({ booking, clientSecret, action }: PaymentModalProps) => {
       return;
     }
 
+    setIsPaymentInprogress(true);
+
     const result = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: cardNumberElement,
@@ -85,6 +89,7 @@ const PaymentModal = ({ booking, clientSecret, action }: PaymentModalProps) => {
       console.error(result.error.message);
     } else if (result.paymentIntent?.status === "succeeded") {
       action.onPaymentSuccess();
+      setIsPaymentInprogress(false);
     }
   };
 
@@ -339,8 +344,9 @@ const PaymentModal = ({ booking, clientSecret, action }: PaymentModalProps) => {
           <button
             className="w-full bg-gold text-dark-900 border-none rounded-xl py-[14px] text-[14px] font-semibold cursor-pointer hover:bg-gold-light transition-colors flex items-center justify-center gap-2"
             onClick={handlePay}
+            disabled={isPaymentInprogress}
           >
-            Pay
+            {isPaymentInprogress ? "In-progress..." : "Pay"}
           </button>
         </div>
       </div>

@@ -21,6 +21,10 @@ import Bookings from "./pages/bookings/Bookings";
 import Messages from "./pages/messages/Messages";
 import MyBookings from "./pages/bookings/MyBookings";
 import Profile from "./pages/Profile";
+import { useUserData } from "./context/UserContext";
+import OwnerHome from "./pages/Home/OwnerHome";
+import Analytics from "./pages/Analytics";
+import Guests from "./pages/Guests";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");
@@ -31,38 +35,57 @@ const ProtectedRoutes = () => {
 };
 
 function App() {
+  const { userData } = useUserData();
+
+  const isOwner = userData.role === "OWNER";
+  const isRenter = userData.role === "RENTER";
+
   return (
     <Router>
-      <Navbar />
       <div className="w-screen">
+        <Navbar />
         <Routes>
           {/* Home Page */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={isOwner ? <OwnerHome /> : <Home />} />
 
           {/* Auth Page */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Property Routes */}
+          {/* Owner Routes */}
           <Route element={<ProtectedRoutes />}>
-            <Route path="/property/form" element={<PropertyForm />} />
-            <Route path="/property/image" element={<PropertyImage />} />
-            <Route path="/property/review" element={<PropertyReview />} />
-            <Route path="/property/manage" element={<ManageProperty />} />
-            <Route path="/property/edit/info/:id" element={<PropertyForm />} />
-            <Route
-              path="/property/edit/image/:id"
-              element={<PropertyImage />}
-            />
-            <Route
-              path="/property/edit/review/:id"
-              element={<PropertyReview />}
-            />
-            <Route path="/property/:id" element={<PropertyView />} />
+            {isOwner && (
+              <>
+                <Route path="/property/form" element={<PropertyForm />} />
+                <Route path="/property/image" element={<PropertyImage />} />
+                <Route path="/property/review" element={<PropertyReview />} />
+                <Route path="/manage" element={<ManageProperty />} />
+                <Route
+                  path="/property/edit/info/:id"
+                  element={<PropertyForm />}
+                />
+                <Route
+                  path="/property/edit/image/:id"
+                  element={<PropertyImage />}
+                />
+                <Route
+                  path="/property/edit/review/:id"
+                  element={<PropertyReview />}
+                />
 
-            {/* Booking Routes */}
-            <Route path="/my-bookings" element={<MyBookings />} />
-            <Route path="/booking/:id" element={<Bookings />} />
+                <Route path="/bookings" element={<Bookings />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/guests" element={<Guests />} />
+              </>
+            )}
+
+            {/* Renter Routes */}
+            {isRenter && (
+              <>
+                <Route path="/my-bookings" element={<MyBookings />} />
+              </>
+            )}
+            <Route path="/property/:id" element={<PropertyView />} />
 
             {/* Messages Routes */}
             <Route path="/messages" element={<Messages />} />

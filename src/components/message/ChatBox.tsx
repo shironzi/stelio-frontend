@@ -35,7 +35,7 @@ export default function ChatBox() {
   useEffect(() => {
     const container = chatboxMessagesRef.current;
     if (container) {
-      container.scrollTop = container.scrollHeight; // Scroll to the bottom
+      container.scrollTop = container.scrollHeight;
     }
   }, [messages]);
 
@@ -86,10 +86,7 @@ export default function ChatBox() {
         ))}
       </div>
 
-      <form
-        className="chat-box-input-container flex items-center gap-3"
-        onSubmit={handleSubmit}
-      >
+      <form className="flex items-center gap-3" onSubmit={handleSubmit}>
         <textarea
           ref={textareaRef}
           className={`s-msg-input bg-dark-900 border border-white/[0.08] rounded-lg px-[14px] py-[9px] text-white text-[12px] font-sans flex-1`}
