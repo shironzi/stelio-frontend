@@ -100,3 +100,9 @@ export const deleteProperty = async (id: String) => {
     const res = await api.delete(`/properties/${id}`);
     return await res.data;
 }
+
+export const fetchDashboard = async () => {
+    const res = await api.get("/stats");
+
+    return await res.data;
+}

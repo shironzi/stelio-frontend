@@ -1,6 +1,26 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { fetchDashboard } from "../../api/property";
+import type { summary, property } from "../../types/dashboard";
+
 const OwnerHome = () => {
+  const [summary, setSummary] = useState<summary>();
+  const [properties, setProperties] = useState<property[]>();
+
+  const loadDashboard = async () => {
+    const res = await fetchDashboard();
+
+    if (res?.success) {
+      setSummary(res.summary);
+      setProperties(res.properties);
+    }
+  };
+
+  useEffect(() => {
+    loadDashboard();
+  }, []);
+
   return (
     <div className="animate-fadeIn h-[83vh] active bg-dark-800 overflow-y-auto p-8">
       {/* Stats Grid */}
@@ -11,10 +31,7 @@ const OwnerHome = () => {
             Total Revenue
           </div>
           <div className="font-serif text-[32px] text-gold leading-none mb-1">
-            ₱285,400
-          </div>
-          <div className="text-[11px] text-emerald-400">
-            +12% from last month
+            ₱{summary?.totalRevenue}
           </div>
         </div>
 
@@ -23,10 +40,10 @@ const OwnerHome = () => {
             Monthly Revenue
           </div>
           <div className="font-serif text-[32px] text-white leading-none mb-1">
-            ₱42,800
+            ₱{summary?.monthlyRevenue}
           </div>
           <div className="text-[11px] text-emerald-400">
-            +8% from last month
+            {summary?.monthlyRevenueComparison}% from last month
           </div>
         </div>
 
@@ -35,10 +52,12 @@ const OwnerHome = () => {
             Occupancy Rate
           </div>
           <div className="font-serif text-[32px] text-white leading-none mb-1">
-            87%
+            {summary?.occupancyRate}%
           </div>
           <div className="w-full h-2 bg-dark-900 rounded-full mt-3 overflow-hidden">
-            <div className="h-full bg-gold w-[87%]"></div>
+            <div
+              className={`h-full bg-gold w-[${summary?.occupancyRate}%]`}
+            ></div>
           </div>
         </div>
 
@@ -47,9 +66,11 @@ const OwnerHome = () => {
             Active Bookings
           </div>
           <div className="font-serif text-[32px] text-white leading-none mb-1">
-            12
+            {summary?.activeBookings}
           </div>
-          <div className="text-[11px] text-muted-faint">3 check-ins today</div>
+          <div className="text-[11px] text-muted-faint">
+            {summary?.todaysCheckins} check-ins today
+          </div>
         </div>
       </div>
 
@@ -71,103 +92,52 @@ const OwnerHome = () => {
 
           <div className="space-y-4">
             {/* Property Item */}
-            <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 flex items-center gap-4 hover:border-gold/30 transition-all cursor-pointer">
-              <img
-                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400"
-                alt="Property"
-                className="w-20 h-20 rounded-lg object-cover"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-[14px] font-medium text-white">
-                    Luxury Condo BGC
-                  </h3>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    Active
-                  </span>
+            {properties ? (
+              properties.map((property: property) => (
+                <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 flex items-center gap-4 hover:border-gold/30 transition-all cursor-pointer">
+                  <img
+                    src={`${property.imageUrl}?w=400`}
+                    alt="Property"
+                    className="w-20 h-20 rounded-lg object-cover"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-[14px] font-medium text-white">
+                        {property.title}
+                      </h3>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        Active
+                      </span>
+                    </div>
+                    <div className="text-[12px] text-muted-faint mb-2">
+                      📍 {property.address}
+                    </div>
+                    <div className="flex items-center gap-4 text-[11px]">
+                      <span className="text-muted-faint">
+                        Occupancy:{" "}
+                        <span className="text-gold font-medium">
+                          {property.occupancyRate}%
+                        </span>
+                      </span>
+                      <span className="text-muted-ghost">•</span>
+                      <span className="text-muted-faint">
+                        {property.totalBookings} bookings
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[11px] text-muted-faint mb-1">
+                      Revenue
+                    </div>
+                    <div className="font-serif text-[18px] text-gold">
+                      ₱{property.totalRevenue}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-[12px] text-muted-faint mb-2">
-                  📍 Bonifacio Global City
-                </div>
-                <div className="flex items-center gap-4 text-[11px]">
-                  <span className="text-muted-faint">
-                    Occupancy:{" "}
-                    <span className="text-gold font-medium">92%</span>
-                  </span>
-                  <span className="text-muted-ghost">•</span>
-                  <span className="text-muted-faint">8 bookings</span>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-[11px] text-muted-faint mb-1">Revenue</div>
-                <div className="font-serif text-[18px] text-gold">₱85,000</div>
-              </div>
-            </div>
-
-            <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 flex items-center gap-4 hover:border-gold/30 transition-all cursor-pointer">
-              <img
-                src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400"
-                alt="Property"
-                className="w-20 h-20 rounded-lg object-cover"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-[14px] font-medium text-white">
-                    Modern Studio Makati
-                  </h3>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    Active
-                  </span>
-                </div>
-                <div className="text-[12px] text-muted-faint mb-2">
-                  📍 Makati City
-                </div>
-                <div className="flex items-center gap-4 text-[11px]">
-                  <span className="text-muted-faint">
-                    Occupancy:{" "}
-                    <span className="text-gold font-medium">78%</span>
-                  </span>
-                  <span className="text-muted-ghost">•</span>
-                  <span className="text-muted-faint">5 bookings</span>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-[11px] text-muted-faint mb-1">Revenue</div>
-                <div className="font-serif text-[18px] text-gold">₱52,000</div>
-              </div>
-            </div>
-
-            <div className="bg-dark-900 border border-white/[0.07] rounded-xl p-4 flex items-center gap-4 hover:border-gold/30 transition-all cursor-pointer">
-              <img
-                src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400"
-                alt="Property"
-                className="w-20 h-20 rounded-lg object-cover"
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-[14px] font-medium text-white">
-                    Beachfront Villa Batangas
-                  </h3>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                    Maintenance
-                  </span>
-                </div>
-                <div className="text-[12px] text-muted-faint mb-2">
-                  📍 Batangas
-                </div>
-                <div className="flex items-center gap-4 text-[11px]">
-                  <span className="text-muted-faint">
-                    Occupancy: <span className="text-gold font-medium">0%</span>
-                  </span>
-                  <span className="text-muted-ghost">•</span>
-                  <span className="text-muted-faint">0 bookings</span>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-[11px] text-muted-faint mb-1">Revenue</div>
-                <div className="font-serif text-[18px] text-gold">₱0</div>
-              </div>
-            </div>
+              ))
+            ) : (
+              <div>No Properties</div>
+            )}
           </div>
         </div>
 
