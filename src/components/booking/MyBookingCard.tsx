@@ -165,7 +165,9 @@ const MyBookingCard = ({
               View Details
             </Link>
 
-            {!["REJECTED", "EXPIRED", "CANCELLED"].includes(status) && (
+            {!["REJECTED", "EXPIRED", "CANCELLED", "COMPLETED"].includes(
+              status,
+            ) && (
               <>
                 {/* Payment Button */}
                 {paymentStatus === "PENDING" && (
