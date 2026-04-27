@@ -28,7 +28,7 @@ const PropertyReview = () => {
         : await createProperty(data);
       if (res.success) {
         setData(propertyData);
-        navigate("/property/manage");
+        navigate("/manage");
       }
     } catch (e) {
       console.error(e);

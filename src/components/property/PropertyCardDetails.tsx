@@ -39,6 +39,8 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
             }
             alt={property.title}
             className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="sync"
           />
 
           {/* Category Badge (Top Left) */}
