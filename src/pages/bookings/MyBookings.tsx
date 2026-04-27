@@ -153,7 +153,7 @@ const MyBookings = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        {/* <div className="grid grid-cols-4 gap-4 mb-8">
           <div className="bg-dark-700 border border-white/[0.07] rounded-xl p-4">
             <div className="text-[11px] text-muted-faint uppercase tracking-widest mb-2">
               Total Stays
@@ -195,7 +195,7 @@ const MyBookings = () => {
             </div>
             <div className="text-[11px] text-muted-ghost mt-1">All time</div>
           </div>
-        </div>
+        </div> */}
 
         {/* Cards */}
         <div className="flex flex-col gap-4">
