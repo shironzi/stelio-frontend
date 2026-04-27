@@ -44,6 +44,10 @@ const MyBookingCard = ({
       text: "EXPIRED",
       classes: "bg-red-500/10 text-red-400 border-red-500/20",
     },
+    INPROGRESS: {
+      text: "IN PROGRESS",
+      classes: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    },
   };
 
   const formatDate = (date: Date) =>
@@ -165,9 +169,13 @@ const MyBookingCard = ({
               View Details
             </Link>
 
-            {!["REJECTED", "EXPIRED", "CANCELLED", "COMPLETED"].includes(
-              status,
-            ) && (
+            {![
+              "REJECTED",
+              "EXPIRED",
+              "CANCELLED",
+              "COMPLETED",
+              "INPROGRESS",
+            ].includes(status) && (
               <>
                 {/* Payment Button */}
                 {paymentStatus === "PENDING" && (

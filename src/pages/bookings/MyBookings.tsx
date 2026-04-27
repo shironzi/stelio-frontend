@@ -88,7 +88,9 @@ const MyBookings = () => {
 
     setBookings((prevBookings) =>
       prevBookings.map((booking) =>
-        booking.id === payload.id ? { ...booking, ...payload } : booking,
+        booking.id === payload.id
+          ? { ...booking, status: payload.status }
+          : booking,
       ),
     );
   }, [payload]);
