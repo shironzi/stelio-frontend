@@ -1,7 +1,43 @@
 import "@/styles/booking/calendar.css";
 import "@/styles/booking/bookings.css";
+import { useEffect, useState } from "react";
+import { type activeBookings, type bookingsStats } from "../../types/booking";
+import { fetchBooking } from "../../api/property";
 
 const Bookings = () => {
+  const [summary, setSummary] = useState<bookingsStats>();
+  const [activeBookings, setActiveBookings] = useState<activeBookings[]>([]);
+
+  const fetchBookings = async () => {
+    const res = await fetchBooking();
+
+    if (res.success) {
+      setSummary(res.summary);
+      setActiveBookings(res.activeBookings);
+    }
+  };
+
+  const getDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const getTime = (date: Date) => {
+    {
+      return new Date(date).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
   return (
     <div className="s-screen bg-dark-800 min-h-[520px] p-8 animate-fadeIn">
       <div className="flex items-center justify-between mb-6">
@@ -29,19 +65,21 @@ const Bookings = () => {
             Upcoming Check-ins
           </div>
           <div className="font-serif text-[32px] text-white leading-none mb-1">
-            3
+            {summary?.upcomingCheckins}
           </div>
-          <div className="text-[11px] text-emerald-400">Next in 2 hours</div>
+          <div className="text-[11px] text-emerald-400">
+            Next in {summary?.nextBooking}
+          </div>
         </div>
         <div className="bg-dark-700 border border-white/[0.07] rounded-2xl p-6">
           <div className="text-[11px] text-muted-faint uppercase tracking-widest mb-2">
             Current Guests
           </div>
           <div className="font-serif text-[32px] text-white leading-none mb-1">
-            9
+            {summary?.currentGuests}
           </div>
           <div className="text-[11px] text-muted-faint">
-            5 checking out today
+            {summary?.checkOutToday} checking out today
           </div>
         </div>
       </div>
@@ -84,101 +122,65 @@ const Bookings = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-white/5">
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gold flex items-center justify-center font-semibold text-[14px] text-dark-900">
-                      MS
-                    </div>
-                    <div>
-                      <div className="text-[13px] text-white font-medium">
-                        Maria Santos
+              {activeBookings.length > 0 ? (
+                activeBookings.map((booking) => (
+                  <tr className="border-b border-white/5">
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-gold flex items-center justify-center font-semibold text-[14px] text-dark-900">
+                          MS
+                        </div>
+                        <div>
+                          <div className="text-[13px] text-white font-medium">
+                            {booking.name}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="text-[13px] text-white">
+                        {booking.propertyTitle}
                       </div>
                       <div className="text-[11px] text-muted-faint">
-                        maria.s@email.com
+                        📍 {booking.propertyAddress}
                       </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[13px] text-white">Luxury Condo BGC</div>
-                  <div className="text-[11px] text-muted-faint">
-                    📍 BGC, Taguig
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[13px] text-white">Apr 24, 2026</div>
-                  <div className="text-[11px] text-muted-faint">2:00 PM</div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[13px] text-white">Apr 27, 2026</div>
-                  <div className="text-[11px] text-muted-faint">11:00 AM</div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[14px] text-gold font-medium">
-                    ₱12,500
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <span className="text-[10px] px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                    Upcoming
-                  </span>
-                </td>
-                <td className="py-4 px-4">
-                  <button className="bg-dark-900 border border-white/10 text-muted px-3 py-1.5 rounded-lg text-[11px] hover:bg-dark-800 transition-colors">
-                    View Details
-                  </button>
-                </td>
-              </tr>
-
-              <tr className="border-b border-white/5">
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center font-semibold text-[14px] text-white">
-                      JC
-                    </div>
-                    <div>
-                      <div className="text-[13px] text-white font-medium">
-                        John Cruz
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="text-[13px] text-white">
+                        {getDate(booking.checkInDateTime)}
                       </div>
                       <div className="text-[11px] text-muted-faint">
-                        john.c@email.com
+                        {getTime(booking.checkInDateTime)}
                       </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[13px] text-white">
-                    Modern Studio Makati
-                  </div>
-                  <div className="text-[11px] text-muted-faint">
-                    📍 Makati City
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[13px] text-white">Apr 23, 2026</div>
-                  <div className="text-[11px] text-muted-faint">3:00 PM</div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[13px] text-white">Apr 25, 2026</div>
-                  <div className="text-[11px] text-muted-faint">12:00 PM</div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="text-[14px] text-gold font-medium">
-                    ₱8,400
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <span className="text-[10px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    In Progress
-                  </span>
-                </td>
-                <td className="py-4 px-4">
-                  <button className="bg-dark-900 border border-white/10 text-muted px-3 py-1.5 rounded-lg text-[11px] hover:bg-dark-800 transition-colors">
-                    View Details
-                  </button>
-                </td>
-              </tr>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="text-[13px] text-white">
+                        {getDate(booking.checkOutDateTime)}
+                      </div>
+                      <div className="text-[11px] text-muted-faint">
+                        {getTime(booking.checkOutDateTime)}
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="text-[14px] text-gold font-medium">
+                        ₱{booking.price}
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <span className="text-[10px] px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        {booking.status}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4">
+                      <button className="bg-dark-900 border border-white/10 text-muted px-3 py-1.5 rounded-lg text-[11px] hover:bg-dark-800 transition-colors">
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <div>No Active bookings</div>
+              )}
             </tbody>
           </table>
         </div>

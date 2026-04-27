@@ -106,3 +106,9 @@ export const fetchDashboard = async () => {
 
     return await res.data;
 }
+
+export const fetchBooking = async () => {
+    const res = await api.get("/stats/bookings")
+
+    return await res.data;
+}

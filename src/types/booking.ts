@@ -88,3 +88,20 @@ export const statusMessageMap: Record<BookingStatus, string> = {
     COMPLETED: "Mark this booking as completed?\nThis action cannot be undone.",
     PENDING: "Are you sure you want to update the booking status?",
 };
+
+export interface activeBookings {
+    profileLink: string | null,
+    name: string,
+    propertyTitle: string,
+    propertyAddress: string,
+    checkInDateTime: Date,
+    checkOutDateTime: Date,
+    price: number,
+    status: string
+}
+export interface bookingsStats {
+    upcomingCheckins: number,
+    nextBooking: string,
+    currentGuests: number,
+    checkOutToday: number
+}
