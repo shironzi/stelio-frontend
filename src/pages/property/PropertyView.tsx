@@ -12,8 +12,7 @@ import { bookProperty, reserveProperty } from "../../api/bookProperty";
 import BookingRequestModal from "../../components/modals/BookingRequestModal";
 import { defaultBooking, type Booking } from "../bookings/BookingTypes";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Ensure you import the CSS for DatePicker
-import { useUserData } from "../../context/UserContext";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PropertyView = () => {
   const { id } = useParams();
@@ -28,19 +27,13 @@ const PropertyView = () => {
     useState<boolean>(false);
   const [reserveBookingModal, setReserveBookingModal] =
     useState<boolean>(false);
-  const { userData } = useUserData();
 
   const onBook = async () => {
     if (!id) {
       return;
     }
 
-    const storageKey = `booking:${id}:${userData.id}:book`;
-    const res = await bookProperty(id, booking, storageKey);
-
-    if (res.success) {
-      localStorage.removeItem(storageKey);
-    }
+    const res = await bookProperty(id, booking);
 
     setRequestBookingModal(!requestBookingModal);
     setModalMessage(res.message);

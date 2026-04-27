@@ -3,62 +3,22 @@ import type { BookingStatus } from "../types/booking";
 import api from "./axios"
 
 
-export const bookProperty = async (propertyId: string, details: Booking, storageKey: string) => {
-    let idempotencyKey = localStorage.getItem(storageKey);
-
-    if (!idempotencyKey) {
-        idempotencyKey = crypto.randomUUID();
-        localStorage.setItem(storageKey, idempotencyKey);
-    }
-
+export const bookProperty = async (propertyId: string, details: Booking) => {
     try {
-        const { data } = await api.post(`/bookings/${propertyId}/book`, details, {
-            headers: {
-                'Idempotency-Key': idempotencyKey
-            }
-        });
-
-        if (data?.success) {
-            localStorage.removeItem(storageKey);
-        }
+        const { data } = await api.post(`/bookings/${propertyId}/book`, details);
 
         return data
     } catch (error: any) {
-        if (error.response?.status >= 400 && error.response?.status < 500) {
-            localStorage.removeItem(storageKey);
-        }
-
         return error?.response?.data;
     }
 }
 
 export const reserveProperty = async (propertyId: string, details: Booking) => {
-    // Checks Idempotent key
-    const storageKey = `booking:${propertyId}:${details.start}:${details.end}:reserve`;
-    let idempotencyKey = localStorage.getItem(storageKey);
-
-    if (!idempotencyKey) {
-        idempotencyKey = crypto.randomUUID();
-        localStorage.setItem(storageKey, idempotencyKey);
-    }
-
     try {
-        const { data } = await api.post(`/bookings/${propertyId}/reserve`, details, {
-            headers: {
-                'Idempotency-Key': idempotencyKey
-            }
-        });
-
-        if (data?.success) {
-            localStorage.removeItem(storageKey);
-        }
+        const { data } = await api.post(`/bookings/${propertyId}/reserve`, details,);
 
         return data
     } catch (error: any) {
-        if (error.response?.status >= 400 && error.response?.status < 500) {
-            localStorage.removeItem(storageKey);
-        }
-
         return error?.response?.data;
     }
 }
