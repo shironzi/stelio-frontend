@@ -95,24 +95,24 @@ const MyBookings = () => {
     );
   }, [payload]);
 
-  const isCompleted = (b: Booking) => new Date(b.end) < new Date();
-  const total = bookings.length;
+  // const isCompleted = (b: Booking) => new Date(b.end) < new Date();
+  // const total = bookings.length;
 
-  const upcoming = bookings.filter(
-    (b) => b.status === "CONFIRMED" && !isCompleted(b),
-  ).length;
+  // const upcoming = bookings.filter(
+  //   (b) => b.status === "CONFIRMED" && !isCompleted(b),
+  // ).length;
 
-  const nights = bookings.reduce((acc, b) => {
-    return (
-      acc +
-      Math.ceil(
-        (new Date(b.end).getTime() - new Date(b.start).getTime()) /
-          (1000 * 60 * 60 * 24),
-      )
-    );
-  }, 0);
+  // const nights = bookings.reduce((acc, b) => {
+  //   return (
+  //     acc +
+  //     Math.ceil(
+  //       (new Date(b.end).getTime() - new Date(b.start).getTime()) /
+  //         (1000 * 60 * 60 * 24),
+  //     )
+  //   );
+  // }, 0);
 
-  const totalSpent = bookings.reduce((acc, b) => acc + b.price, 0);
+  // const totalSpent = bookings.reduce((acc, b) => acc + b.price, 0);
 
   return (
     <div className="s-screen bg-dark-800 min-h-[520px]">
