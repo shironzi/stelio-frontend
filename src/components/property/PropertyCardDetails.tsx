@@ -18,6 +18,8 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
     currency: "PHP",
   });
 
+  const publicKey = import.meta.env.VITE_CLOUD_PUBLIC_KEY;
+
   return (
     <div>
       <Link
@@ -30,13 +32,7 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
       >
         <div className="relative w-full h-[180px] overflow-hidden">
           <img
-            src={
-              property.images[0]
-                ? "url" in property.images[0]
-                  ? property.images[0].url
-                  : URL.createObjectURL(property.images[0])
-                : undefined
-            }
+            src={publicKey + "/" + property.imageUrl}
             alt={property.title}
             className="w-full h-full object-cover"
             loading="lazy"

@@ -19,6 +19,7 @@ export type PropertyTypesView = {
     city: string;
     propertyType: PropertyType;
     images: { id: string, url: string }[] | File[];
+    imageUrl: string;
     isFavorite?: boolean;
 };
 
@@ -36,6 +37,7 @@ export const PropertyTypesViewDefaultData: PropertyTypesView = {
     city: "",
     totalNights: 1,
     propertyType: "APARTMENT",
+    imageUrl: "",
     images: [],
     isFavorite: false
 };
