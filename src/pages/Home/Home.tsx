@@ -55,7 +55,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await getProperties();
+        const res = await getProperties(currentPage + 1);
 
         if (res.success) {
           setProperties(res.properties.content);
@@ -69,7 +69,7 @@ const Home = () => {
       }
     };
     fetchProperties();
-  }, []);
+  }, [currentPage]);
 
   if (loading) {
     return <SkeletonLoading />;
@@ -189,6 +189,16 @@ const Home = () => {
                 </button>
               );
             })}
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
+              }
+              disabled={currentPage === totalPages - 1}
+              className="w-9 h-9 rounded-full border border-white/[0.12] text-muted text-[13px] flex items-center justify-center bg-transparent cursor-pointer hover:bg-gold/15 hover:border-gold hover:text-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white/[0.12] disabled:hover:text-muted"
+            >
+              →
+            </button>
           </div>
         )}
       </div>

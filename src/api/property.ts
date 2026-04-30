@@ -85,8 +85,8 @@ export const getMyProperties = async () => {
     }
 }
 
-export const getProperties = async () => {
-    const res = await api.get("/properties/");
+export const getProperties = async (currentPage: number) => {
+    const res = await api.get(`/properties/?page=${currentPage}`);
 
     return await res.data;
 }
