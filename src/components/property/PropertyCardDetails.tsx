@@ -39,9 +39,9 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
             decoding="sync"
           />
 
-          {/* Category Badge (Top Left) */}
+          {/* Category Badge */}
           <div className="absolute top-2 left-2 bg-gold/90 text-dark-900 text-xs px-2 py-1 rounded tracking-wide">
-            CONDO
+            {property.propertyType}
           </div>
         </div>
 

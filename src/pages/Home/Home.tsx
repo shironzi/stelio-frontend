@@ -13,8 +13,9 @@ const Home = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [properties, setProperties] = useState<PropertyTypesView[]>([]);
-
   const [updatingFavorites, setUpdatingFavorites] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const handleFavorite = async (propertyId: string) => {
     if (!userData.isAuthenticated) {
@@ -57,7 +58,9 @@ const Home = () => {
         const res = await getProperties();
 
         if (res.success) {
-          setProperties(res.properties);
+          setProperties(res.properties.content);
+          setCurrentPage(res.properties.pageable.pageNumber);
+          setTotalPages(res.properties.totalPages);
         }
       } catch (e: any) {
         console.error("Error fetching properties:", e);
@@ -130,19 +133,62 @@ const Home = () => {
 
         {/* Listings Grid */}
         <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
-          {properties?.map((property) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              actions={{ onFavorite: handleFavorite }}
-              settings={{ mode: "home" }}
-            />
-          ))}
+          {properties.length > 0 ? (
+            properties?.map((property) => (
+              <PropertyCard
+                key={property.id}
+                property={property}
+                actions={{ onFavorite: handleFavorite }}
+                settings={{ mode: "home" }}
+              />
+            ))
+          ) : (
+            <div>
+              <h1 className="text-[#e8e6e1]">No Properties yet!</h1>
+            </div>
+          )}
         </div>
 
-        {!properties.length && (
-          <div>
-            <h1 className="text-[#e8e6e1]">No Properties yet!</h1>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-8">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              disabled={currentPage === 0}
+              className="w-9 h-9 rounded-full border border-white/[0.12] text-muted text-[13px] flex items-center justify-center bg-transparent cursor-pointer hover:bg-gold/15 hover:border-gold hover:text-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white/[0.12] disabled:hover:text-muted"
+            >
+              ←
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => {
+              const isActive = i === currentPage;
+              const isNearCurrent = Math.abs(i - currentPage) <= 1;
+              const isEdge = i === 0 || i === totalPages - 1;
+
+              if (!isNearCurrent && !isEdge) {
+                if (i === currentPage - 2 || i === currentPage + 2) {
+                  return (
+                    <span key={i} className="text-muted text-[12px] px-1">
+                      …
+                    </span>
+                  );
+                }
+                return null;
+              }
+
+              return (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i)}
+                  className={`w-9 h-9 rounded-full text-[13px] flex items-center justify-center transition-all cursor-pointer border ${
+                    isActive
+                      ? "bg-gold border-gold text-dark-900 font-semibold"
+                      : "border-white/[0.12] text-muted bg-transparent hover:bg-gold/15 hover:border-gold hover:text-gold"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
