@@ -28,7 +28,7 @@ const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
       {settings.mode === "home" && (
         <div
           onClick={handleFavoriteClick}
-          className={`absolute top-2 right-2 w-8 h-8 bg-dark-900/60 rounded-full flex items-center justify-center text-xl cursor-pointer text-gold backdrop-blur-sm transition-transform duration-300 hover:scale-110 z-10`}
+          className={`absolute top-2 right-2 w-8 h-8 bg-dark-900/60 rounded-full flex items-center justify-center text-xl cursor-pointer text-gold backdrop-blur-sm transition-transform duration-300 hover:scale-110 z-1`}
         >
           {property.isFavorite ? (
             <FaHeart color="#ff0000" size={16} />

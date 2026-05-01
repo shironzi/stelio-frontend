@@ -49,7 +49,7 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
         <div className="mx-4 my-2">
           <h3 className="text-xl text-white">{property.title}</h3>
           <h5 className="text-sm font-medium text-muted-faint mb-1 flex items-center space-x-2">
-            📍{property.address}
+            📍{property.address}, {property.city}
           </h5>
           <hr className="my-2 border-t-1 rounded-lg text-muted-faint" />
           <h5 className="text-sm font-medium text-gold-light mb-2">

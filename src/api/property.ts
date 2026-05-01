@@ -85,11 +85,42 @@ export const getMyProperties = async () => {
     }
 }
 
-export const getProperties = async (currentPage: number) => {
-    const res = await api.get(`/properties/?page=${currentPage}`);
+export const getProperties = async (
+    currentPage: number,
+    address: string | null,
+    checkIn: Date | null,
+    checkOut: Date | null,
+    minGuests: number | null,
+    minPrice: number | null,
+    maxPrice: number | null
+) => {
+    // Base Url
+    let url = `/properties/?page=${currentPage}`;
+
+    // Queries
+    if (address) {
+        url += `&address=${encodeURIComponent(address)}`;
+    }
+    if (checkIn) {
+        url += `&checkIn=${checkIn.toISOString()}`;
+    }
+    if (checkOut) {
+        url += `&checkOut=${checkOut.toISOString()}`;
+    }
+    if (minGuests !== null) {
+        url += `&minGuests=${minGuests}`;
+    }
+    if (minPrice !== null) {
+        url += `&minPrice=${minPrice}`;
+    }
+    if (maxPrice !== null) {
+        url += `&maxPrice=${maxPrice}`;
+    }
+
+    const res = await api.get(url);
 
     return await res.data;
-}
+};
 
 export const getPropertyById = async (id: string) => {
     const res = await api.get(`/properties/${id}`)
