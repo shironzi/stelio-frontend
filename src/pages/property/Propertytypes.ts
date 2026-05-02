@@ -18,10 +18,18 @@ export type PropertyTypesView = {
     totalNights?: number;
     city: string;
     propertyType: PropertyType;
-    images: { id: string, url: string }[] | File[];
-    imageUrl: string;
     isFavorite?: boolean;
 };
+
+export type PropertyImagesView = {
+    id: string;
+    url: string
+}
+
+export type PropertyBookings = {
+    start: Date,
+    end: Date
+}
 
 export const PropertyTypesViewDefaultData: PropertyTypesView = {
     id: "",
@@ -37,8 +45,6 @@ export const PropertyTypesViewDefaultData: PropertyTypesView = {
     city: "",
     totalNights: 1,
     propertyType: "APARTMENT",
-    imageUrl: "",
-    images: [],
     isFavorite: false
 };
 

@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
-import type { PropertyImage } from "../../context/PropertyContext";
+import type { PropertyImagesView } from "../../pages/property/Propertytypes";
 
-const PropertySlider = ({ images }: { images: File[] | PropertyImage[] }) => {
+const PropertySlider = ({
+  images,
+}: {
+  images: File[] | PropertyImagesView[];
+}) => {
+  const imageBaseUrl = import.meta.env.VITE_CLOUD_PUBLIC_KEY;
+
   const [currentImage, setCurrentImage] = useState(0);
 
   const imageUrls = images.map((image) =>
-    image instanceof File ? URL.createObjectURL(image) : image.url,
+    image instanceof File
+      ? URL.createObjectURL(image)
+      : imageBaseUrl + "/" + image.url,
   );
 
   const onNext = () => {

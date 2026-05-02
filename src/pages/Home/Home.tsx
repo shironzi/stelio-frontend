@@ -20,7 +20,7 @@ const Home = () => {
 
   // Search Bar
   const [address, setAddress] = useState<string>("");
-  const [checkIn, setCheckIn] = useState<Date | null>(null);
+  const [checkIn, setCheckIn] = useState<Date>(new Date());
   const [checkOut, setCheckOut] = useState<Date | null>(null);
   const [minGuests, setMinGuests] = useState<number>(1);
   const [minPrice, setMinPrice] = useState<number | null>(null);
@@ -178,7 +178,7 @@ const Home = () => {
             className={`relative flex-1 px-5 py-[10px] border-r border-white/[0.07] cursor-pointer transition-colors z-10`}
           >
             <div className="text-[10px] text-muted-faint uppercase tracking-widest mb-1">
-              Check-in
+              Check-out
             </div>
             <DatePicker
               onChange={(date) => {

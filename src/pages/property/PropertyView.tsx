@@ -2,6 +2,8 @@ import { getPropertyById } from "../../api/property";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  type PropertyBookings,
+  type PropertyImagesView,
   type PropertyTypesView,
   PropertyTypesViewDefaultData,
 } from "../../pages/property/Propertytypes";
@@ -20,6 +22,10 @@ const PropertyView = () => {
   const [property, setProperty] = useState<PropertyTypesView>(
     PropertyTypesViewDefaultData,
   );
+  const [images, setImages] = useState<PropertyImagesView[]>([]);
+  const [unavailableBookingDates, setUnAvailableBookingDates] = useState<
+    PropertyBookings[]
+  >([]);
   const [booking, setBooking] = useState<Booking>(defaultBooking);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
@@ -27,6 +33,13 @@ const PropertyView = () => {
     useState<boolean>(false);
   const [reserveBookingModal, setReserveBookingModal] =
     useState<boolean>(false);
+
+  const bookingIntervals = unavailableBookingDates.map((b) => ({
+    start: new Date(new Date(b.start).setDate(new Date(b.start).getDate() - 1)),
+    end: new Date(new Date(b.end).setDate(new Date(b.end).getDate())),
+  }));
+
+  console.log(bookingIntervals);
 
   const onBook = async () => {
     if (!id) {
@@ -58,6 +71,8 @@ const PropertyView = () => {
         const res = await getPropertyById(id);
         if (res.success) {
           setProperty(res.property);
+          setImages(res.images);
+          setUnAvailableBookingDates(res.bookings);
         }
       } catch (e) {
         console.error("Failed to fetch property:", e);
@@ -93,7 +108,7 @@ const PropertyView = () => {
   return (
     <div className="s-screen bg-dark-800 min-h-[520px] relative" id="sc-detail">
       <div className="relative w-full h-[320px] bg-dark-700 overflow-hidden">
-        <PropertySlider images={property.images} />
+        <PropertySlider images={images} />
       </div>
       <div
         className="grid gap-6 px-8 py-6"
@@ -153,8 +168,9 @@ const PropertyView = () => {
                 selectsStart
                 startDate={booking.start}
                 endDate={booking.end}
-                placeholderText="Select date"
+                excludeDateIntervals={bookingIntervals}
                 minDate={new Date()}
+                placeholderText="Select date"
                 dateFormat="MMM d, yyyy"
                 className="text-[13px] text-[#e8e6e1] outline-none cursor-pointer"
               />
@@ -173,6 +189,7 @@ const PropertyView = () => {
                 selectsEnd
                 startDate={booking.start}
                 endDate={booking.end}
+                excludeDateIntervals={bookingIntervals}
                 minDate={booking.start || new Date()}
                 placeholderText="Select date"
                 dateFormat="MMM d, yyyy"
