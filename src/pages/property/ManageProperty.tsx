@@ -7,8 +7,12 @@ import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 
 const ManageProperty = () => {
   const navigate = useNavigate();
+  const imageBaseUrl = import.meta.env.VITE_CLOUD_PUBLIC_KEY;
+
   const { setData } = useProperty();
   const [properties, setProperties] = useState<PropertyTypesView[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
 
   const handleOnDelete = async (propertyId: string | undefined) => {
@@ -35,16 +39,20 @@ const ManageProperty = () => {
     setData(propertyData);
 
     const fetchProperties = async () => {
-      const res = await getMyProperties();
+      const res = await getMyProperties(currentPage);
 
       if (res.success) {
-        setProperties(res?.properties ?? []);
+        setProperties(res.properties.content);
+        setCurrentPage(res.properties.pageable.pageNumber);
+        setTotalPages(res.properties.totalPages);
+
+        console.log(res.properties);
         setLoading(false);
       }
     };
 
     fetchProperties();
-  }, []);
+  }, [currentPage]);
 
   if (loading) {
     return (
@@ -79,7 +87,7 @@ const ManageProperty = () => {
 
       {/* Grid */}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
-        {properties.length > 0 ? (
+        {properties.length > 0 &&
           properties.map((property) => (
             <div
               key={property.id}
@@ -88,12 +96,10 @@ const ManageProperty = () => {
               {/* Image */}
               <div className="relative h-[200px] overflow-hidden">
                 <img
-                  src={
-                    "url" in property.images[0]
-                      ? property.images[0].url
-                      : URL.createObjectURL(property.images[0])
-                  }
+                  src={imageBaseUrl + "/" + property.imageUrl}
                   alt={property.title || "Property Image"}
+                  loading="lazy"
+                  decoding="sync"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
 
@@ -166,17 +172,10 @@ const ManageProperty = () => {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="col-span-full bg-dark-700 rounded-xl border border-white/[0.07] p-6 text-center">
-            <h1 className="text-[#e8e6e1] text-[16px]">
-              No property available
-            </h1>
-          </div>
-        )}
+          ))}
 
         {/* Add Property Card */}
-        <div
+        {/* <div
           onClick={() => navigate("/property/form/")}
           className="bg-dark-700 border-2 border-dashed border-white/10 rounded-2xl flex items-center justify-center min-h-[300px] hover:border-gold/30 transition-all cursor-pointer group"
         >
@@ -191,8 +190,60 @@ const ManageProperty = () => {
               List a new property to start earning
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+            disabled={currentPage === 0}
+            className="w-9 h-9 rounded-full border border-white/[0.12] text-muted text-[13px] flex items-center justify-center bg-transparent cursor-pointer hover:bg-gold/15 hover:border-gold hover:text-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white/[0.12] disabled:hover:text-muted"
+          >
+            ←
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => {
+            const isActive = i === currentPage;
+            const isNearCurrent = Math.abs(i - currentPage) <= 1;
+            const isEdge = i === 0 || i === totalPages - 1;
+
+            if (!isNearCurrent && !isEdge) {
+              if (i === currentPage - 2 || i === currentPage + 2) {
+                return (
+                  <span key={i} className="text-muted text-[12px] px-1">
+                    …
+                  </span>
+                );
+              }
+              return null;
+            }
+
+            return (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i)}
+                className={`w-9 h-9 rounded-full text-[13px] flex items-center justify-center transition-all cursor-pointer border ${
+                  isActive
+                    ? "bg-gold border-gold text-dark-900 font-semibold"
+                    : "border-white/[0.12] text-muted bg-transparent hover:bg-gold/15 hover:border-gold hover:text-gold"
+                }`}
+              >
+                {i + 1}
+              </button>
+            );
+          })}
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
+            }
+            disabled={currentPage === totalPages - 1}
+            className="w-9 h-9 rounded-full border border-white/[0.12] text-muted text-[13px] flex items-center justify-center bg-transparent cursor-pointer hover:bg-gold/15 hover:border-gold hover:text-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white/[0.12] disabled:hover:text-muted"
+          >
+            →
+          </button>
+        </div>
+      )}
     </div>
   );
 };

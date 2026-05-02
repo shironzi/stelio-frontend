@@ -75,9 +75,9 @@ export const updateProperty = async (info: PropertyTypes, propertyId: string) =>
     }
 };
 
-export const getMyProperties = async () => {
+export const getMyProperties = async (page: number) => {
     try {
-        const res = await api.get("/properties/my-properties")
+        const res = await api.get(`/owner/properties?page=${page + 1}`)
 
         return await res.data;
     } catch (e: any) {

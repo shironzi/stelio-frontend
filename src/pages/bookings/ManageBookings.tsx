@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { PropertyTypesView } from "../property/Propertytypes";
-import { getMyProperties } from "../../api/property";
 import PropertyCard from "../../components/property/PropertyCard";
+import { getMyBookings } from "../../api/bookProperty";
 
 const ManageBookings = () => {
   const [properties, setProperties] = useState<PropertyTypesView[]>([]);
@@ -9,7 +9,7 @@ const ManageBookings = () => {
 
   useEffect(() => {
     const fetchProperties = async () => {
-      const res = await getMyProperties();
+      const res = await getMyBookings();
 
       console.log(res);
 

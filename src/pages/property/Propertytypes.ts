@@ -18,6 +18,7 @@ export type PropertyTypesView = {
     totalNights?: number;
     city: string;
     imageUrl?: string;
+    images?: File[];
     propertyType: PropertyType;
     isFavorite?: boolean;
 };
