@@ -21,7 +21,7 @@ const Home = () => {
   // Search Bar
   const [address, setAddress] = useState<string>("");
   const [checkIn, setCheckIn] = useState<Date>(new Date());
-  const [checkOut, setCheckOut] = useState<Date | null>(null);
+  const [checkOut, setCheckOut] = useState<Date | undefined>(undefined);
   const [minGuests, setMinGuests] = useState<number>(1);
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
@@ -168,6 +168,7 @@ const Home = () => {
               }
               selectsStart
               minDate={new Date()}
+              maxDate={checkOut}
               className="text-[13px] text-[#e8e6e1] outline-none cursor-pointer"
               wrapperClassName="relative z-20"
             />

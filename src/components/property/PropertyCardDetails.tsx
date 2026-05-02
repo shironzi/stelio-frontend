@@ -10,7 +10,7 @@ interface Props {
   property: PropertyTypesView;
   actions: PropertyCardActions;
   settings: PropertyCardSettings;
-  bookingDateRange?: { start: Date; end: Date | null };
+  bookingDateRange?: { start: Date; end: Date | undefined };
 }
 
 const PropertyCardDetails = ({

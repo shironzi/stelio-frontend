@@ -88,8 +88,8 @@ export const getMyProperties = async (page: number) => {
 export const getProperties = async (
     currentPage: number,
     address: string | null,
-    checkIn: Date | null,
-    checkOut: Date | null,
+    checkIn: Date,
+    checkOut: Date | undefined,
     minGuests: number | null,
     minPrice: number | null,
     maxPrice: number | null

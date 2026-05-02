@@ -180,6 +180,7 @@ const PropertyView = () => {
                 endDate={booking.end}
                 excludeDateIntervals={bookingIntervals}
                 minDate={new Date()}
+                maxDate={booking.end}
                 placeholderText="Select date"
                 dateFormat="MMM d, yyyy"
                 className="text-[13px] text-[#e8e6e1] outline-none cursor-pointer"
