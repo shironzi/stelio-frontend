@@ -10,9 +10,15 @@ export type PropertyCardProps = {
   property: PropertyTypesView;
   actions: PropertyCardActions;
   settings: PropertyCardSettings;
+  bookingDateRange?: { start: Date; end: Date | null };
 };
 
-const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
+const PropertyCard = ({
+  property,
+  actions,
+  settings,
+  bookingDateRange,
+}: PropertyCardProps) => {
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -43,6 +49,7 @@ const PropertyCard = ({ property, actions, settings }: PropertyCardProps) => {
         property={property}
         actions={actions}
         settings={settings}
+        bookingDateRange={bookingDateRange}
       />
     </div>
   );

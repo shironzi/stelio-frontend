@@ -17,6 +17,7 @@ export type PropertyTypesView = {
     totalBath: number;
     totalNights?: number;
     city: string;
+    imageUrl?: string;
     propertyType: PropertyType;
     isFavorite?: boolean;
 };

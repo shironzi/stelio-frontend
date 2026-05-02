@@ -1,6 +1,6 @@
 import { getPropertyById } from "../../api/property";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import {
   type PropertyBookings,
   type PropertyImagesView,
@@ -17,6 +17,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const PropertyView = () => {
+  const location = useLocation();
+
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState<PropertyTypesView>(
@@ -38,8 +40,6 @@ const PropertyView = () => {
     start: new Date(new Date(b.start).setDate(new Date(b.start).getDate() - 1)),
     end: new Date(new Date(b.end).setDate(new Date(b.end).getDate())),
   }));
-
-  console.log(bookingIntervals);
 
   const onBook = async () => {
     if (!id) {
@@ -65,6 +65,16 @@ const PropertyView = () => {
   };
 
   useEffect(() => {
+    const bookingDateRange = location.state?.bookingDateRange;
+
+    if (bookingDateRange.start) {
+      setBooking((prev) => ({ ...prev, start: bookingDateRange.start }));
+    }
+
+    if (bookingDateRange.end) {
+      setBooking((prev) => ({ ...prev, end: bookingDateRange.end }));
+    }
+
     const fetchProperty = async () => {
       try {
         if (!id) throw new Error("Missing property ID");

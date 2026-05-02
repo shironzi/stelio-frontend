@@ -10,9 +10,15 @@ interface Props {
   property: PropertyTypesView;
   actions: PropertyCardActions;
   settings: PropertyCardSettings;
+  bookingDateRange?: { start: Date; end: Date | null };
 }
 
-const PropertyCardDetails = ({ property, actions, settings }: Props) => {
+const PropertyCardDetails = ({
+  property,
+  actions,
+  settings,
+  bookingDateRange,
+}: Props) => {
   const formatted = property.price.toLocaleString("en-US", {
     style: "currency",
     currency: "PHP",
@@ -28,6 +34,9 @@ const PropertyCardDetails = ({ property, actions, settings }: Props) => {
             ? `/property/${property.id}`
             : `/booking/${property.id}`
         }
+        state={{
+          bookingDateRange,
+        }}
         className="block mb-4"
       >
         <div className="relative w-full h-[180px] overflow-hidden">

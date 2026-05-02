@@ -362,6 +362,7 @@ const Home = () => {
                 property={property}
                 actions={{ onFavorite: handleFavorite }}
                 settings={{ mode: "home" }}
+                bookingDateRange={{ start: checkIn, end: checkOut }}
               />
             ))
           ) : (
